@@ -53,25 +53,25 @@ def home():
             ft.Div(
                 H3("Semantic Actions", cls="text-lg font-semibold mb-3"),
                 ft.Div(
-                    Button("Primary Action", cls=button_styles.primary, size_cls=button_styles.md),
-                    Button("Secondary", cls=button_styles.secondary, size_cls=button_styles.md),
-                    Button("Call to Action", cls=button_styles.cta, size_cls=button_styles.md),
+                    Button("Primary Action"),
+                    Button("Secondary", cls=button_styles.secondary),
+                    Button("Call to Action", cls=button_styles.cta),
                     cls="flex flex-wrap gap-3 mb-6"
                 ),
                 
                 H3("Status Actions", cls="text-lg font-semibold mb-3"),
                 ft.Div(
-                    Button("Success", cls=button_styles.success, size_cls=button_styles.md),
-                    Button("Warning", cls=button_styles.warning, size_cls=button_styles.md),
-                    Button("Error", cls=button_styles.error, size_cls=button_styles.md),
+                    Button("Success", cls=button_styles.success),
+                    Button("Warning", cls=button_styles.warning),
+                    Button("Error", cls=button_styles.error),
                     cls="flex flex-wrap gap-3 mb-6"
                 ),
                 
                 H3("Alternative Styles", cls="text-lg font-semibold mb-3"),
                 ft.Div(
-                    Button("Ghost Button", cls=button_styles.ghost, size_cls=button_styles.md),
-                    Button("Outlined", cls=button_styles.outline_primary, size_cls=button_styles.md),
-                    Button("Link Style", cls=button_styles.link, size_cls=button_styles.md),
+                    Button("Ghost Button", cls=button_styles.ghost),
+                    Button("Outlined", cls=button_styles.outline_primary),
+                    Button("Link Style", cls=button_styles.link),
                     cls="flex flex-wrap gap-3"
                 ),
                 cls="space-y-2"
