@@ -17,10 +17,7 @@ from .core import (
     form_styles,
     merge_classes,
     serve_eidos_static,
-    create_eidos_head,
-    create_inline_eidos_head,
     create_eidos_head_tag,
-    create_inline_eidos_head_tag,
 )
 
 from .components import (
@@ -45,10 +42,7 @@ __all__ = [
     "form_styles",
     "merge_classes",
     "serve_eidos_static",
-    "create_eidos_head",
-    "create_inline_eidos_head", 
     "create_eidos_head_tag",
-    "create_inline_eidos_head_tag",
     
     # Typography components
     "H1", "H2", "H3", "H4", "H5", "H6",
