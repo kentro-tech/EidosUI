@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "eidos-ui"
+name = "eidosui"
 version = "0.1.0"
 description = "A modern, Tailwind CSS-based UI library for Python web frameworks"
 readme = "README.md"
@@ -105,4 +105,4 @@ dev-dependencies = [
 
 [tool.uv.sources]
 # For local development, ensure we use local version
-eidos-ui = { workspace = true }
+eidosui = { workspace = true }
