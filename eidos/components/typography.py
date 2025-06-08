@@ -45,17 +45,17 @@ def Text(*content, cls: str = typography_styles.body, **kwargs) -> ft.Span:
     return ft.Span(*content, cls=cls, **kwargs)
 
 
-def Em(*content, cls: str = "italic", **kwargs) -> ft.Em:
+def Em(*content, cls: str = typography_styles.em, **kwargs) -> ft.Em:
     """Semantic emphasis (italic)"""
     return ft.Em(*content, cls=cls, **kwargs)
 
 
-def Strong(*content, cls: str = "font-semibold", **kwargs) -> ft.Strong:
+def Strong(*content, cls: str = typography_styles.strong, **kwargs) -> ft.Strong:
     """Semantic strong emphasis (bold)"""
     return ft.Strong(*content, cls=cls, **kwargs)
 
 
-def A(*content, href: str = "#", cls: str = "text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] underline underline-offset-2 transition-colors duration-200", **kwargs) -> ft.A:
+def A(*content, href: str = "#", cls: str = typography_styles.link, **kwargs) -> ft.A:
     """Semantic anchor link"""
     return ft.A(*content, href=href, cls=cls, **kwargs)
 
@@ -65,12 +65,12 @@ def Code(*content, cls: str = typography_styles.code, **kwargs) -> ft.Code:
     return ft.Code(*content, cls=cls, **kwargs)
 
 
-def Pre(*content, cls: str = "bg-surface border border-border rounded-lg p-4 overflow-x-auto text-sm font-mono", **kwargs) -> ft.Pre:
+def Pre(*content, cls: str = typography_styles.pre, **kwargs) -> ft.Pre:
     """Preformatted text block"""
     return ft.Pre(*content, cls=cls, **kwargs)
 
 
-# def Blockquote(*content, cls: str = "border-l-4 border-primary pl-6 py-2 italic text-text-muted", **kwargs) -> ft.Blockquote:
+# def Blockquote(*content, cls: str = typography_styles.blockquote, **kwargs) -> ft.Blockquote:
 #     """Semantic blockquote"""
 #     return ft.Blockquote(*content, cls=cls, **kwargs)
 
@@ -80,6 +80,6 @@ def Mark(*content, cls: str = typography_styles.mark, **kwargs) -> ft.Mark:
     return ft.Mark(*content, cls=cls, **kwargs)
 
 
-def Small(*content, cls: str = "text-sm text-text-muted", **kwargs) -> ft.Small:
+def Small(*content, cls: str = typography_styles.small, **kwargs) -> ft.Small:
     """Small text"""
     return ft.Small(*content, cls=cls, **kwargs) 

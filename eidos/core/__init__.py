@@ -1,6 +1,5 @@
 """Core functionality for EidosUI theme and style system"""
 
-from .themes import ThemeManager, theme_manager
 from .styles import (
     button_styles,
     typography_styles,
@@ -15,8 +14,6 @@ from .helpers import (
 )
 
 __all__ = [
-    "ThemeManager",
-    "theme_manager", 
     "button_styles",
     "typography_styles",
     "form_styles",

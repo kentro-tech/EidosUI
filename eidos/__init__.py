@@ -10,8 +10,8 @@ Key Features:
 """
 
 from .core import (
-    ThemeManager,
-    theme_manager,
+    # ThemeManager,
+    # theme_manager,
     button_styles,
     typography_styles,
     form_styles,
@@ -46,7 +46,7 @@ __all__ = [
     
     # Typography components
     "H1", "H2", "H3", "H4", "H5", "H6",
-    "P", "Text", "Em", "Strong", "A", "Code", "Pre", "Blockquote", "Mark", "Small",
+    "P", "Text", "Em", "Strong", "A", "Code", "Pre", "Mark", "Small",
     
     # Form components
     "Button", "Input", "Textarea", "Select", "Label", "FormGroup",

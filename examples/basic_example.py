@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 # Import EidosUI MVP - semantic HTML + forms!
 from eidos import (
-    H1, H2, H3, P, Text, Em, Strong, A, Button,
+    H1, H2, H3, P, Text, Em, Strong, A, Code, Pre, Mark, Small, Button,
     serve_eidos_static, create_eidos_head_tag,
     button_styles, typography_styles
 )
@@ -35,8 +35,12 @@ def home():
             ft.Div(
                 P("This is a ", Strong("paragraph"), " with ", Em("emphasis"), " and a ", 
                   A("styled link", href="#"), "."),
-                P("Code example: ", ft.Code("button_styles.primary")),
-                # ft.Blockquote("\"Great design is invisible.\" - Good design is obvious."),
+                P("Code example: ", Code("button_styles.primary")),
+                P("Highlighted text: ", Mark("important notice")),
+                P(Small("Small print and legal text")),
+                Pre("""def example():
+    print("Preformatted code block")
+    return True"""),
                 cls="space-y-4 mb-8"
             ),
             cls="mb-12"

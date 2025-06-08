@@ -51,9 +51,19 @@ class TypographyStyles:
     # Body text styles
     body: str = "text-base text-[var(--color-text)] leading-relaxed"
     
+    # Semantic emphasis
+    em: str = "italic"
+    strong: str = "font-semibold"
+    small: str = "text-sm text-[var(--color-text-muted)]"
+    
+    # Links
+    link: str = "text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] underline underline-offset-2 transition-colors duration-200"
+    
     # Text decorations
     code: str = "font-mono bg-[var(--color-surface)] px-1.5 py-0.5 rounded text-sm"
+    pre: str = "bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-4 overflow-x-auto text-sm font-mono"
     mark: str = "bg-[var(--color-warning-light)] px-1 rounded"
+    blockquote: str = "border-l-4 border-[var(--color-primary)] pl-6 py-2 italic text-[var(--color-text-muted)]"
 
 
 @dataclass(frozen=True)
