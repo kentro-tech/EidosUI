@@ -1,0 +1,108 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "eidos-ui"
+version = "0.1.0"
+description = "A modern, Tailwind CSS-based UI library for Python web frameworks"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "Isaac Flath"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+keywords = ["ui", "web", "tailwind", "css", "components", "fasthtml", "fastapi-tags"]
+requires-python = ">=3.9"
+
+dependencies = [
+    "fastapi-tags>=0.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+]
+examples = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/isaac-flath/EidosUI"
+Repository = "https://github.com/isaac-flath/EidosUI"
+Issues = "https://github.com/isaac-flath/EidosUI/issues"
+Documentation = "https://github.com/isaac-flath/EidosUI#readme"
+
+[tool.hatch.build.targets.wheel]
+packages = ["eidos"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/eidos",
+    "/README.md",
+    "/pyproject.toml",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311', 'py312']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+select = ["E", "F", "W", "I", "N", "UP", "YTT", "S", "BLE", "B", "A", "C4", "T20"]
+ignore = ["S101", "S603", "S607"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.coverage.run]
+source = ["eidos"]
+omit = ["*/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+] 
+
+# UV-specific configuration
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+]
+
+[tool.uv.sources]
+# For local development, ensure we use local version
+eidos-ui = { workspace = true }

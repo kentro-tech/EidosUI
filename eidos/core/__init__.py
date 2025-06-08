@@ -1,0 +1,38 @@
+"""Core functionality for EidosUI theme and style system"""
+
+from .themes import ThemeManager, theme_manager
+from .styles import (
+    button_styles,
+    typography_styles,
+    form_styles,
+)
+from .utils import merge_classes
+from .helpers import (
+    serve_eidos_static,
+    create_eidos_head,
+    create_inline_eidos_head,
+    create_eidos_head_tag,
+    create_inline_eidos_head_tag,
+    get_theme_css,
+    get_eidos_js,
+    inline_eidos_css,
+    inline_eidos_js,
+)
+
+__all__ = [
+    "ThemeManager",
+    "theme_manager", 
+        "button_styles",
+    "typography_styles",
+    "form_styles",
+    "merge_classes",
+    "serve_eidos_static",
+    "create_eidos_head", 
+    "create_inline_eidos_head",
+    "create_eidos_head_tag",
+    "create_inline_eidos_head_tag",
+    "get_theme_css",
+    "get_eidos_js",
+    "inline_eidos_css",
+    "inline_eidos_js",
+] 
