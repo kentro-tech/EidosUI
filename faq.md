@@ -16,6 +16,8 @@ TLDR: FrankenUI is a big part, but there are lots of other big parts.  And yet, 
 
 ### Eidos UI
 
-Edidos UI is build with a different philosophy in mind.  It is built to have many of the conveniences of MonsterUI for UI development, with fewer dependencies, stronger typing, easier customization, and an easier path to scale to larger web applications.  This means there will be some extra verbosity in places, less "magic" (whatever that means), and clearer separation of concerns.  The goal is to be close to as simple to use but easier to understand and customize inside of common FastApi and python usage patterns.  The goal of MonsterUI was to create something new that is tailored to the exact things I wanted to build
+Edidos UI is build with a different philosophy in mind.  It is built to have many of the conveniences of MonsterUI for UI development, with fewer dependencies, stronger typing, easier customization, and an easier path to scale to larger web applications and improving small UX/design pieces.  This means there will be some extra verbosity in places, less "magic" (whatever that means), and clearer separation of concerns.  The goal is to be close to as simple to use but easier to understand and customize inside of common FastApi and python usage patterns.  The goal of MonsterUI was to create something new that is tailored to the exact things I wanted to build.
 
-EidosUI is meant to be a great choice for a commercial application where you may want extra customization and clearer separation of concerns.
+But I also found when I wanted to bring my vision for my personal website and blog alive rewriting it without MonsterUI was the easier path. 
+
+EidosUI is meant to be a great choice for when you want extra customization and a clearer separation of concerns as the project gets larger and scales in complexity.
