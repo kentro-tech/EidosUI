@@ -75,6 +75,9 @@ def create_eidos_head_tag(
     if include_tailwind:
         head_content.append(ft.Script(src="https://cdn.tailwindcss.com"))
     
+    # Add EidosUI component styles
+    head_content.append(ft.Link(rel="stylesheet", href=f"{prefix}/static/eidos-styles.css"))
+    
     # Add CSS links
     for theme in themes:
         head_content.append(ft.Link(rel="stylesheet", href=f"{prefix}/themes/{theme}.css"))
