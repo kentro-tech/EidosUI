@@ -1,74 +1,28 @@
 /**
- * EidosUI Theme Switcher
- * Client-side utilities for theme management
+ * EidosUI - Minimal Theme Switcher
  */
-
 (function() {
-    'use strict';
+    const themes = window.EIDOS_THEMES || { light: '/eidos/themes/light.css', dark: '/eidos/themes/dark.css' };
+    let current = localStorage.getItem('eidos-theme') || Object.keys(themes)[0];
     
-    // Theme management functions
-    window.EidosUI = {
-        /**
-         * Set the current theme
-         * @param {string} theme - Theme name ('light' or 'dark')
-         */
-        setTheme: function(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('eidos-theme', theme);
-            
-            // Dispatch custom event
-            document.dispatchEvent(new CustomEvent('eidos:theme-changed', {
-                detail: { theme: theme }
-            }));
-        },
-        
-        /**
-         * Get the current theme
-         * @returns {string} Current theme name
-         */
-        getTheme: function() {
-            return document.documentElement.getAttribute('data-theme') || 'light';
-        },
-        
-        /**
-         * Toggle between light and dark themes
-         */
-        toggleTheme: function() {
-            const current = this.getTheme();
-            const next = current === 'light' ? 'dark' : 'light';
-            this.setTheme(next);
-        },
-        
-        /**
-         * Initialize theme from localStorage or system preference
-         */
-        initTheme: function() {
-            const savedTheme = localStorage.getItem('eidos-theme');
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            const theme = savedTheme || systemTheme;
-            this.setTheme(theme);
-        }
-    };
-    
-    // Auto-initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            window.EidosUI.initTheme();
-        });
-    } else {
-        window.EidosUI.initTheme();
+    function setTheme(name) {
+        if (!themes[name]) return;
+        document.querySelectorAll('link[data-eidos-theme]').forEach(l => l.remove());
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = themes[name];
+        link.setAttribute('data-eidos-theme', name);
+        document.head.appendChild(link);
+        document.documentElement.setAttribute('data-theme', name);
+        localStorage.setItem('eidos-theme', current = name);
     }
     
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        // Only auto-switch if user hasn't set a preference
-        if (!localStorage.getItem('eidos-theme')) {
-            window.EidosUI.setTheme(e.matches ? 'dark' : 'light');
-        }
-    });
+    window.setTheme = setTheme;
+    window.registerTheme = (name, path) => themes[name] = path;
+    window.toggleTheme = () => {
+        const names = Object.keys(themes);
+        setTheme(names[(names.indexOf(current) + 1) % names.length]);
+    };
     
-    // Global functions for convenience
-    window.setTheme = window.EidosUI.setTheme.bind(window.EidosUI);
-    window.toggleTheme = window.EidosUI.toggleTheme.bind(window.EidosUI);
-    
+    if (Object.keys(themes).length && !window.EIDOS_NO_AUTO_THEME) setTheme(current);
 })(); 

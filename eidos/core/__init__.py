@@ -8,7 +8,7 @@ from .styles import (
 from .utils import merge_classes
 from .helpers import (
     serve_eidos_static,
-    create_eidos_head_tag,
+    create_eidos_head_components,
     get_theme_css,
     get_eidos_js,
 )
@@ -19,7 +19,7 @@ __all__ = [
     "form_styles",
     "merge_classes",
     "serve_eidos_static",
-    "create_eidos_head_tag",
+    "create_eidos_head_components",
     "get_theme_css",
     "get_eidos_js",
 ] 
