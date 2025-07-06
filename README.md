@@ -1,9 +1,11 @@
 # EidosUI 🎨
 
+> ![WARNING]
+> This library is not ready for anything yet.  IN fact, this readme is more of design ideas than anything as much of what's in here isn't implemented yet!
+
 A modern, flexible Tailwind CSS-based UI library for Python web frameworks. Built for maximum developer flexibility while providing excellent defaults.
 
-
-## Abstractions
+## Design
 
 ### Base CSS
 
@@ -34,7 +36,9 @@ def Small(*content, cls: str = , **kwargs) -> air.Small:
     return air.Small(*content, cls=stringify(styles.typography.small, cls), **kwargs) 
 ```
 
-### Components
+### Components (Not Built Yet)
+
+Theses are things that go beyond just exposing css to python.  Here's a simple example of what might be added.
 
 ```python
 class Table:
@@ -80,7 +84,7 @@ Table.from_dicts([{"name": "John", "age": 25}], headers=["Name", "Age"])
 
 ### edios-md
 
-Install with `pip install "eidos[markdown]"`
+This will be installable with `pip install "eidos[markdown]"`. 
 
 This is a plugin for rendering markdown that is well scoped to just markdown rendering.  This module does markdown rendering well with table of contents with scrollspy, code highlighting, latex rendering, etc.  It must be used with `EidosUI` as it uses css variables from there for the styling (so it is always in sync with the theme)
 
