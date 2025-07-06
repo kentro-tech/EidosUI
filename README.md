@@ -1,9 +1,10 @@
 # EidosUI 🎨
 
-> ![DANGER]
+A modern, flexible Tailwind CSS-based UI library for Python web frameworks. Built for maximum developer flexibility while providing excellent defaults.
+
+> [!CAUTION]
 > This library is not ready for anything yet.  IN fact, this readme is more of design ideas than anything as much of what's in here isn't implemented yet!
 
-A modern, flexible Tailwind CSS-based UI library for Python web frameworks. Built for maximum developer flexibility while providing excellent defaults.
 
 ## Design
 
