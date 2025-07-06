@@ -16,7 +16,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -24,24 +23,21 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
 keywords = ["ui", "web", "tailwind", "css", "components", "fasthtml", "fastapi-tags"]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 dependencies = [
-    "fastapi-tags>=0.1.0",
+    "air",
+    "fastapi",
+    "uvicorn",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
-    "black>=23.0.0",
-    "isort>=5.0.0",
-    "mypy>=1.0.0",
-    "ruff>=0.1.0",
-]
-examples = [
-    "fastapi>=0.104.0",
-    "uvicorn>=0.24.0",
+    "pytest",
+    "black",
+    "isort",
+    "mypy",
+    "ruff",
 ]
 
 [project.urls]

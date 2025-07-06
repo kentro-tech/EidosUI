@@ -1,0 +1,149 @@
+/* EidosUI Button Styles - Simplified for CDN */
+
+/* Base Button - One size that works everywhere */
+.eidos-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    outline: none;
+    user-select: none;
+}
+
+.eidos-btn:focus-visible {
+    outline: var(--border-2) solid currentColor;
+    outline-offset: var(--border-2);
+}
+
+.eidos-btn:active {
+    transform: scale(0.98);
+}
+
+/* Primary Button */
+.eidos-btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+}
+
+.eidos-btn-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Secondary Button */
+.eidos-btn-secondary {
+    background-color: var(--color-secondary-light);
+    color: var(--color-secondary-dark);
+}
+
+.eidos-btn-secondary:hover {
+    background-color: var(--color-border);
+}
+
+/* Ghost Button */
+.eidos-btn-ghost {
+    background-color: transparent;
+    color: var(--color-secondary-dark);
+}
+
+.eidos-btn-ghost:hover {
+    background-color: rgba(0, 0, 0, var(--opacity-5));
+}
+
+/* Outline Button */
+.eidos-btn-outline {
+    background-color: transparent;
+    border: var(--border-2) solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+.eidos-btn-outline:hover {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+}
+
+/* Success Button */
+.eidos-btn-success {
+    background-color: var(--color-success);
+    color: var(--color-success-foreground);
+}
+
+.eidos-btn-success:hover {
+    background-color: var(--color-success-hover);
+}
+
+/* Error Button */
+.eidos-btn-error {
+    background-color: var(--color-error);
+    color: var(--color-error-foreground);
+}
+
+.eidos-btn-error:hover {
+    background-color: var(--color-error-hover);
+}
+
+/* CTA Button */
+.eidos-btn-cta {
+    background-color: var(--color-cta);
+    color: var(--color-cta-foreground);
+}
+
+.eidos-btn-cta:hover {
+    background-color: var(--color-cta-hover);
+}
+
+.eidos-h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-md);
+}
+
+.eidos-h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    margin-bottom: calc(var(--space-sm) * 1.6);
+}
+
+.eidos-h3 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    margin-bottom: calc(var(--space-sm) * 1.2);
+}
+
+.eidos-h4 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-normal);
+    margin-bottom: calc(var(--space-sm) * 0.8);
+}
+
+.eidos-h5 {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: calc(var(--space-xs) * 0.8);
+}
+
+.eidos-h6 {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: calc(var(--space-xs) * 0.4);
+}
+
+
+.eidos-body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    transition: background-color var(--transition-slow), color var(--transition-slow);
+}
