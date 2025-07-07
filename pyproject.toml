@@ -22,7 +22,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
-keywords = ["ui", "web", "tailwind", "css", "components", "fasthtml", "fastapi-tags"]
+keywords = ["ui", "web", "tailwind", "css", "components", "fastapi"]
 requires-python = ">=3.10"
 
 dependencies = [
@@ -48,6 +48,9 @@ Documentation = "https://github.com/isaac-flath/EidosUI#readme"
 
 [tool.hatch.build.targets.wheel]
 packages = ["eidos"]
+include = [
+    "eidos/css/**/*.css",
+]
 
 [tool.hatch.build.targets.sdist]
 include = [
