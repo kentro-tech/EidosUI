@@ -35,6 +35,46 @@ class Typography:
     h5: Final[str] = "eidos-h5"
     h6: Final[str] = "eidos-h6"
 
+class Semantic:
+    """Semantic HTML element CSS classes from styles.css."""
+    
+    # Text formatting
+    strong: Final[str] = "eidos-strong"
+    i: Final[str] = "eidos-i"
+    small: Final[str] = "eidos-small"
+    del_: Final[str] = "eidos-del"  # del is reserved keyword
+    abbr: Final[str] = "eidos-abbr"
+    var: Final[str] = "eidos-var"
+    mark: Final[str] = "eidos-mark"
+    time: Final[str] = "eidos-time"
+    
+    # Code elements
+    code: Final[str] = "eidos-code"
+    pre: Final[str] = "eidos-pre"
+    kbd: Final[str] = "eidos-kbd"
+    samp: Final[str] = "eidos-samp"
+    
+    # Structural elements
+    blockquote: Final[str] = "eidos-blockquote"
+    cite: Final[str] = "eidos-cite"
+    address: Final[str] = "eidos-address"
+    hr: Final[str] = "eidos-hr"
+    
+    # Interactive elements
+    details: Final[str] = "eidos-details"
+    summary: Final[str] = "eidos-summary"
+    details_content: Final[str] = "eidos-details-content"
+    
+    # Definition list
+    dl: Final[str] = "eidos-dl"
+    dt: Final[str] = "eidos-dt"
+    dd: Final[str] = "eidos-dd"
+    
+    # Figure
+    figure: Final[str] = "eidos-figure"
+    figcaption: Final[str] = "eidos-figcaption"
+
 # Create singleton instance for easy access
 buttons = Buttons()
 typography = Typography()
+semantic = Semantic()
