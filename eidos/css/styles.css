@@ -354,6 +354,28 @@
     background-color: var(--color-border);
 }
 
+/* Sticky navbar */
+.eidos-navbar-sticky {
+    background-color: var(--color-background);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Mobile toggle button */
+.eidos-navbar-toggle:hover {
+    background-color: var(--color-border);
+}
+
+/* Mobile menu dropdown */
+.eidos-navbar-mobile {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+}
+
+/* Mobile menu dividers */
+.eidos-navbar-mobile-divider > a:not(:last-child) {
+    border-bottom: var(--border) solid var(--color-border);
+}
+
 /* Underline style */
 .navbar-underline a.eidos-active::after {
     content: '';

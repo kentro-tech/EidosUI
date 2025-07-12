@@ -28,13 +28,13 @@ def NavBar(*c,
     """
     if menu_id is None: menu_id = f"menu-{uuid4().hex[:8]}"
     
-    sticky_cls = 'sticky top-0 bg-base-100 shadow-sm z-50' if sticky else ''
+    sticky_cls = 'sticky top-0 eidos-navbar-sticky z-50' if sticky else ''
     
     # Mobile toggle button with hamburger/close icon
     mobile_icon = A(
         I(data_lucide="menu", class_="w-6 h-6", data_menu_icon="open"),
         I(data_lucide="x", class_="w-6 h-6 hidden", data_menu_icon="close"),
-        class_="md:hidden cursor-pointer p-2 hover:bg-base-200 rounded-lg transition-colors",
+        class_="md:hidden cursor-pointer p-2 eidos-navbar-toggle rounded-lg transition-colors",
         data_toggle=f"#{menu_id}",
         role="button",
         aria_label="Toggle navigation",
@@ -53,8 +53,8 @@ def NavBar(*c,
         *c,
         class_=stringify(
             mobile_cls, 
-            'hidden md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 shadow-lg border-t border-base-200',
-            'flex flex-col divide-y divide-base-200' if not mobile_cls else '',
+            'hidden md:hidden absolute top-full left-0 right-0 eidos-navbar-mobile shadow-lg border-t',
+            'flex flex-col eidos-navbar-mobile-divider' if not mobile_cls else '',
             scrollspy_cls
         ),
         id=menu_id,
