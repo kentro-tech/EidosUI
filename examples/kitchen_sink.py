@@ -17,13 +17,14 @@ from fastapi.staticfiles import StaticFiles
 app.mount("/eidos", StaticFiles(directory=get_eidos_static_directory()), name="eidos")
 
 
-def layout(*content):
+def layout(navigation, *content):
     return Html(
         Head(
             *EidosHeaders(),
             Title("EidosUI MVP 🎨"),
         ),
         Body(
+            navigation,
             Main(
                 Button(
                     "🌙",
@@ -51,11 +52,11 @@ def layout(*content):
 
 
 def Divider():
-    return air.Hr(class_="border-4 my-4")
+    return air.Hr(class_="border-4")
 
 
 def ComponentSection(title: str, id_=None, *content):
-    return air.Div(H2(title, id_=id_), *content, Divider(), class_="space-y-4")
+    return Div(Section(H2(title), *content, id=id_, class_="space-y-4 py-20"), Divider())
 
 
 @app.get("/")
@@ -65,13 +66,13 @@ def home():
             A("EidosUI MVP", href="#eidos-mvp"),
             A("Headings", href="#headings"),
             A("Buttons", href="#buttons"),
+            A("Semantic Typography", href="#semantic-typography"),
             A("Lucide Icons", href="#lucide-icons"),
             lcontents=H3("EidosUI", class_="text-xl font-bold"),
             sticky=True,
             scrollspy=True,
             scrollspy_cls="navbar-underline"
             ),
-        Divider(),
         ComponentSection(
             "EidosUI MVP 🎨",
             "eidos-mvp",
