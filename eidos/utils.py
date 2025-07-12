@@ -27,14 +27,14 @@ def stringify(*classes: Optional[Union[str, List[str]]]) -> str:
     """
     result = []
     
-    for cls in classes:
-        if cls is None:
+    for class_ in classes:
+        if class_ is None:
             continue
-        elif isinstance(cls, list):
+        elif isinstance(class_, list):
             # Recursively handle lists
-            result.extend(c for c in cls if c)
-        elif isinstance(cls, str) and cls.strip():
-            result.append(cls.strip())
+            result.extend(c for c in class_ if c)
+        elif isinstance(class_, str) and class_.strip():
+            result.append(class_.strip())
     
     return " ".join(result)
 
@@ -57,7 +57,16 @@ def get_eidos_static_directory() -> str:
     """
     try:
         from importlib.resources import files
-        return str(files('eidos'))
+        import pathlib
+        # Convert MultiplexedPath to actual filesystem path
+        eidos_path = files('eidos')
+        if hasattr(eidos_path, '_paths'):
+            # MultiplexedPath - get the first valid path
+            for path in eidos_path._paths:
+                if isinstance(path, pathlib.Path) and path.exists():
+                    return str(path)
+        # Try to get the path directly
+        return str(eidos_path)
     except (ImportError, AttributeError):
         # Fallback for development or if importlib.resources fails
         return os.path.dirname(os.path.abspath(__file__))
