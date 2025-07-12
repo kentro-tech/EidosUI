@@ -16,10 +16,44 @@
                     const targetId = btn.dataset.toggle;
                     const target = document.querySelector(targetId);
                     if (target) {
+                        const isHidden = target.classList.contains('hidden');
                         target.classList.toggle('hidden');
+                        
                         // Update ARIA attributes
-                        const isExpanded = !target.classList.contains('hidden');
-                        btn.setAttribute('aria-expanded', isExpanded);
+                        const toggleButtons = document.querySelectorAll(`[data-toggle="${targetId}"][role="button"]`);
+                        toggleButtons.forEach(toggleBtn => {
+                            toggleBtn.setAttribute('aria-expanded', isHidden);
+                            
+                            // Toggle menu icons if they exist
+                            const openIcon = toggleBtn.querySelector('[data-menu-icon="open"]');
+                            const closeIcon = toggleBtn.querySelector('[data-menu-icon="close"]');
+                            if (openIcon && closeIcon) {
+                                openIcon.classList.toggle('hidden');
+                                closeIcon.classList.toggle('hidden');
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Auto-close mobile menu when clicking a link
+            document.querySelectorAll('[data-mobile-menu="true"] a').forEach(link => {
+                link.addEventListener('click', () => {
+                    const menu = link.closest('[data-mobile-menu="true"]');
+                    if (menu && !menu.classList.contains('hidden')) {
+                        menu.classList.add('hidden');
+                        // Update toggle button state
+                        const menuId = '#' + menu.id;
+                        const toggleBtn = document.querySelector(`[data-toggle="${menuId}"][role="button"]`);
+                        if (toggleBtn) {
+                            toggleBtn.setAttribute('aria-expanded', 'false');
+                            const openIcon = toggleBtn.querySelector('[data-menu-icon="open"]');
+                            const closeIcon = toggleBtn.querySelector('[data-menu-icon="close"]');
+                            if (openIcon && closeIcon) {
+                                openIcon.classList.remove('hidden');
+                                closeIcon.classList.add('hidden');
+                            }
+                        }
                     }
                 });
             });

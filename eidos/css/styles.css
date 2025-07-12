@@ -375,3 +375,36 @@
 [data-toggle] + * {
     transition: all 0.3s ease;
 }
+
+/* Mobile navigation styles */
+[data-mobile-menu="true"] {
+    animation: slideDown 0.2s ease-out;
+}
+
+[data-mobile-menu="true"] a {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    display: block;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+[data-mobile-menu="true"] a:hover {
+    background-color: var(--color-border);
+}
+
+/* Hide non-link elements in mobile menu */
+[data-mobile-menu="true"] > *:not(a) {
+    display: none;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-0.5rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
