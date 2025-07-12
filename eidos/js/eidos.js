@@ -6,7 +6,6 @@
         constructor() {
             this.initToggle();
             this.initScrollspy();
-            // Future features will be added here
         }
         
         initToggle() {
@@ -102,17 +101,9 @@
                 });
             });
         }
-        
-        // Future methods for other components
-        // initModals() { }
-        // initTooltips() { }
-        // initDropdowns() { }
     }
     
-    // Initialize EidosUI
     window.EidosUI = EidosUI;
-    
-    // Auto-initialize on DOM ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => new EidosUI());
     } else {

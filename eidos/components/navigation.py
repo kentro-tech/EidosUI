@@ -1,22 +1,22 @@
 from air import Div, A, I, Tag
 from ..tags import *
 from ..utils import stringify
-from typing import Final
+from typing import Final, Optional, Any, Union
 from uuid import uuid4
 
 class ScrollspyT:
     underline: Final[str] = 'navbar-underline'
     bold: Final[str] = 'navbar-bold'
 
-def NavBar(*c,
-           lcontents=H3("Title"),
-           right_cls='items-center space-x-4',
-           mobile_cls='',
+def NavBar(*c: Any,
+           lcontents: Tag = H3("Title"),
+           right_cls: str = 'items-center space-x-4',
+           mobile_cls: str = '',
            sticky: bool = False,
            scrollspy: bool = False,
-           cls='p-4',
-           scrollspy_cls=ScrollspyT.underline,
-           menu_id=None,
+           cls: str = 'p-4',
+           scrollspy_cls: str = ScrollspyT.underline,
+           menu_id: Optional[str] = None,
            ) -> Tag:
     """Pure Tailwind responsive navigation bar with optional scrollspy.
     

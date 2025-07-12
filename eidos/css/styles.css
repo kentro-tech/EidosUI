@@ -27,76 +27,79 @@
     transform: scale(0.98);
 }
 
-/* Primary Button */
-.eidos-btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-primary-foreground);
+/* Button Variants - Using CSS Custom Properties to reduce redundancy */
+.eidos-btn-primary,
+.eidos-btn-secondary,
+.eidos-btn-ghost,
+.eidos-btn-outline,
+.eidos-btn-success,
+.eidos-btn-error,
+.eidos-btn-cta {
+    background-color: var(--btn-bg, transparent);
+    color: var(--btn-color);
+    border: var(--btn-border, none);
 }
 
-.eidos-btn-primary:hover {
-    background-color: var(--color-primary-hover);
+.eidos-btn-primary:hover,
+.eidos-btn-secondary:hover,
+.eidos-btn-ghost:hover,
+.eidos-btn-outline:hover,
+.eidos-btn-success:hover,
+.eidos-btn-error:hover,
+.eidos-btn-cta:hover {
+    background-color: var(--btn-bg-hover);
+    color: var(--btn-color-hover, var(--btn-color));
+}
+
+/* Primary Button */
+.eidos-btn-primary {
+    --btn-bg: var(--color-primary);
+    --btn-color: var(--color-primary-foreground);
+    --btn-bg-hover: var(--color-primary-hover);
 }
 
 /* Secondary Button */
 .eidos-btn-secondary {
-    background-color: var(--color-secondary-light);
-    color: var(--color-secondary-dark);
-}
-
-.eidos-btn-secondary:hover {
-    background-color: var(--color-border);
+    --btn-bg: var(--color-secondary-light);
+    --btn-color: var(--color-secondary-dark);
+    --btn-bg-hover: var(--color-border);
 }
 
 /* Ghost Button */
 .eidos-btn-ghost {
-    background-color: transparent;
-    color: var(--color-secondary-dark);
-}
-
-.eidos-btn-ghost:hover {
-    background-color: rgba(0, 0, 0, var(--opacity-5));
+    --btn-bg: transparent;
+    --btn-color: var(--color-secondary-dark);
+    --btn-bg-hover: rgba(0, 0, 0, var(--opacity-5));
 }
 
 /* Outline Button */
 .eidos-btn-outline {
-    background-color: transparent;
-    border: var(--border-2) solid var(--color-primary);
-    color: var(--color-primary);
-}
-
-.eidos-btn-outline:hover {
-    background-color: var(--color-primary);
-    color: var(--color-primary-foreground);
+    --btn-bg: transparent;
+    --btn-border: var(--border-2) solid var(--color-primary);
+    --btn-color: var(--color-primary);
+    --btn-bg-hover: var(--color-primary);
+    --btn-color-hover: var(--color-primary-foreground);
 }
 
 /* Success Button */
 .eidos-btn-success {
-    background-color: var(--color-success);
-    color: var(--color-success-foreground);
-}
-
-.eidos-btn-success:hover {
-    background-color: var(--color-success-hover);
+    --btn-bg: var(--color-success);
+    --btn-color: var(--color-success-foreground);
+    --btn-bg-hover: var(--color-success-hover);
 }
 
 /* Error Button */
 .eidos-btn-error {
-    background-color: var(--color-error);
-    color: var(--color-error-foreground);
-}
-
-.eidos-btn-error:hover {
-    background-color: var(--color-error-hover);
+    --btn-bg: var(--color-error);
+    --btn-color: var(--color-error-foreground);
+    --btn-bg-hover: var(--color-error-hover);
 }
 
 /* CTA Button */
 .eidos-btn-cta {
-    background-color: var(--color-cta);
-    color: var(--color-cta-foreground);
-}
-
-.eidos-btn-cta:hover {
-    background-color: var(--color-cta-hover);
+    --btn-bg: var(--color-cta);
+    --btn-color: var(--color-cta-foreground);
+    --btn-bg-hover: var(--color-cta-hover);
 }
 
 .eidos-h1 {
