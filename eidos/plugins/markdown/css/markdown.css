@@ -1,0 +1,226 @@
+/* EidosUI Markdown Styles - Theme-aware markdown rendering */
+
+/* Base container */
+.eidos-md {
+    color: var(--color-text);
+    line-height: var(--line-height-relaxed);
+    font-size: var(--font-size-base);
+}
+
+/* Headings */
+.eidos-md h1 {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-lg);
+    line-height: var(--line-height-tight);
+}
+
+.eidos-md h2 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+    line-height: var(--line-height-tight);
+}
+
+.eidos-md h3 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-md);
+    line-height: var(--line-height-snug);
+}
+
+.eidos-md h4 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    line-height: var(--line-height-snug);
+}
+
+.eidos-md h5 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-sm);
+    line-height: var(--line-height-normal);
+}
+
+.eidos-md h6 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-sm);
+    line-height: var(--line-height-normal);
+}
+
+/* Paragraphs */
+.eidos-md p {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+}
+
+/* Links */
+.eidos-md a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--transition-fast);
+}
+
+.eidos-md a:hover {
+    color: var(--color-primary-hover);
+}
+
+/* Lists */
+.eidos-md ul {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-lg);
+    list-style-type: disc;
+}
+
+.eidos-md ol {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-lg);
+    list-style-type: decimal;
+}
+
+.eidos-md li {
+    margin-bottom: var(--space-xs);
+}
+
+/* Nested lists */
+.eidos-md ul ul {
+    list-style-type: circle;
+    margin-top: var(--space-xs);
+    margin-bottom: 0;
+}
+
+.eidos-md ul ul ul {
+    list-style-type: square;
+}
+
+.eidos-md ol ol {
+    list-style-type: lower-alpha;
+    margin-top: var(--space-xs);
+    margin-bottom: 0;
+}
+
+.eidos-md ul ol,
+.eidos-md ol ul {
+    margin-top: var(--space-xs);
+    margin-bottom: 0;
+}
+
+/* Code */
+.eidos-md code {
+    background-color: var(--color-surface);
+    padding: calc(var(--space-xs) / 2) var(--space-xs);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.eidos-md pre {
+    background-color: var(--color-surface);
+    border: var(--border) solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    overflow-x: auto;
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+}
+
+.eidos-md pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: var(--font-size-sm);
+}
+
+/* Blockquotes */
+.eidos-md blockquote {
+    border-left: var(--border-4) solid var(--color-primary);
+    padding-left: var(--space-md);
+    margin: var(--space-lg) 0;
+    color: var(--color-text-muted);
+}
+
+.eidos-md blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* Tables */
+.eidos-md table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-lg) 0;
+    font-size: var(--font-size-sm);
+}
+
+.eidos-md th {
+    background-color: var(--color-surface);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: var(--border-2) solid var(--color-border);
+    text-align: left;
+}
+
+.eidos-md td {
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: var(--border) solid var(--color-border);
+}
+
+.eidos-md tr:hover {
+    background-color: rgba(0, 0, 0, var(--opacity-5));
+}
+
+/* Horizontal rules */
+.eidos-md hr {
+    border: none;
+    border-top: var(--border) solid var(--color-border);
+    margin: var(--space-xl) 0;
+}
+
+/* Images */
+.eidos-md img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    margin: var(--space-md) 0;
+}
+
+/* Strong and emphasis */
+.eidos-md strong {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.eidos-md em {
+    font-style: italic;
+}
+
+/* Definition lists */
+.eidos-md dl {
+    margin: var(--space-md) 0;
+}
+
+.eidos-md dt {
+    font-weight: var(--font-weight-semibold);
+    margin-top: var(--space-md);
+}
+
+.eidos-md dd {
+    margin-left: var(--space-lg);
+    margin-bottom: var(--space-sm);
+}

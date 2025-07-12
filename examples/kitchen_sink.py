@@ -8,6 +8,10 @@ import eidos.styles as styles
 from eidos.components.headers import EidosHeaders
 from eidos.utils import get_eidos_static_directory
 
+# Markdown plugin imports
+# Install: pip install eidos[markdown]
+from eidos.plugins.markdown import Markdown, MarkdownCSS
+
 app = air.Air()
 
 print(f"{air.__version__=}")
@@ -21,6 +25,7 @@ def layout(navigation, *content):
     return Html(
         Head(
             *EidosHeaders(),
+            MarkdownCSS(),  # Include markdown styles
             Title("EidosUI MVP 🎨"),
         ),
         Body(
@@ -67,6 +72,7 @@ def home():
             A("Buttons", href="#buttons"),
             A("Semantic Typography", href="#semantic-typography"),
             A("Lucide Icons", href="#lucide-icons"),
+            A("Markdown", href="/markdown"),  # Link to markdown page
             Button(
                     "🌙",
                     class_="theme-toggle p-2 rounded-full",
@@ -196,4 +202,29 @@ def home():
         ),
 
     
+    )
+
+
+@app.get("/markdown")
+def markdown_demo():
+    """Demonstrate the markdown plugin"""
+    # Read the example markdown file
+    with open("example_markdown.md", "r") as f:
+        markdown_content = f.read()
+    
+    return layout(
+        NavBar(
+            A("← Back", href="/"),
+            A("Markdown Demo", href="#", class_="font-bold"),
+            Button(
+                "🌙",
+                class_="theme-toggle p-2 rounded-full",
+            ),
+            lcontents=H3("EidosUI", class_="text-xl font-bold"),
+        ),
+        Div(
+            # Render the markdown content
+            Markdown(markdown_content),
+            class_="max-w-4xl mx-auto py-12 px-6"
+        )
     )

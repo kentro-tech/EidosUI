@@ -33,6 +33,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+markdown = [
+    "markdown>=3.4",
+]
 dev = [
     "pytest",
     "black",
@@ -51,6 +54,7 @@ Documentation = "https://github.com/isaac-flath/EidosUI#readme"
 packages = ["eidos"]
 include = [
     "eidos/css/**/*.css",
+    "eidos/plugins/markdown/css/*.css",
 ]
 
 [tool.hatch.build.targets.sdist]
