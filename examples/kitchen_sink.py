@@ -3,6 +3,7 @@
 import air
 from air.tags import *
 from eidos.tags import *
+from eidos.components.navigation import NavBar
 import eidos.styles as styles
 from eidos.components.headers import EidosHeaders
 from eidos.utils import get_eidos_static_directory
@@ -19,7 +20,7 @@ app.mount("/eidos", StaticFiles(directory=get_eidos_static_directory()), name="e
 def layout(*content):
     return Html(
         Head(
-            *EidosHeaders(include_lucide=True),
+            *EidosHeaders(),
             Title("EidosUI MVP 🎨"),
         ),
         Body(
@@ -53,15 +54,27 @@ def Divider():
     return air.Hr(class_="border-4 my-4")
 
 
-def ComponentSection(title: str, *content):
-    return air.Div(H2(title), *content, Divider(), class_="space-y-4")
+def ComponentSection(title: str, id_=None, *content):
+    return air.Div(H2(title, id_=id_), *content, Divider(), class_="space-y-4")
 
 
 @app.get("/")
 def home():
     return layout(
+       NavBar(
+            A("EidosUI MVP", href="#eidos-mvp"),
+            A("Headings", href="#headings"),
+            A("Buttons", href="#buttons"),
+            A("Lucide Icons", href="#lucide-icons"),
+            lcontents=H3("EidosUI", class_="text-xl font-bold"),
+            sticky=True,
+            scrollspy=True,
+            scrollspy_cls="navbar-underline"
+            ),
+        Divider(),
         ComponentSection(
             "EidosUI MVP 🎨",
+            "eidos-mvp",
             P(
                 "Beautiful, semantic HTML components with ",
                 Em("intelligent"),
@@ -70,6 +83,7 @@ def home():
         ),
         ComponentSection(
             "Headings",
+            "headings",
             H1("H1"),
             H2("H2"),
             H3("H3"),
@@ -79,6 +93,7 @@ def home():
         ),
         ComponentSection(
             "Buttons",
+            "buttons",
             Div(
                 Button("Default"),
                 Button("Primary", class_=styles.buttons.primary),
@@ -93,6 +108,7 @@ def home():
         ),
         ComponentSection(
             "Semantic Typography",
+            "semantic-typography",
             air.P(
                 "EidosUI provides ",
                 Strong("strong emphasis"),
@@ -164,7 +180,8 @@ def home():
         ),
         ComponentSection(
             "Lucide Icons",
-            P("Enable with `EidosHeaders(include_lucide=True)`"),
+            "lucide-icons",
+            P("Enable with",Code('''Script("lucide.createIcons();")'''),"in your page"),
             Div(
                 I(data_lucide="sun", class_='w-2 h-2'),
                 I(data_lucide="moon", class_='w-3 h-3'),
@@ -174,4 +191,6 @@ def home():
                 class_="flex space-x-4",
             ),
         ),
+
+    
     )

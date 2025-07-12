@@ -1,5 +1,6 @@
-from air import Meta, Script, Link, Html, Head, Title
+from air import Meta, Script, Link
 from ..tags import Body
+from typing import Literal
 
 def get_css_urls():
     """Return list of CSS URLs for EidosUI."""
@@ -10,30 +11,58 @@ def get_css_urls():
         "/eidos/css/themes/dark.css"
     ]
 
-def EidosHeaders(include_tailwind=True, include_lucide=False, theme="light"):
-    """Standard EidosUI headers with CSS includes.
+def EidosHeaders(
+    include_tailwind: bool = True,
+    include_lucide: bool = True,
+    include_eidos_js: bool = True,
+    theme: Literal["light", "dark"] = "light",
+):
+    """Complete EidosUI headers with EidosUI JavaScript support.
     
     Args:
-        include_tailwind: Whether to include Tailwind CSS CDN
-        include_lucide: Whether to include Lucide Icons CDN (Activate with `Script("lucide.createIcons();")` in your page)
-        theme: Theme to use (light or dark)
+        include_tailwind: Include Tailwind CSS CDN
+        include_lucide: Include Lucide Icons CDN
+        include_eidos_js: Include EidosUI JavaScript (navigation, future features)
+        theme: Initial theme
     """
     headers = [
         Meta(charset="UTF-8"),
         Meta(name="viewport", content="width=device-width, initial-scale=1.0"),
     ]
     
+    # Core libraries
     if include_tailwind:
         headers.append(Script(src="https://cdn.tailwindcss.com"))
-
-    if include_lucide:
-        headers.append(Script(src="https://unpkg.com/lucide@latest"))
     
-    # Add EidosUI CSS files
+    if include_lucide:
+        headers.append(Script(src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"))
+    
+    # EidosUI CSS
     for css_url in get_css_urls():
         headers.append(Link(rel="stylesheet", href=css_url))
     
-    # Set initial theme
-    headers.append(Script(f"document.documentElement.setAttribute('data-theme', '{theme}');"))
+    # EidosUI JavaScript
+    if include_eidos_js:
+        headers.append(Script(src="/eidos/js/eidos.js", defer=True))
+    
+    # Initialization script
+    init_script = f"""
+        // Set theme
+        document.documentElement.setAttribute('data-theme', '{theme}');
+    """
+    
+    if include_lucide:
+        init_script += """
+        // Initialize Lucide icons
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                if (window.lucide) lucide.createIcons();
+            });
+        } else {
+            if (window.lucide) lucide.createIcons();
+        }
+    """
+    
+    headers.append(Script(init_script))
     
     return headers

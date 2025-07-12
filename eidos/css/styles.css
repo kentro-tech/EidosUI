@@ -335,3 +335,43 @@
     border-top: var(--border) solid var(--color-border);
     margin: var(--space-xl) 0;
 }
+
+/* Navigation base styles */
+.eidos-navbar {
+    width: 100%;
+}
+
+.eidos-navbar a {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.eidos-navbar a:hover {
+    background-color: var(--color-border);
+}
+
+/* Underline style */
+.navbar-underline a.eidos-active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+}
+
+/* Bold style */
+.navbar-bold a.eidos-active {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Mobile menu animation */
+[data-toggle] + * {
+    transition: all 0.3s ease;
+}
