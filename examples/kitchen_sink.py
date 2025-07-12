@@ -26,11 +26,6 @@ def layout(navigation, *content):
         Body(
             navigation,
             Main(
-                Button(
-                    "🌙",
-                    id="theme-toggle",
-                    class_="fixed top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-800",
-                ),
                 *content,
                 class_="p-12",
             ),
@@ -67,6 +62,11 @@ def home():
             A("Buttons", href="#buttons"),
             A("Semantic Typography", href="#semantic-typography"),
             A("Lucide Icons", href="#lucide-icons"),
+            Button(
+                    "🌙",
+                    id="theme-toggle",
+                    class_="p-2 rounded-full ",
+                ),
             lcontents=H3("EidosUI", class_="text-xl font-bold"),
             sticky=True,
             scrollspy=True,
