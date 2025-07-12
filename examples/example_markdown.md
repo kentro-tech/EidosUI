@@ -118,9 +118,9 @@ Tables automatically adapt to the theme:
 |---------|-------------|--------|
 | Markdown Rendering | Convert markdown to themed HTML | ✅ Complete |
 | Theme Integration | Uses CSS variables | ✅ Complete |
+| GitHub Alerts | Note/Warning/Tip boxes | ✅ Complete |
 | Syntax Highlighting | Code block highlighting | 🚧 Coming Soon |
 | Table of Contents | Auto-generated TOC | 🚧 Coming Soon |
-| GitHub Alerts | Note/Warning boxes | 🚧 Coming Soon |
 
 ### Complex Table Example
 
@@ -164,19 +164,42 @@ Use three or more hyphens, asterisks, or underscores:
 
 The horizontal rule above uses the theme's border color and spacing.
 
-## Advanced Features (Coming Soon)
+## GitHub-Style Alerts
 
-### GitHub-Style Alerts
+EidosUI now supports GitHub-style alerts that automatically adapt to your theme:
 
-Once implemented, you'll be able to use:
-
-```markdown
 > [!NOTE]
-> Useful information that users should know.
+> This is a helpful note with useful information that users should know about. It uses the info color scheme from your theme.
+
+
+> [!TIP]
+> Pro tip: You can use these alerts to highlight best practices and helpful suggestions. They really stand out!
+
+
+> [!IMPORTANT]
+> This alert draws attention to crucial information that users shouldn't miss. It's perfect for highlighting key requirements or dependencies.
+
 
 > [!WARNING]
-> Critical content demanding user attention.
-```
+> Be careful! This warning alert is for content that requires user attention to avoid problems. Use it sparingly for maximum impact.
+
+
+> [!CAUTION]
+> This is the strongest alert level. Use it for critical warnings about potentially destructive actions or serious issues.
+
+
+### Multi-line Alerts
+
+Alerts can also contain multiple paragraphs and formatted content:
+
+> [!NOTE]
+> This is the first paragraph of a multi-line alert.
+>
+> This is the second paragraph. You can include **bold text**, *italic text*, and even `inline code`.
+>
+> - You can use lists
+> - Multiple items work great
+> - Just like regular markdown!
 
 ### Table of Contents
 

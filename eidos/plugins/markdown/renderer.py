@@ -1,21 +1,28 @@
 """Core markdown rendering with theme integration"""
 
 import markdown
-from typing import Optional, List
+from typing import Optional, List, Union
+from .extensions.alerts import AlertExtension
 
 
 class MarkdownRenderer:
     """Core markdown rendering with theme integration"""
     
-    def __init__(self, extensions: Optional[List[str]] = None):
+    def __init__(self, extensions: Optional[List[Union[str, markdown.Extension]]] = None):
         """Initialize the renderer with optional extensions.
         
         Args:
-            extensions: List of markdown extension names to enable
+            extensions: List of markdown extension names or instances to enable
         """
         self.extensions = extensions or []
         # Add some useful default extensions
-        default_extensions = ['fenced_code', 'tables', 'nl2br', 'sane_lists']
+        default_extensions = [
+            'fenced_code', 
+            'tables', 
+            'nl2br', 
+            'sane_lists',
+            AlertExtension()  # Add GitHub-style alerts
+        ]
         self.extensions.extend(default_extensions)
         
         # Initialize the markdown processor

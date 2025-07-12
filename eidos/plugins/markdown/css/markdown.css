@@ -224,3 +224,60 @@
     margin-left: var(--space-lg);
     margin-bottom: var(--space-sm);
 }
+
+/* GitHub-style Alerts */
+.eidos-alert {
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    margin: var(--space-lg) 0;
+    border: var(--border) solid;
+}
+
+.eidos-alert-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.eidos-alert-icon {
+    font-size: var(--font-size-lg);
+}
+
+.eidos-alert-title {
+    font-size: var(--font-size-base);
+}
+
+.eidos-alert-content {
+    margin-left: calc(var(--font-size-lg) + var(--space-sm));
+}
+
+.eidos-alert-content > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Alert variants */
+.eidos-alert-info {
+    background-color: var(--color-info-light);
+    border-color: var(--color-info);
+    color: var(--color-info-dark);
+}
+
+.eidos-alert-success {
+    background-color: var(--color-success-light);
+    border-color: var(--color-success);
+    color: var(--color-success-dark);
+}
+
+.eidos-alert-warning {
+    background-color: var(--color-warning-light);
+    border-color: var(--color-warning);
+    color: var(--color-warning-dark);
+}
+
+.eidos-alert-error {
+    background-color: var(--color-error-light);
+    border-color: var(--color-error);
+    color: var(--color-error-dark);
+}
