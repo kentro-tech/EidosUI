@@ -46,7 +46,6 @@ def layout(navigation, *content):
             });
         """
             ),
-            Script("lucide.createIcons();"),
         ),
     )
 
@@ -182,7 +181,6 @@ def home():
         ComponentSection(
             "Lucide Icons",
             "lucide-icons",
-            P("Enable with",Code('''Script("lucide.createIcons();")'''),"in your page"),
             Div(
                 I(data_lucide="sun", class_='w-2 h-2'),
                 I(data_lucide="moon", class_='w-3 h-3'),
