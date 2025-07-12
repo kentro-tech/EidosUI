@@ -31,13 +31,18 @@ def layout(navigation, *content):
             ),
             air.Script(
                 """
-            const toggle = document.getElementById('theme-toggle');
-            toggle.addEventListener('click', () => {
-                const html = document.documentElement;
-                const currentTheme = html.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                html.setAttribute('data-theme', newTheme);
-                toggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            const toggles = document.querySelectorAll('.theme-toggle');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const html = document.documentElement;
+                    const currentTheme = html.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    html.setAttribute('data-theme', newTheme);
+                    // Update all toggle buttons
+                    toggles.forEach(btn => {
+                        btn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                    });
+                });
             });
         """
             ),
@@ -64,8 +69,7 @@ def home():
             A("Lucide Icons", href="#lucide-icons"),
             Button(
                     "🌙",
-                    id="theme-toggle",
-                    class_="p-2 rounded-full ",
+                    class_="theme-toggle p-2 rounded-full",
                 ),
             lcontents=H3("EidosUI", class_="text-xl font-bold"),
             sticky=True,
