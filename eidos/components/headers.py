@@ -9,8 +9,15 @@ def get_css_urls():
         "/eidos/css/themes/light.css",
         "/eidos/css/themes/dark.css"
     ]
-def EidosHeaders(include_tailwind=True, theme="light"):
-    """Standard EidosUI headers with CSS includes."""
+
+def EidosHeaders(include_tailwind=True, include_lucide=False, theme="light"):
+    """Standard EidosUI headers with CSS includes.
+    
+    Args:
+        include_tailwind: Whether to include Tailwind CSS CDN
+        include_lucide: Whether to include Lucide Icons CDN (Activate with `Script("lucide.createIcons();")` in your page)
+        theme: Theme to use (light or dark)
+    """
     headers = [
         Meta(charset="UTF-8"),
         Meta(name="viewport", content="width=device-width, initial-scale=1.0"),
@@ -18,6 +25,9 @@ def EidosHeaders(include_tailwind=True, theme="light"):
     
     if include_tailwind:
         headers.append(Script(src="https://cdn.tailwindcss.com"))
+
+    if include_lucide:
+        headers.append(Script(src="https://unpkg.com/lucide@latest"))
     
     # Add EidosUI CSS files
     for css_url in get_css_urls():
