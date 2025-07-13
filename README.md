@@ -7,7 +7,7 @@ A modern, flexible Tailwind CSS-based UI library for Python web frameworks. Buil
 
 
 ## Design
-
+ 
 ### Base CSS
 
 - `styles.css` : defines all the core css logic to create classes like `edios-mark`, `eidos-small`, etc.
