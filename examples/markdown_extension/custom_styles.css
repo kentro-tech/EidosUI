@@ -1,0 +1,25 @@
+/* Custom styles for markdown extensions */
+
+/* Mention styling */
+.mention {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.mention-link {
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.mention-link:hover {
+    opacity: 0.8;
+}
+
+/* Emoji styling */
+.emoji {
+    font-size: 1.2em;
+    margin: 0 2px;
+}
