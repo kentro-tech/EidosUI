@@ -74,14 +74,12 @@ class AlertBlockProcessor(BlockProcessor):
         title_span.set('class', 'eidos-alert-title')
         title_span.text = alert_config['title']
         
-        # Process the content
         content_div = SubElement(alert_div, 'div')
         content_div.set('class', 'eidos-alert-content')
         
         # Remove the alert marker and process the remaining content
         content = self.RE_ALERT.sub('', block)
         
-        # Handle multi-line content
         lines = content.split('\n')
         processed_lines = []
         
@@ -91,20 +89,16 @@ class AlertBlockProcessor(BlockProcessor):
                 line = line[1:].lstrip()
             processed_lines.append(line)
         
-        # Join the content and parse it
         content_text = '\n'.join(processed_lines).strip()
         
         # Parse the content as markdown
         if content_text:
-            # Create a temporary element to hold parsed content
             temp_element = etree.Element('div')
             self.parser.parseBlocks(temp_element, [content_text])
             
-            # Move all children to our content div
             for child in temp_element:
                 content_div.append(child)
             
-            # If no children were added, add the text directly
             if len(content_div) == 0:
                 p = SubElement(content_div, 'p')
                 p.text = content_text
@@ -112,7 +106,6 @@ class AlertBlockProcessor(BlockProcessor):
         # Continue processing subsequent blocks that might be part of the alert
         while blocks and blocks[0].startswith('>'):
             continuation = blocks.pop(0)
-            # Remove leading '>' and process
             continuation_text = continuation[1:].lstrip() if continuation.startswith('>') else continuation
             
             if continuation_text:
