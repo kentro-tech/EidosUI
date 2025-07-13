@@ -97,62 +97,29 @@ def layout(title, *content, sidebar=None):
             Script("""
                 // Theme management with persistence and system preference support
                 const THEME_KEY = 'eidos-theme-preference';
-                
-                function getSystemTheme() {
+                function getTheme() {
+                    const t = localStorage.getItem(THEME_KEY);
+                    if (t === 'light' || t === 'dark') return t;
                     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                 }
-                
-                function getTheme() {
-                    // First check localStorage
-                    const stored = localStorage.getItem(THEME_KEY);
-                    if (stored === 'light' || stored === 'dark') {
-                        return stored;
-                    }
-                    // Fall back to system preference
-                    return getSystemTheme();
-                }
-                
                 function setTheme(theme) {
                     document.documentElement.setAttribute('data-theme', theme);
                     localStorage.setItem(THEME_KEY, theme);
-                    updateToggleButton(theme);
+                    const btn = document.getElementById('theme-toggle');
+                    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
                 }
-                
-                function updateToggleButton(theme) {
-                    const toggle = document.getElementById('theme-toggle');
-                    if (toggle) {
-                        toggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-                    }
-                }
-                
-                // Initialize theme on page load
-                const initialTheme = getTheme();
-                setTheme(initialTheme);
-                
-                // Handle theme toggle
-                const toggle = document.getElementById('theme-toggle');
-                if (toggle) {
-                    toggle.addEventListener('click', () => {
-                        const currentTheme = document.documentElement.getAttribute('data-theme');
-                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                        setTheme(newTheme);
-                    });
-                }
-                
-                // Listen for system theme changes
-                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                    // Only update if user hasn't set a preference
-                    if (!localStorage.getItem(THEME_KEY)) {
-                        setTheme(e.matches ? 'dark' : 'light');
-                    }
+                setTheme(getTheme());
+                const btn = document.getElementById('theme-toggle');
+                if (btn) btn.onclick = () => {
+                    const t = document.documentElement.getAttribute('data-theme');
+                    setTheme(t === 'dark' ? 'light' : 'dark');
+                };
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    if (!localStorage.getItem(THEME_KEY)) setTheme(e.matches ? 'dark' : 'light');
                 });
-                
-                // Mark active sidebar link
-                const currentPath = window.location.pathname;
+                const path = window.location.pathname;
                 document.querySelectorAll('.sidebar-nav a').forEach(link => {
-                    if (link.getAttribute('href') === currentPath) {
-                        link.classList.add('active');
-                    }
+                    if (link.getAttribute('href') === path) link.classList.add('active');
                 });
             """)
         )
