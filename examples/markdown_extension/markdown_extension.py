@@ -99,10 +99,6 @@ class EmojiExtension(Extension):
 
 app = air.Air()
 
-# Mount static files for CSS and JS
-for mount_path, directory in get_eidos_static_files(markdown=True).items():
-    app.mount(mount_path, StaticFiles(directory=directory), name=mount_path.strip('/'))
-
 # Define a function to create a renderer with our custom extensions
 def create_renderer():
     return MarkdownRenderer(

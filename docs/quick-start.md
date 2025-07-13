@@ -24,26 +24,29 @@ def home():
             *EidosHeaders()
         ),
         Body(
-            H1("Welcome"),
-            P("Hello from EidosUI!"),
+            H1("Welcome to EidosUI"),
+            P(
+                Code("EidosUI"), " provides ", Strong("beautiful"), " styled components that work ", I("out of the box.")
+            ),
+            Button("A Button"),
             DataTable.from_lists(
                 [["Alice", "30"], ["Bob", "25"]], 
                 headers=["Name", "Age"]
-            )
+            ),
+            class_='space-y-5'
         )
     )
-
-app.run()
 ```
 
 Run:
 ```bash
 fastapi dev app.py
 ```
-
 ## Core Concepts
 
 ### Styled Tags
+
+These are Styled versions of Tags that are available in the base `air` library.
 
 ```python
 H1("Title")
@@ -53,6 +56,8 @@ Code("print('hello')")
 ```
 
 ### Components
+
+Components built on top of styled tags to create new components, which are generally more complex than Tags.  Ultimately, they still return an `AirTag` they're just a more complicated.
 
 ```python
 # Tables
