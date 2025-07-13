@@ -183,12 +183,14 @@ def layout(title, *content, sidebar=None):
                 ),
                 lcontents=Div(
                     (
+                            
                         Button(
-                            "☰",
+                            I(data_lucide="menu", data_menu_icon="open"),
                             class_="mobile-menu-btn p-2 rounded text-xl mr-2",
                             id="mobile-menu-btn",
                             style="background: none; border: none; cursor: pointer; color: var(--color-text);"
-                        ) if sidebar else ""
+                        ) 
+                         if sidebar else ""
                     ),
                     H3("EidosUI", class_="text-xl font-bold"),
                     class_="flex items-center"
