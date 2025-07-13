@@ -1,6 +1,6 @@
 """Render API documentation using EidosUI components"""
 
-from air.tags import A, Code, Div, H1, H3, Li, P, Span, Ul, Strong, Em
+from air.tags import A, Code, Div, H1, H3, Li, P, Span, Ul, Strong
 from typing import Dict, Any, List
 import re
 
@@ -129,15 +129,11 @@ def render_item(item: Dict[str, Any], module_name: str) -> Any:
                     Code(param['name'], style="color: var(--color-accent);"),
                 ]
                 if param.get('annotation'):
-                    parts.extend([
-                        Span(": ", style="color: var(--color-text);"),
-                        Span(param['annotation'], style="color: var(--color-text-muted); font-style: italic;")
-                    ])
+                    parts.append(Span(": ", style="color: var(--color-text);"))
+                    parts.append(Span(param['annotation'], style="color: var(--color-text-muted); font-style: italic;"))
                 if param.get('default'):
-                    parts.extend([
-                        Span(" = ", style="color: var(--color-text);"),
-                        Span(param['default'], style="color: var(--color-success);")
-                    ])
+                    parts.append(Span(" = ", style="color: var(--color-text);"))
+                    parts.append(Span(param['default'], style="color: var(--color-success);"))
                 param_list.append(Li(*parts, style="margin: 0.25rem 0;"))
             
             if param_list:

@@ -24,13 +24,49 @@ app.mount("/eidos", StaticFiles(directory=get_eidos_static_directory()), name="e
 DOCS_DIR = Path(__file__).parent
 
 
-def layout(title, *content):
+def layout(title, *content, sidebar=None):
     """Shared layout for all documentation pages"""
     return Html(
         Head(
             *EidosHeaders(),
             MarkdownCSS(),
             Title(f"{title} - EidosUI Docs"),
+            Style("""
+                .sidebar-nav {
+                    position: sticky;
+                    top: 5rem;
+                    height: calc(100vh - 6rem);
+                    overflow-y: auto;
+                    min-width: 200px;
+                    padding-right: 2rem;
+                }
+                .sidebar-nav a {
+                    display: block;
+                    padding: 0.5rem 1rem;
+                    border-radius: 0.375rem;
+                    transition: all 150ms;
+                    color: var(--color-text-muted);
+                    text-decoration: none;
+                    font-size: 0.875rem;
+                }
+                .sidebar-nav a:hover {
+                    background: var(--color-surface);
+                    color: var(--color-text);
+                }
+                .sidebar-nav a.active {
+                    background: var(--color-primary-light);
+                    color: var(--color-primary);
+                    font-weight: 500;
+                }
+                .sidebar-nav h4 {
+                    font-weight: 600;
+                    margin: 1rem 0 0.5rem 0;
+                    color: var(--color-text);
+                    font-size: 0.75rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+            """)
         ),
         Body(
             NavBar(
@@ -41,13 +77,16 @@ def layout(title, *content):
                 A("Reference", href="/api"),
                 A("Plugins", href="/plugins"),
                 Button(
-                    "🌙",
+                    "☀️",  # Default to sun icon
                     class_="theme-toggle p-2 rounded-full",
+                    id="theme-toggle"
                 ),
                 lcontents=H3("EidosUI", class_="text-xl font-bold"),
                 sticky=True
             ),
             Div(
+                # Sidebar if provided
+                sidebar if sidebar else "",
                 # Main content
                 Main(
                     *content,
@@ -56,30 +95,85 @@ def layout(title, *content):
                 class_="container mx-auto px-6 py-8 flex gap-8"
             ),
             Script("""
-                const toggles = document.querySelectorAll('.theme-toggle');
-                toggles.forEach(toggle => {
+                // Theme management with persistence and system preference support
+                const THEME_KEY = 'eidos-theme-preference';
+                
+                function getSystemTheme() {
+                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                
+                function getTheme() {
+                    // First check localStorage
+                    const stored = localStorage.getItem(THEME_KEY);
+                    if (stored === 'light' || stored === 'dark') {
+                        return stored;
+                    }
+                    // Fall back to system preference
+                    return getSystemTheme();
+                }
+                
+                function setTheme(theme) {
+                    document.documentElement.setAttribute('data-theme', theme);
+                    localStorage.setItem(THEME_KEY, theme);
+                    updateToggleButton(theme);
+                }
+                
+                function updateToggleButton(theme) {
+                    const toggle = document.getElementById('theme-toggle');
+                    if (toggle) {
+                        toggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+                    }
+                }
+                
+                // Initialize theme on page load
+                const initialTheme = getTheme();
+                setTheme(initialTheme);
+                
+                // Handle theme toggle
+                const toggle = document.getElementById('theme-toggle');
+                if (toggle) {
                     toggle.addEventListener('click', () => {
-                        const html = document.documentElement;
-                        const currentTheme = html.getAttribute('data-theme');
+                        const currentTheme = document.documentElement.getAttribute('data-theme');
                         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                        html.setAttribute('data-theme', newTheme);
-                        toggles.forEach(btn => {
-                            btn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-                        });
+                        setTheme(newTheme);
                     });
+                }
+                
+                // Listen for system theme changes
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                    // Only update if user hasn't set a preference
+                    if (!localStorage.getItem(THEME_KEY)) {
+                        setTheme(e.matches ? 'dark' : 'light');
+                    }
+                });
+                
+                // Mark active sidebar link
+                const currentPath = window.location.pathname;
+                document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    }
                 });
             """)
         )
     )
 
 
-def create_sidebar(items: dict[str, str]):
-    """Create a nested sidebar with the given items and subitems"""
-    return Sidebar(
-        *[A(item, href=items[item]) for item in items],
-        class_="sidebar-nav",
-        sticky=True
-    )
+def create_api_sidebar(modules, current_module=None):
+    """Create a sidebar for API navigation"""
+    items = [H4("API Modules")]
+    
+    for module in sorted(modules):
+        is_active = module == current_module
+        items.append(
+            A(
+                module, 
+                href=f"/api/{module}",
+                class_="active" if is_active else ""
+            )
+        )
+    
+    return Div(*items, class_="sidebar-nav")
 
 
 def load_markdown(filename):
@@ -144,7 +238,8 @@ def api_index():
     modules = get_available_modules()
     return layout(
         "API Reference",
-        render_api_index(modules)
+        render_api_index(modules),
+        sidebar=create_api_sidebar(modules)
     )
 
 
@@ -153,11 +248,13 @@ def api_module(module_path: str):
     """API Reference for a specific module"""
     # Convert URL path to module path (e.g., "eidos/tags" -> "eidos.tags")
     module_name = module_path.replace('/', '.')
+    modules = get_available_modules()
     
     api_data = extract_module_api(module_name)
     return layout(
         f"API: {module_name}",
-        render_api_page(api_data)
+        render_api_page(api_data),
+        sidebar=create_api_sidebar(modules, module_name)
     )
 
 @app.get("/plugins")
