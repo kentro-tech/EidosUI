@@ -4,6 +4,7 @@ import air
 from air.tags import *
 from eidos.tags import *
 import eidos.styles as styles
+from eidos.components import Table
 
 def Divider():
     return air.Hr(class_="border-4")
@@ -109,6 +110,30 @@ def components_page():
             Figure(
                 Div("🎨", class_="text-6xl"),
                 Figcaption("The EidosUI logo represents beauty and flexibility"),
+            ),
+        ),
+        ComponentSection(
+            "Tables",
+            "tables",
+            H3("Table from Lists"),
+            Table.from_lists(
+                [
+                    ["Alice", "28", "Engineer"],
+                    ["Bob", "32", "Designer"],
+                    ["Charlie", "25", "Product Manager"],
+                    ["Diana", "30", "Data Scientist"]
+                ],
+                headers=["Name", "Age", "Role"]
+            ),
+            H3("Table from Dictionaries", class_="mt-8"),
+            Table.from_dicts(
+                [
+                    {"Product": "EidosUI", "Version": "1.0.0", "Status": "Released", "Downloads": "1,234"},
+                    {"Product": "Air Framework", "Version": "2.3.1", "Status": "Beta", "Downloads": "567"},
+                    {"Product": "Theme Builder", "Version": "0.9.5", "Status": "Alpha", "Downloads": "89"},
+                    {"Product": "Component CLI", "Version": "1.2.0", "Status": "Released", "Downloads": "2,456"}
+                ],
+                headers=["Product", "Version", "Status", "Downloads"]
             ),
         ),
         ComponentSection(

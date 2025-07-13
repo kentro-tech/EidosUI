@@ -11,6 +11,8 @@ __all__ = [
     'Strong', 'I', 'Small', 'Del', 'Abbr', 'Var', 'Mark', 'Time',
     'Code', 'Pre', 'Kbd', 'Samp', 'Blockquote', 'Cite', 'Address',
     'Hr', 'Details', 'Summary', 'Dl', 'Dt', 'Dd', 'Figure', 'Figcaption',
+    # Table components with styling
+    'Table', 'Thead', 'Tbody', 'Tfoot', 'Tr', 'Th', 'Td',
     # Pass-through HTML tags from air.tags
     'A', 'Area', 'Article', 'Aside', 'Audio', 'B', 'Base', 'Bdi', 'Bdo', 'Br',
     'Canvas', 'Caption', 'Col', 'Colgroup', 'Data', 'Datalist', 'Dfn', 'Dialog', 'Div',
@@ -19,7 +21,7 @@ __all__ = [
     'Main', 'Map', 'Menu', 'Meta', 'Meter', 'Nav', 'Noscript', 'Object', 'Ol', 'Optgroup', 'Option', 'Output',
     'P', 'Param', 'Picture', 'Progress', 'Q', 'Rp', 'Rt', 'Ruby',
     'S', 'Script', 'Search', 'Section', 'Select', 'Source', 'Span', 'Style', 'Sub', 'Sup',
-    'Table', 'Tbody', 'Td', 'Template', 'Textarea', 'Tfoot', 'Th', 'Thead', 'Title', 'Tr', 'Track',
+    'Template', 'Textarea', 'Title', 'Track',
     'U', 'Ul', 'Video', 'Wbr'
 ]
 
@@ -178,6 +180,36 @@ def Figure(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwar
 def Figcaption(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
     return air.Figcaption(*content, class_=stringify(styles.semantic.figcaption, class_), **kwargs)
 
+# Table elements with styling
+
+def Table(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """Styled table element."""
+    return air.Table(*content, class_=stringify(styles.tables.table, class_), **kwargs)
+
+def Thead(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """Styled table head element."""
+    return air.Thead(*content, class_=stringify(styles.tables.thead, class_), **kwargs)
+
+def Tbody(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """Styled table body element."""
+    return air.Tbody(*content, class_=stringify(styles.tables.tbody, class_), **kwargs)
+
+def Tfoot(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """Styled table footer element."""
+    return air.Tfoot(*content, class_=stringify(styles.tables.tfoot, class_), **kwargs)
+
+def Tr(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """Styled table row element."""
+    return air.Tr(*content, class_=stringify(styles.tables.tr, class_), **kwargs)
+
+def Th(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """Styled table header cell element."""
+    return air.Th(*content, class_=stringify(styles.tables.th, class_), **kwargs)
+
+def Td(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """Styled table data cell element."""
+    return air.Td(*content, class_=stringify(styles.tables.td, class_), **kwargs)
+
 
 # Pass-through tags from air.tags
 # Import all standard HTML tags that don't have custom styling
@@ -189,6 +221,6 @@ from air.tags import (
     Main, Map, Menu, Meta, Meter, Nav, Noscript, Object, Ol, Optgroup, Option, Output,
     P, Param, Picture, Progress, Q, Rp, Rt, Ruby,
     S, Script, Search, Section, Select, Source, Span, Style, Sub, Sup,
-    Table, Tbody, Td, Template, Textarea, Tfoot, Th, Thead, Title, Tr, Track,
+    Template, Textarea, Title, Track,
     U, Ul, Video, Wbr
 )

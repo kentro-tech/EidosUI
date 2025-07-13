@@ -74,7 +74,24 @@ class Semantic:
     figure: Final[str] = "eidos-figure"
     figcaption: Final[str] = "eidos-figcaption"
 
+class Tables:
+    """Table-related CSS classes from styles.css."""
+    
+    # Base table class
+    table: Final[str] = "eidos-table"
+    
+    # Table sections
+    thead: Final[str] = "eidos-thead"
+    tbody: Final[str] = "eidos-tbody"
+    tfoot: Final[str] = "eidos-tfoot"
+    
+    # Table elements
+    tr: Final[str] = "eidos-tr"
+    th: Final[str] = "eidos-th"
+    td: Final[str] = "eidos-td"
+
 # Create singleton instance for easy access
 buttons = Buttons()
 typography = Typography()
 semantic = Semantic()
+tables = Tables()
