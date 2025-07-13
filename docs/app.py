@@ -37,17 +37,18 @@ def layout(title, *content, sidebar=None):
                     top: 5rem;
                     height: calc(100vh - 6rem);
                     overflow-y: auto;
-                    min-width: 200px;
+                    min-width: 250px;
                     padding-right: 2rem;
                 }
                 .sidebar-nav a {
                     display: block;
-                    padding: 0.5rem 1rem;
+                    padding: 0.375rem 1rem;
                     border-radius: 0.375rem;
                     transition: all 150ms;
                     color: var(--color-text-muted);
                     text-decoration: none;
                     font-size: 0.875rem;
+                    margin: 0.125rem 0;
                 }
                 .sidebar-nav a:hover {
                     background: var(--color-surface);
@@ -60,11 +61,17 @@ def layout(title, *content, sidebar=None):
                 }
                 .sidebar-nav h4 {
                     font-weight: 600;
-                    margin: 1rem 0 0.5rem 0;
+                    margin: 0 0 1rem 0;
                     color: var(--color-text);
-                    font-size: 0.75rem;
+                    font-size: 0.875rem;
                     text-transform: uppercase;
                     letter-spacing: 0.05em;
+                }
+                .sidebar-nav > div {
+                    margin-bottom: 0.5rem;
+                }
+                .sidebar-nav span {
+                    text-transform: capitalize;
                 }
             """)
         ),
@@ -127,20 +134,60 @@ def layout(title, *content, sidebar=None):
 
 
 def create_api_sidebar(modules, current_module=None):
-    """Create a sidebar for API navigation"""
-    items = [H4("API Modules")]
+    """Create a sidebar for API navigation with directory structure"""
+    # Build a tree structure from the modules
+    tree = {}
+    for module in modules:
+        # Remove 'eidos.' prefix for cleaner display
+        clean_name = module.replace('eidos.', '')
+        parts = clean_name.split('.')
+        
+        # Build nested structure
+        current = tree
+        for i, part in enumerate(parts):
+            if i == len(parts) - 1:
+                # Leaf node - store the full module name
+                current[part] = module
+            else:
+                # Directory node
+                if part not in current:
+                    current[part] = {}
+                current = current[part]
     
-    for module in sorted(modules):
-        is_active = module == current_module
-        items.append(
-            A(
-                module, 
-                href=f"/api/{module}",
-                class_="active" if is_active else ""
-            )
-        )
+    def render_tree(node, prefix=""):
+        items = []
+        
+        # Sort items: directories first, then files
+        sorted_items = sorted(node.items(), key=lambda x: (isinstance(x[1], str), x[0]))
+        
+        for name, value in sorted_items:
+            if isinstance(value, str):
+                # It's a module (leaf node)
+                is_active = value == current_module
+                items.append(
+                    A(
+                        name,
+                        href=f"/api/{value}",
+                        class_="active" if is_active else "",
+                        style=f"padding-left: {len(prefix) * 1.5 + 1}rem;"
+                    )
+                )
+            else:
+                # It's a directory (branch node)
+                items.append(
+                    Div(
+                        Span(name, style=f"font-weight: 600; display: block; padding: 0.5rem 0 0.25rem {len(prefix) * 1.5}rem; color: var(--color-text); font-size: 0.875rem;"),
+                        *render_tree(value, prefix + "  ")
+                    )
+                )
+        
+        return items
     
-    return Div(*items, class_="sidebar-nav")
+    return Div(
+        H4("API Reference"),
+        *render_tree(tree),
+        class_="sidebar-nav"
+    )
 
 
 def load_markdown(filename):
