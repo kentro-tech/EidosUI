@@ -39,7 +39,6 @@ def layout(title, *content):
                 A("Kitchen Sink", href="/kitchen-sink"),
                 A("Concepts", href="/concepts"),
                 A("Reference", href="/api"),
-                A("About", href="/about"),
                 Button(
                     "🌙",
                     class_="theme-toggle p-2 rounded-full",
