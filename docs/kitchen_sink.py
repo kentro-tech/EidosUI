@@ -19,6 +19,8 @@ def ComponentSection(title: str, id_=None, *content):
 def components_page():
     """Returns the complete components showcase"""
     return Div(
+        H1("EidosUI Kitchen Sink"),
+        P("This is a kitchen sink of all the components in EidosUI.  It's a good way to see what's available and how they look."),
         ComponentSection(
             "Headings",
             "headings",
