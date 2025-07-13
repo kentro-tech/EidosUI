@@ -5,10 +5,10 @@ EidosUI themes through CSS variables.
 
 Basic usage:
     from eidos.plugins.markdown import Markdown, MarkdownCSS
-    
+
     # In your document head
     MarkdownCSS()
-    
+
     # In your content
     Markdown("# Hello World\\n\\nThis is **markdown**!")
 """

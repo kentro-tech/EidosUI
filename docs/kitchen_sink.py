@@ -2,15 +2,21 @@
 
 import air
 from air.tags import *
-from eidos.tags import *
+
 import eidos.styles as styles
-from eidos.components import Table
+from eidos.components import DataTable
+from eidos.tags import *
+
 
 def Divider():
     return air.Hr(class_="border-4")
 
+
 def ComponentSection(title: str, id_=None, *content):
-    return Div(Section(H2(title), *content, id=id_, class_="space-y-4 py-20"), Divider())
+    return Div(
+        Section(H2(title), *content, id=id_, class_="space-y-4 py-20"), Divider()
+    )
+
 
 def components_page():
     """Returns the complete components showcase"""
@@ -115,36 +121,64 @@ def components_page():
         ComponentSection(
             "Tables",
             "tables",
-            H3("Table from Lists"),
-            Table.from_lists(
+            H3("Table Tags"),
+            Table(
+                Thead(Tr(Th("Name"), Th("Age"), Th("Role"))),
+                Tbody(
+                    Tr(Td("Alice"), Td("28"), Td("Engineer")),
+                    Tr(Td("Bob"), Td("32"), Td("Designer")),
+                ),
+            ),
+            H3("DataTable from Lists"),
+            DataTable.from_lists(
                 [
                     ["Alice", "28", "Engineer"],
                     ["Bob", "32", "Designer"],
                     ["Charlie", "25", "Product Manager"],
-                    ["Diana", "30", "Data Scientist"]
+                    ["Diana", "30", "Data Scientist"],
                 ],
-                headers=["Name", "Age", "Role"]
+                headers=["Name", "Age", "Role"],
             ),
-            H3("Table from Dictionaries", class_="mt-8"),
-            Table.from_dicts(
+            H3("DataTable from Dictionaries", class_="mt-8"),
+            DataTable.from_dicts(
                 [
-                    {"Product": "EidosUI", "Version": "1.0.0", "Status": "Released", "Downloads": "1,234"},
-                    {"Product": "Air Framework", "Version": "2.3.1", "Status": "Beta", "Downloads": "567"},
-                    {"Product": "Theme Builder", "Version": "0.9.5", "Status": "Alpha", "Downloads": "89"},
-                    {"Product": "Component CLI", "Version": "1.2.0", "Status": "Released", "Downloads": "2,456"}
+                    {
+                        "Product": "EidosUI",
+                        "Version": "1.0.0",
+                        "Status": "Released",
+                        "Downloads": "1,234",
+                    },
+                    {
+                        "Product": "Air Framework",
+                        "Version": "2.3.1",
+                        "Status": "Beta",
+                        "Downloads": "567",
+                    },
+                    {
+                        "Product": "Theme Builder",
+                        "Version": "0.9.5",
+                        "Status": "Alpha",
+                        "Downloads": "89",
+                    },
+                    {
+                        "Product": "Component CLI",
+                        "Version": "1.2.0",
+                        "Status": "Released",
+                        "Downloads": "2,456",
+                    },
                 ],
-                headers=["Product", "Version", "Status", "Downloads"]
+                headers=["Product", "Version", "Status", "Downloads"],
             ),
         ),
         ComponentSection(
             "Lucide Icons",
             "lucide-icons",
             Div(
-                I(data_lucide="sun", class_='w-2 h-2'),
-                I(data_lucide="moon", class_='w-3 h-3'),
-                I(data_lucide="menu", class_='w-4 h-4'),
-                I(data_lucide="arrow-right", class_='w-8 h-8'),
-                I(data_lucide="rocket", class_='w-12 h-12'),
+                I(data_lucide="sun", class_="w-2 h-2"),
+                I(data_lucide="moon", class_="w-3 h-3"),
+                I(data_lucide="menu", class_="w-4 h-4"),
+                I(data_lucide="arrow-right", class_="w-8 h-8"),
+                I(data_lucide="rocket", class_="w-12 h-12"),
                 class_="flex space-x-4",
             ),
         ),

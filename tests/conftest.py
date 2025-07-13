@@ -9,7 +9,7 @@ def sample_data_lists():
     return [
         ["Alice", "28", "Engineer"],
         ["Bob", "32", "Designer"],
-        ["Charlie", "25", "Product Manager"]
+        ["Charlie", "25", "Product Manager"],
     ]
 
 
@@ -19,7 +19,7 @@ def sample_data_dicts():
     return [
         {"name": "Alice", "age": 28, "role": "Engineer"},
         {"name": "Bob", "age": 32, "role": "Designer"},
-        {"name": "Charlie", "age": 25, "role": "Product Manager"}
+        {"name": "Charlie", "age": 25, "role": "Product Manager"},
     ]
 
 

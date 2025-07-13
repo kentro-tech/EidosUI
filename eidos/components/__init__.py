@@ -3,8 +3,8 @@
 Higher-level components built on top of the base tags.
 """
 
-from .table import Table
-from .navigation import NavBar
 from .headers import EidosHeaders
+from .navigation import NavBar
+from .table import DataTable
 
-__all__ = ['Table', 'NavBar', 'EidosHeaders']
+__all__ = ["DataTable", "NavBar", "EidosHeaders"]

@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Install just
+        uses: extractions/setup-just@v2
+        with:
+          just-version: latest
+      
       - name: Install uv
         uses: astral-sh/setup-uv@v3
         with:

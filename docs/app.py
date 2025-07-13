@@ -1,24 +1,29 @@
 """EidosUI Documentation - A runnable documentation app built with EidosUI"""
 
+from pathlib import Path
+
 import air
 from air.tags import *
-from eidos.tags import *
-from eidos.components.navigation import NavBar
-import eidos.styles as styles
-from eidos.components.headers import EidosHeaders
-from eidos.utils import get_eidos_static_files
-from eidos.plugins.markdown import Markdown, MarkdownCSS
-from pathlib import Path
-from kitchen_sink import components_page
 from api_extractor import extract_module_api, get_available_modules
-from api_renderer import render_api_page, render_api_index
+from api_renderer import render_api_index, render_api_page
+from kitchen_sink import components_page
+
+from eidos.components.headers import EidosHeaders
+from eidos.components.navigation import NavBar
+from eidos.plugins.markdown import Markdown, MarkdownCSS
+from eidos.tags import *
+from eidos.utils import get_eidos_static_files
 
 app = air.Air()
 
 from fastapi.staticfiles import StaticFiles
 
 for mount_path, directory in get_eidos_static_files(markdown=True).items():
-    app.mount(mount_path, StaticFiles(directory=directory), name=mount_path.strip('/').replace('/', '_'))
+    app.mount(
+        mount_path,
+        StaticFiles(directory=directory),
+        name=mount_path.strip("/").replace("/", "_"),
+    )
 
 # Get the docs directory
 DOCS_DIR = Path(__file__).parent
@@ -135,7 +140,7 @@ def layout(title, *content, sidebar=None):
                     font-size: 0.875rem;
                     text-transform: capitalize;
                 }
-            """)
+            """),
         ),
         Body(
             NavBar(
@@ -145,21 +150,19 @@ def layout(title, *content, sidebar=None):
                 A("Concepts", href="/concepts"),
                 A("Reference", href="/api"),
                 A("Plugins", href="/plugins", class_="hidden sm:block"),
-                Button(
-                    "☀️",
-                    class_="theme-toggle p-2 rounded-full",
-                    id="theme-toggle"
-                ),
+                Button("☀️", class_="theme-toggle p-2 rounded-full", id="theme-toggle"),
                 lcontents=H3("EidosUI", class_="text-xl font-bold"),
-                sticky=True
+                sticky=True,
             ),
             Div(
                 Div(
                     sidebar if sidebar else "",
                     Main(*content, class_="docs-content"),
-                    class_="docs-layout"
-                ) if sidebar else Main(*content),
-                class_="container mx-auto px-4 sm:px-6 py-4 sm:py-8"
+                    class_="docs-layout",
+                )
+                if sidebar
+                else Main(*content),
+                class_="container mx-auto px-4 sm:px-6 py-4 sm:py-8",
             ),
             Script("""
                 // Theme management
@@ -219,8 +222,8 @@ def layout(title, *content, sidebar=None):
                 document.querySelectorAll('.docs-sidebar a').forEach(link => {
                     if (link.getAttribute('href') === path) link.classList.add('active');
                 });
-            """)
-        )
+            """),
+        ),
     )
 
 
@@ -229,9 +232,9 @@ def create_api_sidebar(modules, current_module=None):
     # Build tree structure
     tree = {}
     for module in modules:
-        clean_name = module.replace('eidos.', '')
-        parts = clean_name.split('.')
-        
+        clean_name = module.replace("eidos.", "")
+        parts = clean_name.split(".")
+
         current = tree
         for i, part in enumerate(parts):
             if i == len(parts) - 1:
@@ -240,11 +243,11 @@ def create_api_sidebar(modules, current_module=None):
                 if part not in current:
                     current[part] = {}
                 current = current[part]
-    
+
     def render_tree(node, indent=0):
         items = []
         sorted_items = sorted(node.items(), key=lambda x: (isinstance(x[1], str), x[0]))
-        
+
         for name, value in sorted_items:
             if isinstance(value, str):
                 # Module link
@@ -252,30 +255,28 @@ def create_api_sidebar(modules, current_module=None):
                     A(
                         name,
                         href=f"/api/{value}",
-                        style=f"padding-left: {indent + 0.75}rem;"
+                        style=f"padding-left: {indent + 0.75}rem;",
                     )
                 )
             else:
                 # Section header
-                items.append(
-                    Span(name, style=f"padding-left: {indent}rem;")
-                )
+                items.append(Span(name, style=f"padding-left: {indent}rem;"))
                 items.extend(render_tree(value, indent + 2))
-        
+
         return items
-    
+
     return Div(
         Button(
             Span("API Reference"),
             I(data_lucide="chevron-down", class_="w-4 h-4"),
-            class_="sidebar-toggle md:hidden"
+            class_="sidebar-toggle md:hidden",
         ),
         Div(
             H4("API Reference", class_="hidden md:block"),
             *render_tree(tree),
-            class_="sidebar-content"
+            class_="sidebar-content",
         ),
-        class_="docs-sidebar"
+        class_="docs-sidebar",
     )
 
 
@@ -283,7 +284,7 @@ def load_markdown(filename):
     """Load and render a markdown file"""
     filepath = DOCS_DIR / filename
     if filepath.exists():
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             return Markdown(f.read())
     return P("Documentation file not found.", class_="text-red-500")
 
@@ -291,87 +292,72 @@ def load_markdown(filename):
 @app.get("/")
 def home():
     """Documentation homepage"""
-    return layout(
-        "Introduction",
-        load_markdown("index.md")
-    )
+    return layout("Introduction", load_markdown("index.md"))
+
 
 @app.get("/quick-start")
 def quick_start():
     """Quick Start page"""
-    return layout(
-        "Quick Start",
-        load_markdown("quick-start.md")
-    )
+    return layout("Quick Start", load_markdown("quick-start.md"))
+
 
 @app.get("/kitchen-sink")
 def kitchen_sink():
     """Kitchen Sink showcase"""
-    return layout(
-        "Kitchen Sink of all EidosUI components",
-        components_page()
-    )
+    return layout("Kitchen Sink of all EidosUI components", components_page())
+
 
 @app.get("/about")
 def about():
     """About page"""
-    return layout(
-        "About",
-        load_markdown("about.md")
-    )
+    return layout("About", load_markdown("about.md"))
+
 
 @app.get("/concepts")
 def concepts():
     """Concepts page"""
-    return layout(
-        "Concepts",
-        load_markdown("concepts/index.md")
-    )
+    return layout("Concepts", load_markdown("concepts/index.md"))
+
 
 @app.get("/concepts/{concept_name:path}")
 def concept_detail(concept_name: str):
     """Concept detail page"""
     return layout(
-        f"Concept: {concept_name}",
-        load_markdown(f"concepts/{concept_name}.md")
+        f"Concept: {concept_name}", load_markdown(f"concepts/{concept_name}.md")
     )
+
 
 @app.get("/api")
 def api_index():
     """API Reference index"""
     modules = get_available_modules()
     return layout(
-        "API Reference",
-        render_api_index(modules),
-        sidebar=create_api_sidebar(modules)
+        "API Reference", render_api_index(modules), sidebar=create_api_sidebar(modules)
     )
+
 
 @app.get("/api/{module_path:path}")
 def api_module(module_path: str):
     """API Reference for a specific module"""
     # Convert URL path to module path
-    module_name = module_path.replace('/', '.')
+    module_name = module_path.replace("/", ".")
     modules = get_available_modules()
-    
+
     api_data = extract_module_api(module_name)
     return layout(
         f"API: {module_name}",
         render_api_page(api_data),
-        sidebar=create_api_sidebar(modules, module_name)
+        sidebar=create_api_sidebar(modules, module_name),
     )
+
 
 @app.get("/plugins")
 def plugins():
     """Plugins page"""
-    return layout(
-        "Plugins",
-        load_markdown("plugins/index.md")
-    )
+    return layout("Plugins", load_markdown("plugins/index.md"))
+
 
 @app.get("/plugins/{plugin_name:path}")
 def plugin_detail(plugin_name: str):
     """Plugin detail page"""
-    return layout(
-        f"Plugin: {plugin_name}",
-        load_markdown(f"plugins/{plugin_name}.md")
-    )
+    return layout(f"Plugin: {plugin_name}", load_markdown(f"plugins/{plugin_name}.md"))

@@ -1,7 +1,7 @@
 """Tests for the styles module."""
 
 from eidos import styles
-from eidos.styles import buttons, typography, semantic, tables
+from eidos.styles import buttons, semantic, tables, typography
 
 
 def test_button_styles():
