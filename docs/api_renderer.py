@@ -1,7 +1,6 @@
 """Render API documentation using EidosUI components"""
 
-from air.tags import A, Code, Div, H1, H2, H3, H4, Li, P, Pre, Section, Span, Table, Tbody, Td, Th, Thead, Tr, Ul
-from eidos.tags import *
+from air.tags import A, Code, Div, H1, H3, H4, Li, P, Pre, Span, Ul
 from typing import Dict, Any, List
 import re
 
@@ -96,149 +95,78 @@ def format_signature(name: str, signature: str) -> List[Any]:
     
     return elements
 
-def render_source_link(func_info: Dict[str, Any], module_name: str) -> Any:
-    """Render source code link"""
-    # Only show for local functions
-    if not func_info.get('is_local', True):
-        return None
-    
-    # Construct GitHub-style link (you can customize this)
-    file_path = module_name.replace('.', '/') + '.py'
-    
-    return A(
-        "View source",
-        href=f"#source:{file_path}:{func_info['name']}",
-        style="color: var(--color-primary); font-size: 0.875rem; float: right; text-decoration: none;"
-    )
-
-def render_parameters(params: List[Dict[str, Any]]) -> Any:
-    """Render function parameters"""
-    if not params:
-        return None
-    
-    param_rows = []
-    for param in params:
-        # Build parameter description
-        param_name = Code(
-            param['name'], 
-            style="font-family: monospace; font-size: 0.875rem; background-color: var(--color-surface); padding: 0.125rem 0.25rem; border-radius: 0.25rem;"
-        )
-        
-        type_info = []
-        if param['annotation']:
-            type_info.append(Span(param['annotation'], style="color: var(--color-text-muted); font-style: italic; font-size: 0.875rem;"))
-        
-        default_info = []
-        if param['default'] is not None:
-            default_info.append(Span(f"default: {param['default']}", style="color: var(--color-text-subtle); font-size: 0.875rem;"))
-        
-        param_rows.append(
-            Tr(
-                Td(param_name, style="padding: 0.5rem 1rem; vertical-align: top;"),
-                Td(
-                    Div(*type_info) if type_info else "",
-                    style="padding: 0.5rem 1rem;"
-                ),
-                Td(
-                    Div(*default_info) if default_info else "",
-                    style="padding: 0.5rem 1rem;"
-                ),
-                style="border-bottom: 1px solid var(--color-border);"
-            )
-        )
-    
-    return Div(
-        H4("Parameters", style="font-weight: 600; font-size: 1.125rem; margin-top: 1.5rem; margin-bottom: 0.75rem;"),
-        Table(
-            Thead(
-                Tr(
-                    Th("Name", style="padding: 0.5rem 1rem; text-align: left; font-weight: 500; color: var(--color-text-muted);"),
-                    Th("Type", style="padding: 0.5rem 1rem; text-align: left; font-weight: 500; color: var(--color-text-muted);"),
-                    Th("Default", style="padding: 0.5rem 1rem; text-align: left; font-weight: 500; color: var(--color-text-muted);"),
-                    style="border-bottom: 2px solid var(--color-border);"
-                )
-            ),
-            Tbody(*param_rows),
-            style="width: 100%; border-collapse: collapse;"
-        ),
-        style="margin-bottom: 1.5rem;"
-    )
-
-def render_docstring_section(title: str, content: str) -> Any:
-    """Render a docstring section"""
-    # Parse parameter lists in docstring sections
-    if title in ['Args', 'Arguments', 'Parameters'] and '\n' in content:
-        items = []
-        for line in content.split('\n'):
-            line = line.strip()
-            if line and ':' in line:
-                param, desc = line.split(':', 1)
-                items.append(
-                    Li(
-                        Code(param.strip(), style="font-family: monospace; font-size: 0.875rem; background-color: var(--color-surface); padding: 0.125rem 0.25rem; border-radius: 0.25rem;"),
-                        Span(f": {desc.strip()}", style="margin-left: 0.5rem;")
-                    )
-                )
-            elif line:
-                items.append(Li(line))
-        
-        return Div(
-            H4(title, style="font-weight: 600; font-size: 1.125rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
-            Ul(*items, style="list-style: disc; list-style-position: inside; space-y: 0.25rem;"),
-            style="margin-bottom: 1rem;"
-        )
-    
-    # Format code examples
-    if title in ['Example', 'Examples']:
-        # Try to extract code blocks
-        code_match = re.search(r'```(\w*)\n(.*?)\n```', content, re.DOTALL)
-        if code_match:
-            code = code_match.group(2)
-            return Div(
-                H4(title, style="font-weight: 600; font-size: 1.125rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
-                Pre(Code(code, class_="language-python"), style="background-color: var(--color-surface-elevated); color: var(--color-text); padding: 1rem; border-radius: 0.25rem; overflow-x: auto;"),
-                style="margin-bottom: 1rem;"
-            )
-        else:
-            # Check if the content looks like code
-            if any(keyword in content for keyword in ['>>>', 'def ', 'class ', 'import ', 'from ']):
-                return Div(
-                    H4(title, style="font-weight: 600; font-size: 1.125rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
-                    Pre(Code(content, class_="language-python"), style="background-color: var(--color-surface-elevated); color: var(--color-text); padding: 1rem; border-radius: 0.25rem; overflow-x: auto;"),
-                    style="margin-bottom: 1rem;"
-                )
-    
-    # Default rendering
-    return Div(
-        H4(title, style="font-weight: 600; font-size: 1.125rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
-        P(content, style="color: var(--color-text); line-height: 1.5;"),
-        style="margin-bottom: 1rem;"
-    )
-
-def render_function(func_info: Dict[str, Any], module_name: str = "") -> Any:
-    """Render a function documentation"""
+def render_item(item: Dict[str, Any], item_type: str, module_name: str) -> Any:
+    """Render a single API item (function, class, or constant)"""
     elements = []
     
-    # Function header with source link
-    header_elements = [
-        H3(
-            *format_signature(func_info['name'], func_info['signature']),
-            id=f"func-{func_info['name']}",
+    # Constants
+    if item_type == 'constant':
+        return Div(
+            Code(item['name'], style="font-family: monospace; color: var(--color-primary); font-weight: 600;"),
+            Span(" = ", style="color: var(--color-text);"),
+            Code(item['value'], style="font-family: monospace; color: var(--color-success);"),
+            Span(f"  # {item['type']}", style="color: var(--color-text-subtle); font-style: italic; font-size: 0.875rem; margin-left: 0.5rem;"),
+            style="margin-bottom: 1.5rem;"
+        )
+    
+    # Functions and Classes
+    if item_type == 'function':
+        # Function header with GitHub link
+        header = H3(
+            *format_signature(item['name'], item['signature']),
+            id=f"func-{item['name']}",
             style="font-size: 1.25rem; font-family: monospace; margin-bottom: 0.5rem;"
         )
-    ]
+        
+        if item.get('is_local', True):
+            # GitHub link
+            file_path = module_name.replace('.', '/') + '.py'
+            github_link = A(
+                "View on GitHub",
+                href=f"https://github.com/kentro-tech/eidosui/blob/main/{file_path}",
+                target="_blank",
+                style="color: var(--color-primary); font-size: 0.875rem; float: right; text-decoration: none;"
+            )
+            elements.append(Div(header, github_link, style="overflow: hidden; margin-bottom: 1rem;"))
+        else:
+            elements.append(header)
+        
+        border_color = "var(--color-primary)"
     
-    source_link = render_source_link(func_info, module_name)
-    if source_link:
-        header_elements.append(source_link)
+    elif item_type == 'class':
+        # Class header
+        class_title = [
+            Span("class ", style="color: var(--color-text-muted);"),
+            Span(item['name'], style="color: var(--color-primary); font-weight: 600;")
+        ]
+        
+        if item.get('bases'):
+            class_title.extend([
+                Span("(", style="color: var(--color-text);"),
+                Span(', '.join(item['bases']), style="color: var(--color-text-muted); font-style: italic;"),
+                Span(")", style="color: var(--color-text);")
+            ])
+        
+        header = H3(*class_title, id=f"class-{item['name']}", style="font-size: 1.25rem; font-family: monospace; margin-bottom: 0.5rem;")
+        
+        if item.get('is_local', True):
+            # GitHub link
+            file_path = module_name.replace('.', '/') + '.py'
+            github_link = A(
+                "View on GitHub",
+                href=f"https://github.com/kentro-tech/eidosui/blob/main/{file_path}",
+                target="_blank",
+                style="color: var(--color-primary); font-size: 0.875rem; float: right; text-decoration: none;"
+            )
+            elements.append(Div(header, github_link, style="overflow: hidden; margin-bottom: 1rem;"))
+        else:
+            elements.append(header)
+        
+        border_color = "var(--color-accent)"
     
-    elements.append(
-        Div(*header_elements, style="margin-bottom: 1rem; overflow: hidden;")
-    )
-    
-    # Parse and render docstring
-    if func_info['doc']:
-        parsed_doc = parse_docstring(func_info['doc'])
+    # Docstring
+    if item.get('doc'):
+        parsed_doc = parse_docstring(item['doc'])
         
         # Main description
         if parsed_doc['description']:
@@ -246,108 +174,94 @@ def render_function(func_info: Dict[str, Any], module_name: str = "") -> Any:
                 P(parsed_doc['description'], style="color: var(--color-text); line-height: 1.5; margin-bottom: 1rem;")
             )
         
-        # Render docstring sections
+        # Docstring sections
         for section_title, section_content in parsed_doc['sections'].items():
-            if section_title not in ['Args', 'Arguments', 'Parameters']:  # We handle params separately
-                elements.append(render_docstring_section(section_title, section_content))
+            # Format code examples
+            if section_title in ['Example', 'Examples']:
+                elements.append(
+                    Div(
+                        H4(section_title, style="font-weight: 600; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
+                        Pre(Code(section_content, class_="language-python"), 
+                            style="background-color: var(--color-surface-elevated); color: var(--color-text); padding: 1rem; border-radius: 0.25rem; overflow-x: auto;"),
+                        style="margin-bottom: 1rem;"
+                    )
+                )
+            else:
+                elements.append(
+                    Div(
+                        H4(section_title, style="font-weight: 600; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
+                        P(section_content, style="color: var(--color-text); line-height: 1.5;"),
+                        style="margin-bottom: 1rem;"
+                    )
+                )
     
-    # Parameters (from signature, not docstring)
-    if func_info['params']:
-        elements.append(render_parameters(func_info['params']))
+    # Parameters (for functions)
+    if item_type == 'function' and item.get('params'):
+        param_items = []
+        for param in item['params']:
+            param_elements = [Code(param['name'], style="font-family: monospace; background-color: var(--color-surface); padding: 0.125rem 0.25rem; border-radius: 0.25rem;")]
+            
+            if param['annotation']:
+                param_elements.append(Span(f": {param['annotation']}", style="color: var(--color-text-muted); font-style: italic; font-size: 0.875rem; margin-left: 0.25rem;"))
+            
+            if param['default'] is not None:
+                param_elements.append(Span(f" = {param['default']}", style="color: var(--color-text-subtle); font-size: 0.875rem;"))
+            
+            param_items.append(Li(*param_elements))
+        
+        if param_items:
+            elements.append(
+                Div(
+                    H4("Parameters", style="font-weight: 600; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
+                    Ul(*param_items, style="list-style: none; padding-left: 1rem;"),
+                    style="margin-bottom: 1rem;"
+                )
+            )
     
-    # Return type
-    if func_info.get('return_annotation'):
+    # Return type (for functions)
+    if item_type == 'function' and item.get('return_annotation'):
         elements.append(
             Div(
-                H4("Returns", style="font-weight: 600; font-size: 1.125rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
+                H4("Returns", style="font-weight: 600; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;"),
                 P(
-                    Code(func_info['return_annotation'], style="font-family: monospace; font-size: 0.875rem; background-color: var(--color-surface); padding: 0.25rem 0.5rem; border-radius: 0.25rem;"),
+                    Code(item['return_annotation'], style="font-family: monospace; font-size: 0.875rem; background-color: var(--color-surface); padding: 0.25rem 0.5rem; border-radius: 0.25rem;"),
                     style="color: var(--color-text);"
                 ),
                 style="margin-bottom: 1rem;"
             )
         )
     
-    return Div(
-        *elements,
-        style="border-left: 4px solid var(--color-primary); padding-left: 1.5rem; margin-bottom: 2rem;"
-    )
-
-def render_class(class_info: Dict[str, Any], module_name: str = "") -> Any:
-    """Render a class documentation"""
-    elements = []
-    
-    # Class header
-    class_title = [
-        Span("class ", style="color: var(--color-text-muted);"),
-        Span(class_info['name'], style="color: var(--color-primary); font-weight: 600;")
-    ]
-    
-    if class_info.get('bases'):
-        class_title.extend([
-            Span("(", style="color: var(--color-text);"),
-            Span(', '.join(class_info['bases']), style="color: var(--color-text-muted); font-style: italic;"),
-            Span(")", style="color: var(--color-text);")
-        ])
-    
-    elements.append(
-        H3(*class_title, id=f"class-{class_info['name']}", style="font-size: 1.25rem; font-family: monospace; margin-bottom: 0.5rem;")
-    )
-    
-    # Class docstring
-    if class_info['doc']:
-        parsed_doc = parse_docstring(class_info['doc'])
-        if parsed_doc['description']:
-            elements.append(
-                P(parsed_doc['description'], style="color: var(--color-text); line-height: 1.5; margin-bottom: 1rem;")
-            )
-        
-        for section_title, section_content in parsed_doc['sections'].items():
-            elements.append(render_docstring_section(section_title, section_content))
-    
-    # Methods
-    if class_info['methods']:
+    # Methods (for classes)
+    if item_type == 'class' and item.get('methods'):
         elements.append(H4("Methods", style="font-weight: 600; font-size: 1.125rem; margin-top: 1.5rem; margin-bottom: 1rem;"))
         
-        method_elements = []
-        for method in class_info['methods']:
-            method_name = method['name']
-            decorators = []
-            
-            if method.get('is_classmethod'):
-                decorators.append(Span("@classmethod", style="color: var(--color-success); font-size: 0.875rem; display: block;"))
+        for method in item['methods']:
+            method_elements = []
             
             # Method signature
-            method_header = Div(
-                *decorators,
-                Div(
-                    *format_signature(method_name, method['signature']),
-                    style="font-family: monospace;"
-                ),
-                style="margin-bottom: 0.5rem;"
-            )
+            if method.get('is_classmethod'):
+                method_elements.append(Span("@classmethod", style="color: var(--color-success); font-size: 0.875rem; display: block;"))
             
-            method_content = [method_header]
+            method_elements.append(
+                Div(
+                    *format_signature(method['name'], method['signature']),
+                    style="font-family: monospace; margin-bottom: 0.5rem;"
+                )
+            )
             
             # Method docstring
             if method['doc']:
-                parsed_doc = parse_docstring(method['doc'])
-                if parsed_doc['description']:
-                    method_content.append(
-                        Div(
-                            P(parsed_doc['description'], style="color: var(--color-text-muted); font-size: 0.875rem; margin-bottom: 0.5rem; margin-left: 1rem;")
-                        )
-                    )
+                method_elements.append(
+                    P(method['doc'].split('\n')[0], style="color: var(--color-text-muted); font-size: 0.875rem; margin-left: 1rem;")
+                )
             
-            method_elements.append(
-                Div(*method_content, style="margin-bottom: 1.5rem; background-color: var(--color-surface); padding: 1rem; border-radius: 0.25rem;")
+            elements.append(
+                Div(*method_elements, style="margin-bottom: 1rem; background-color: var(--color-surface); padding: 1rem; border-radius: 0.25rem;")
             )
-        
-        elements.extend(method_elements)
     
     return Div(
         *elements,
-        style="border-left: 4px solid var(--color-accent); padding-left: 1.5rem; margin-bottom: 2rem;"
+        style=f"border-left: 4px solid {border_color}; padding-left: 1.5rem; margin-bottom: 2rem;"
     )
 
 def render_api_page(api_data: Dict[str, Any]) -> Any:
@@ -373,127 +287,42 @@ def render_api_page(api_data: Dict[str, Any]) -> Any:
         elements.append(
             Div(
                 P(api_data['doc'], style="font-size: 1.125rem; line-height: 1.5;"),
-                style="margin-bottom: 2rem; padding: 1.5rem; background-color: var(--color-primary-light); border-radius: 0.5rem; border: 1px solid var(--color-border);"
+                style="margin-bottom: 2rem; padding: 1.5rem; background-color: var(--color-surface); border-radius: 0.5rem; border: 1px solid var(--color-border);"
             )
         )
     
-    # Table of contents
-    toc_items = []
-    if api_data['constants']:
-        toc_items.append(
-            Li(
-                A("Constants", href="#constants", style="color: var(--color-primary); text-decoration: none;"),
-                Span(f" ({len(api_data['constants'])})", style="color: var(--color-text-subtle); font-size: 0.875rem; margin-left: 0.25rem;")
-            )
-        )
-    if api_data['functions']:
-        toc_items.append(
-            Li(
-                A("Functions", href="#functions", style="color: var(--color-primary); text-decoration: none;"),
-                Span(f" ({len(api_data['functions'])})", style="color: var(--color-text-subtle); font-size: 0.875rem; margin-left: 0.25rem;")
-            )
-        )
-    if api_data['classes']:
-        toc_items.append(
-            Li(
-                A("Classes", href="#classes", style="color: var(--color-primary); text-decoration: none;"),
-                Span(f" ({len(api_data['classes'])})", style="color: var(--color-text-subtle); font-size: 0.875rem; margin-left: 0.25rem;")
-            )
-        )
+    # Combine all items and sort by source order (would need line numbers from extractor)
+    # For now, show in order: constants, functions, classes
+    all_items = []
     
-    if toc_items:
-        elements.append(
-            Div(
-                H2("Contents", style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem;"),
-                Ul(*toc_items, style="list-style: disc; list-style-position: inside; space-y: 0.5rem;"),
-                style="margin-bottom: 2rem; padding: 1rem; background-color: var(--color-surface); border-radius: 0.5rem;"
-            )
-        )
+    for const in api_data.get('constants', []):
+        all_items.append(('constant', const))
     
-    # Constants section
-    if api_data['constants']:
-        const_elements = []
-        for const in api_data['constants']:
-            const_elements.append(
-                Div(
-                    Code(const['name'], style="font-family: monospace; color: var(--color-primary); font-weight: 600;"),
-                    Span(" = ", style="color: var(--color-text);"),
-                    Code(const['value'], style="font-family: monospace; color: var(--color-success);"),
-                    Span(f"  # {const['type']}", style="color: var(--color-text-subtle); font-style: italic; font-size: 0.875rem; margin-left: 0.5rem;"),
-                    style="margin-bottom: 0.5rem;"
-                )
-            )
-        
-        elements.append(
-            Section(
-                H2("Constants", id="constants", style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);"),
-                Div(*const_elements, style="space-y: 0.5rem;"),
-                style="margin-bottom: 3rem;"
-            )
-        )
+    for func in api_data.get('functions', []):
+        all_items.append(('function', func))
     
-    # Functions section
-    if api_data['functions']:
-        elements.append(
-            Section(
-                H2("Functions", id="functions", style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);"),
-                *[render_function(func, module_name) for func in api_data['functions']],
-                style="margin-bottom: 3rem;"
-            )
-        )
+    for cls in api_data.get('classes', []):
+        all_items.append(('class', cls))
     
-    # Classes section
-    if api_data['classes']:
-        elements.append(
-            Section(
-                H2("Classes", id="classes", style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);"),
-                *[render_class(cls, module_name) for cls in api_data['classes']],
-                style="margin-bottom: 3rem;"
-            )
-        )
+    # Render all items
+    for item_type, item in all_items:
+        elements.append(render_item(item, item_type, module_name))
     
-    return Div(*elements, style="max-width: 80rem; margin: 0 auto;")
+    return Div(*elements, style="max-width: 80rem; margin: 0 auto; padding: 2rem;")
 
 def render_api_index(modules: List[str]) -> Any:
     """Render API index page"""
-    module_groups = {}
+    module_links = []
     
-    # Group modules by parent
-    for module in modules:
-        parts = module.split('.')
-        if len(parts) > 2:
-            parent = '.'.join(parts[:2])
-        else:
-            parent = parts[0]
-        
-        if parent not in module_groups:
-            module_groups[parent] = []
-        module_groups[parent].append(module)
-    
-    group_elements = []
-    for parent, mods in sorted(module_groups.items()):
-        module_links = []
-        
-        for module in sorted(mods):
-            parts = module.split('.')
-            display_name = '.'.join(parts[2:]) if len(parts) > 2 else parts[-1]
-            
-            module_links.append(
-                Li(
-                    A(
-                        Code(display_name, style="font-family: monospace;"),
-                        href=f"/api/{module}",
-                        style="color: var(--color-primary); text-decoration: none;"
-                    ),
-                    style="margin-bottom: 0.5rem;"
-                )
-            )
-        
-        group_elements.append(
-            Div(
-                H3(parent, style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;"),
-                Ul(*module_links, style="list-style: disc; list-style-position: inside; margin-left: 1rem;"),
-                style="margin-bottom: 1.5rem;"
+    for module in sorted(modules):
+        module_links.append(
+            Li(
+                A(
+                    Code(module, style="font-family: monospace;"),
+                    href=f"/api/{module}",
+                    style="color: var(--color-primary); text-decoration: none;"
+                ),
+                style="margin-bottom: 0.5rem;"
             )
         )
     
@@ -501,9 +330,6 @@ def render_api_index(modules: List[str]) -> Any:
         H1("API Reference", style="font-size: 1.875rem; font-weight: bold; margin-bottom: 0.5rem;"),
         P("Complete API documentation for EidosUI modules", style="font-size: 1.25rem; color: var(--color-text-muted); margin-bottom: 2rem;"),
         
-        Div(
-            *group_elements,
-            style="space-y: 1.5rem;"
-        ),
-        style="max-width: 64rem; margin: 0 auto;"
+        Ul(*module_links, style="list-style: none; padding: 0;"),
+        style="max-width: 64rem; margin: 0 auto; padding: 2rem;"
     )
