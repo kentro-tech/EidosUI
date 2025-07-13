@@ -23,19 +23,11 @@ def Markdown(content: str, class_: Optional[str] = None, **kwargs) -> air.Div:
     # Render the markdown content
     html_content = _renderer.render(content)
     
-    # Create the div with raw HTML content
-    if class_:
-        return air.Div(
+    return air.Div(
             air.RawHTML(html_content),
             class_=class_,
             **kwargs
         )
-    else:
-        return air.Div(
-            air.RawHTML(html_content),
-            **kwargs
-        )
-
 
 def MarkdownCSS() -> air.Link:
     """Returns a link tag to include the markdown CSS.
