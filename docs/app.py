@@ -31,15 +31,89 @@ def layout(title, *content, sidebar=None):
             *EidosHeaders(),
             MarkdownCSS(),
             Title(f"{title} - EidosUI Docs"),
+            Meta(name="viewport", content="width=device-width, initial-scale=1"),
             Style("""
+                /* Mobile-first approach */
                 .sidebar-nav {
-                    position: sticky;
-                    top: 5rem;
-                    height: calc(100vh - 6rem);
+                    display: block !important;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 280px;
+                    height: 100vh;
+                    background: var(--color-background);
+                    border-right: 1px solid var(--color-border);
+                    padding: 5rem 1rem 2rem 1rem;
                     overflow-y: auto;
-                    min-width: 250px;
-                    padding-right: 2rem;
+                    z-index: 40;
+                    transform: translateX(-100%);
+                    transition: transform 0.3s ease;
                 }
+                
+                .sidebar-nav.mobile-open {
+                    transform: translateX(0);
+                }
+                
+                .sidebar-overlay {
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.5);
+                    z-index: 30;
+                }
+                
+                .sidebar-overlay.active {
+                    display: block;
+                }
+                
+                .mobile-menu-btn {
+                    display: block;
+                }
+                
+                .main-content {
+                    width: 100%;
+                    padding: 1rem;
+                }
+                
+                /* Desktop styles */
+                @media (min-width: 768px) {
+                    .sidebar-nav {
+                        display: block;
+                        position: sticky;
+                        top: 5rem;
+                        left: auto;
+                        width: 250px;
+                        height: calc(100vh - 6rem);
+                        transform: none;
+                        border-right: none;
+                        padding: 0 2rem 2rem 0;
+                        z-index: 1;
+                    }
+                    
+                    .sidebar-overlay {
+                        display: none !important;
+                    }
+                    
+                    .mobile-menu-btn {
+                        display: none;
+                    }
+                    
+                    .main-content {
+                        flex: 1;
+                        max-width: 60rem;
+                        padding: 0;
+                    }
+                    
+                    .content-wrapper {
+                        display: flex;
+                        gap: 2rem;
+                    }
+                }
+                
+                /* Sidebar styles */
                 .sidebar-nav a {
                     display: block;
                     padding: 0.375rem 1rem;
@@ -73,33 +147,73 @@ def layout(title, *content, sidebar=None):
                 .sidebar-nav span {
                     text-transform: capitalize;
                 }
+                
+                /* Close button for mobile */
+                .sidebar-close {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    background: none;
+                    border: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    color: var(--color-text-muted);
+                    display: block;
+                }
+                
+                @media (min-width: 768px) {
+                    .sidebar-close {
+                        display: none;
+                    }
+                }
             """)
         ),
         Body(
             NavBar(
                 A("Home", href="/"),
-                A("Quick Start", href="/quick-start"),
-                A("Kitchen Sink", href="/kitchen-sink"),
-                A("Concepts", href="/concepts"),
+                A("Quick Start", href="/quick-start", class_="hidden sm:block"),
+                A("Kitchen Sink", href="/kitchen-sink", class_="hidden sm:block"),
+                A("Concepts", href="/concepts", class_="hidden sm:block"),
                 A("Reference", href="/api"),
-                A("Plugins", href="/plugins"),
+                A("Plugins", href="/plugins", class_="hidden sm:block"),
                 Button(
                     "☀️",  # Default to sun icon
                     class_="theme-toggle p-2 rounded-full",
                     id="theme-toggle"
                 ),
-                lcontents=H3("EidosUI", class_="text-xl font-bold"),
+                lcontents=Div(
+                    (
+                        Button(
+                            "☰",
+                            class_="mobile-menu-btn p-2 rounded text-xl mr-2",
+                            id="mobile-menu-btn",
+                            style="background: none; border: none; cursor: pointer; color: var(--color-text);"
+                        ) if sidebar else ""
+                    ),
+                    H3("EidosUI", class_="text-xl font-bold"),
+                    class_="flex items-center"
+                ),
                 sticky=True
             ),
+            # Sidebar overlay for mobile (only if sidebar exists)
+            (Div(class_="sidebar-overlay", id="sidebar-overlay") if sidebar else ""),
+            # Content wrapper
             Div(
-                # Sidebar if provided
-                sidebar if sidebar else "",
+                # Sidebar with close button
+                (
+                    Div(
+                        Button("✕", class_="sidebar-close", id="sidebar-close"),
+                        sidebar,
+                        class_="sidebar-nav",
+                        id="sidebar-nav"
+                    ) if sidebar else ""
+                ),
                 # Main content
                 Main(
                     *content,
-                    class_="flex-1"
+                    class_="main-content"
                 ),
-                class_="container mx-auto px-6 py-8 flex gap-8"
+                class_="container mx-auto px-4 sm:px-6 py-4 sm:py-8 content-wrapper"
             ),
             Script("""
                 // Theme management with persistence and system preference support
@@ -124,6 +238,53 @@ def layout(title, *content, sidebar=None):
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
                     if (!localStorage.getItem(THEME_KEY)) setTheme(e.matches ? 'dark' : 'light');
                 });
+                
+                // Mobile menu handling
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const sidebarNav = document.getElementById('sidebar-nav');
+                const sidebarOverlay = document.getElementById('sidebar-overlay');
+                const sidebarClose = document.getElementById('sidebar-close');
+                
+                function openSidebar() {
+                    if (sidebarNav) {
+                        sidebarNav.classList.add('mobile-open');
+                        sidebarOverlay.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                }
+                
+                function closeSidebar() {
+                    if (sidebarNav) {
+                        sidebarNav.classList.remove('mobile-open');
+                        sidebarOverlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                }
+                
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.onclick = openSidebar;
+                }
+                
+                if (sidebarClose) {
+                    sidebarClose.onclick = closeSidebar;
+                }
+                
+                if (sidebarOverlay) {
+                    sidebarOverlay.onclick = closeSidebar;
+                }
+                
+                // Close sidebar on navigation (mobile)
+                if (sidebarNav) {
+                    sidebarNav.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', () => {
+                            if (window.innerWidth < 768) {
+                                closeSidebar();
+                            }
+                        });
+                    });
+                }
+                
+                // Mark active sidebar link
                 const path = window.location.pathname;
                 document.querySelectorAll('.sidebar-nav a').forEach(link => {
                     if (link.getAttribute('href') === path) link.classList.add('active');
@@ -183,11 +344,12 @@ def create_api_sidebar(modules, current_module=None):
         
         return items
     
-    return Div(
+    sidebar_content = [
         H4("API Reference"),
-        *render_tree(tree),
-        class_="sidebar-nav"
-    )
+        *render_tree(tree)
+    ]
+    
+    return Div(*sidebar_content)
 
 
 def load_markdown(filename):
