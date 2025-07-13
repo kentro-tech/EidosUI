@@ -1,4 +1,4 @@
-# Getting Started
+# Quick Start
 
 ## Installation
 
@@ -6,112 +6,82 @@
 pip install eidosui
 ```
 
-With markdown support:
-```bash
-pip install "eidosui[markdown]"
-```
-
 ## First App
 
 Create `app.py`:
 
 ```python
+from eidos import *
 import air
-from air.tags import *
-from eidos.tags import *
-from eidos.components.headers import EidosHeaders
-from eidos.utils import get_eidos_static_files
-from fastapi.staticfiles import StaticFiles
 
-# Create your app
 app = air.Air()
-
-# Mount static files for CSS and JS
-for mount_path, directory in get_eidos_static_files().items():
-    app.mount(mount_path, StaticFiles(directory=directory), name=mount_path.strip('/').replace('/', '_'))
 
 @app.get("/")
 def home():
     return Html(
         Head(
-            *EidosHeaders(),  # Includes all necessary CSS and JS
-            Title("My First EidosUI App")
+            Title("My App"),
+            *EidosHeaders()
         ),
         Body(
-            Main(
-                H1("Welcome to EidosUI!"),
-                P("This is your first EidosUI application."),
-                Button("Click Me", class_="eidos-button-primary"),
-                class_="p-12"
+            H1("Welcome"),
+            P("Hello from EidosUI!"),
+            DataTable.from_lists(
+                [["Alice", "30"], ["Bob", "25"]], 
+                headers=["Name", "Age"]
             )
         )
     )
+
+app.run()
 ```
 
-## Run
-
+Run:
 ```bash
-fastapi dev
+fastapi dev app.py
 ```
 
-Visit `http://localhost:8000`
+## Core Concepts
 
-## Basic Usage
-
-### Styled HTML Tags
+### Styled Tags
 
 ```python
-from eidos.tags import *
-
-H1("Large Heading")
-H2("Section Heading")
-P("A paragraph with ", Strong("strong"), " and ", Em("emphasized"), " text.")
-Button("Primary Action")
-Code("inline_code()")
+H1("Title")
+P("Text with ", Strong("bold"), " and ", Em("italic"))
+Button("Click me")
+Code("print('hello')")
 ```
 
-### Style System
+### Components
 
 ```python
-import eidos.styles as styles
+# Tables
+DataTable.from_lists(data, headers=["Col1", "Col2"])
+DataTable.from_dicts([{"name": "Alice", "age": 30}])
 
-# Button styles
-Button("Primary", class_=styles.buttons.cta)
-Button("Secondary", class_=styles.buttons.secondary)
+# Navigation
+NavBar(
+    A("Home", href="/"),
+    A("About", href="/about"),
+    lcontents=H3("My App")
+)
 ```
 
 ### Themes
 
 ```python
-# Add theme toggle button
-Button(
-    "🌙",
-    class_="theme-toggle p-2 rounded-full",
-    onclick="toggleTheme()"
-)
-
-# Include theme toggle script
-Script("""
-function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', newTheme);
-}
-""")
+Html(data_theme="dark")  # or "light"
 ```
 
-### Navigation
+### Custom Styling
 
 ```python
-from eidos.components.navigation import NavBar
-
-NavBar(
-    A("Home", href="/"),
-    A("About", href="/about"),
-    A("Contact", href="/contact"),
-    lcontents=H3("My App"),  # Left content
-    sticky=True,             # Stick to top on scroll
-    scrollspy=True          # Highlight active section
-)
+H1("Red Title", class_="text-red-500")
+Button("Large", class_="text-lg px-8 py-4")
 ```
+
+## Next Steps
+
+- [Concepts](concepts) - Understand the architecture
+- [Kitchen Sink](kitchen-sink) - See all components
+- [API Reference](api) - Detailed documentation

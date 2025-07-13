@@ -1,129 +1,53 @@
-# EidosUI Plugins
+# Plugins
 
-EidosUI's plugin system allows you to extend functionality while maintaining consistency with the core library.
+Optional extensions for EidosUI.
 
 ## Available Plugins
 
-- [markdown](/plugins/markdown): Markdown rendering with EidosUI styling.
+### [Markdown](markdown)
 
-## Plugin Architecture
+Theme-aware markdown rendering.
 
-### How Plugins Work
-
-Plugins in EidosUI:
-1. Extend core functionality without modifying it
-2. Use CSS variables for consistent theming
-3. Provide Python components and/or CSS styles
-4. Can include optional JavaScript for interactivity
-
-### Plugin Structure
-
-```
-my_plugin/
-├── __init__.py          # Main exports
-├── components.py        # Python components
-├── styles.css          # Plugin styles
-├── static/             # Static assets
-│   └── plugin.js       # Optional JavaScript
-└── extensions/         # Optional extensions
-    └── custom.py
+```bash
+pip install "eidosui[markdown]"
 ```
 
-## Creating a Plugin
+Features:
+- GitHub Flavored Markdown
+- GitHub-style alerts
+- Theme integration
+- Custom extensions
+
+### [Markdown Extension Guide](markdown-extension-guide)
+
+Create custom markdown extensions.
+
+## Creating Plugins
+
+Plugins extend EidosUI without bloating core.
+
+### Structure
 
 ```python
-# my_plugin/__init__.py
-from air.tags import Div, Style
+# eidos/plugins/myplugin/__init__.py
+from .components import MyComponent
+from .renderer import MyRenderer
 
-def PluginComponent(content, **kwargs):
-    """A custom plugin component"""
-    return Div(
-        Style("""
-            .my-plugin-component {
-                padding: var(--eidos-spacing-4);
-                background: var(--eidos-bg-secondary);
-                border-radius: var(--eidos-border-radius);
-            }
-        """),
-        Div(
-            content,
-            class_="my-plugin-component",
-            **kwargs
-        )
-    )
-
-# CSS helper
-def PluginCSS():
-    """Include plugin styles"""
-    return Link(
-        rel="stylesheet",
-        href="/static/my_plugin/styles.css"
-    )
+__all__ = ["MyComponent", "MyRenderer"]
 ```
 
+### Packaging
 
-## Plugin Best Practices
+Add to `pyproject.toml`:
 
-### 1. Use CSS Variables
-
-Always use EidosUI's CSS variables:
-
-```css
-/* Good */
-.plugin-alert {
-    color: var(--eidos-info-text);
-    background: var(--eidos-info-bg);
-}
-
-/* Avoid */
-.plugin-alert {
-    color: #0366d6;
-    background: #f0f8ff;
-}
+```toml
+[project.optional-dependencies]
+myplugin = ["dependency1", "dependency2"]
 ```
 
-### 2. Namespace Your Classes
+### Guidelines
 
-Prefix CSS classes to avoid conflicts:
-
-```css
-.my-plugin-card { }
-.my-plugin-header { }
-```
-
-### 3. Progressive Enhancement
-
-Ensure basic functionality without JavaScript:
-
-```python
-def Tabs(tabs):
-    # Works with CSS :target
-    return Div(
-        # Tab buttons
-        Div(*[
-            A(tab.title, href=f"#{tab.id}")
-            for tab in tabs
-        ]),
-        # Tab content
-        *[Div(
-            tab.content,
-            id=tab.id,
-            class_="tab-pane"
-        ) for tab in tabs]
-    )
-```
-
-### 4. Provide Helpers
-
-Include CSS/JS loading helpers:
-
-```python
-def MyPluginHeaders():
-    """Include all plugin assets"""
-    return [
-        Link(rel="stylesheet", href="/static/my_plugin/styles.css"),
-        Script(src="/static/my_plugin/script.js", defer=True)
-    ]
-```
-
-## Distributing Plugins
+- Use EidosUI CSS variables
+- Provide CSS component  
+- Include documentation
+- Add type hints

@@ -1,6 +1,6 @@
 # Markdown Plugin
 
-The EidosUI Markdown plugin provides beautiful, theme-aware markdown rendering with support for GitHub Flavored Markdown and custom extensions.
+Theme-aware markdown rendering with GitHub Flavored Markdown support.
 
 ## Installation
 
@@ -8,30 +8,97 @@ The EidosUI Markdown plugin provides beautiful, theme-aware markdown rendering w
 pip install "eidosui[markdown]"
 ```
 
-## Quick Start
+## Basic Usage
 
 ```python
-from eidos.plugins.markdown import Markdown, MarkdownCSS
+from eidos.plugins.markdown import Markdown, MarkdownCSS, MarkdownRenderer
 
-# Include CSS in your HTML head
+# Include CSS in head
 Head(
     *EidosHeaders(),
-    MarkdownCSS()  # Markdown-specific styles
+    MarkdownCSS()
 )
 
 # Render markdown
-content = Markdown("""
-# Welcome to EidosUI Markdown
-
-This plugin provides **beautiful** markdown rendering with:
-
-- Full GitHub Flavored Markdown support
-- Syntax highlighting
-- Theme awareness
-- Custom extensions
-""")
+Body(
+    Markdown("# Hello\n\nThis is **markdown**!")
+)
 ```
 
 ## Features
 
-## Extension Guide
+### GitHub Flavored Markdown
+- Tables
+- Fenced code blocks
+- Strikethrough
+- Task lists
+- Autolinks
+
+### GitHub-style Alerts
+
+```markdown
+> [!NOTE]
+> Helpful information
+
+> [!TIP]
+> Helpful advice
+
+> [!IMPORTANT]  
+> Key information
+
+> [!WARNING]
+> Potential problem
+
+> [!CAUTION]
+> Danger zone
+```
+
+### Theme Integration
+Automatically uses EidosUI CSS variables for consistent styling.
+
+## Advanced Usage
+
+### Custom Renderer
+
+```python
+from eidos.plugins.markdown import MarkdownRenderer
+
+# Create with custom extensions
+renderer = MarkdownRenderer(
+    extensions=[
+        'fenced_code',
+        'tables',
+        'toc',  # Table of contents
+        MyCustomExtension()
+    ]
+)
+
+# Render markdown
+html = renderer.render("# Content")
+```
+
+### Direct HTML
+
+```python
+from eidos.plugins.markdown import MarkdownRenderer
+import air
+
+renderer = MarkdownRenderer()
+html = renderer.render("# Hello")
+
+# Use in Air component
+Div(air.RawHTML(html))
+```
+
+## CSS Classes
+
+All elements get `eidos-md-*` classes:
+
+- `eidos-md` - Container
+- `eidos-md-h1` - Headings  
+- `eidos-md-p` - Paragraphs
+- `eidos-md-code` - Code blocks
+- `eidos-md-table` - Tables
+- `eidos-md-alert-*` - Alert boxes
+
+Override with custom CSS.
