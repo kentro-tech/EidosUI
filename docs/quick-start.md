@@ -20,14 +20,15 @@ import air
 from air.tags import *
 from eidos.tags import *
 from eidos.components.headers import EidosHeaders
-from eidos.utils import get_eidos_static_directory
+from eidos.utils import get_eidos_static_files
 from fastapi.staticfiles import StaticFiles
 
 # Create your app
 app = air.Air()
 
-# Mount static files for CSS
-app.mount("/eidos", StaticFiles(directory=get_eidos_static_directory()), name="eidos")
+# Mount static files for CSS and JS
+for mount_path, directory in get_eidos_static_files().items():
+    app.mount(mount_path, StaticFiles(directory=directory), name=mount_path.strip('/').replace('/', '_'))
 
 @app.get("/")
 def home():

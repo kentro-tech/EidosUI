@@ -21,11 +21,10 @@ class MarkdownRenderer:
             'tables', 
             'nl2br', 
             'sane_lists',
-            AlertExtension()  # Add GitHub-style alerts
+            AlertExtension()  # GitHub-style alerts
         ]
         self.extensions.extend(default_extensions)
         
-        # Initialize the markdown processor
         self.md = markdown.Markdown(extensions=self.extensions)
     
     def render(self, markdown_text: str) -> str:
@@ -37,13 +36,10 @@ class MarkdownRenderer:
         Returns:
             HTML string wrapped with eidos-md class for styling
         """
-        # Reset the markdown processor to clear any state
-        self.md.reset()
+        self.md.reset() # TODO: this is a hack to clear the state of the markdown processor
         
-        # Convert markdown to HTML
         html_content = self.md.convert(markdown_text)
         
-        # Wrap in a div with our markdown class for styling
         return f'<div class="eidos-md">{html_content}</div>'
     
     def add_extension(self, extension: str) -> None:
@@ -54,5 +50,4 @@ class MarkdownRenderer:
         """
         if extension not in self.extensions:
             self.extensions.append(extension)
-            # Recreate the markdown processor with new extensions
             self.md = markdown.Markdown(extensions=self.extensions)

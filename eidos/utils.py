@@ -1,8 +1,7 @@
 """Core utility functions for EidosUI."""
 
 from typing import Optional, Union, List
-import os
-import sys
+from pathlib import Path
 
 
 def stringify(*classes: Optional[Union[str, List[str]]]) -> str:
@@ -39,34 +38,40 @@ def stringify(*classes: Optional[Union[str, List[str]]]) -> str:
     return " ".join(result)
 
 
-def get_eidos_static_directory() -> str:
+def get_eidos_static_files(markdown: bool = False) -> dict:
     """
-    Get the path to eidos static files for mounting in FastAPI/Air apps.
+    Get a dictionary mapping URL paths to static file directories.
     
-    This function returns the directory containing the eidos package files,
-    which includes the CSS directory. Use this when mounting static files
-    in your application.
+    This provides a safe way to mount only specific static assets
+    without exposing Python source files.
+    
+    Args:
+        markdown: Whether to include markdown plugin CSS (default: False)
     
     Returns:
-        The absolute path to the eidos package directory
+        Dict mapping mount paths to directory paths
         
     Example:
         >>> from fastapi.staticfiles import StaticFiles
-        >>> from eidos.utils import get_eidos_static_directory
-        >>> app.mount("/eidos", StaticFiles(directory=get_eidos_static_directory()), name="eidos")
+        >>> from eidos.utils import get_eidos_static_files
+        >>> # Basic usage - just core CSS and JS
+        >>> for mount_path, directory in get_eidos_static_files().items():
+        ...     app.mount(mount_path, StaticFiles(directory=directory), name=mount_path.strip('/'))
+        >>> 
+        >>> # Include markdown CSS
+        >>> for mount_path, directory in get_eidos_static_files(markdown=True).items():
+        ...     app.mount(mount_path, StaticFiles(directory=directory), name=mount_path.strip('/'))
     """
-    try:
-        from importlib.resources import files
-        import pathlib
-        # Convert MultiplexedPath to actual filesystem path
-        eidos_path = files('eidos')
-        if hasattr(eidos_path, '_paths'):
-            # MultiplexedPath - get the first valid path
-            for path in eidos_path._paths:
-                if isinstance(path, pathlib.Path) and path.exists():
-                    return str(path)
-        # Try to get the path directly
-        return str(eidos_path)
-    except (ImportError, AttributeError):
-        # Fallback for development or if importlib.resources fails
-        return os.path.dirname(os.path.abspath(__file__))
+    # Use pathlib for cleaner path handling
+    base_path = Path(__file__).parent.absolute()
+    
+    static_files = {
+        "/eidos/css": str(base_path / "css"),
+        "/eidos/js": str(base_path / "js"),
+    }
+    
+    # Only include markdown CSS if requested
+    if markdown:
+        static_files["/eidos/plugins/markdown/css"] = str(base_path / "plugins" / "markdown" / "css")
+    
+    return static_files
