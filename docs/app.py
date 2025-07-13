@@ -62,9 +62,11 @@ def layout(title, *content, sidebar=None):
                     }
                 }
                 
-                /* Collapsible on mobile */
-                .docs-sidebar[data-collapsed="true"] .sidebar-content {
-                    display: none;
+                /* Collapsible on mobile only */
+                @media (max-width: 767px) {
+                    .docs-sidebar[data-collapsed="true"] .sidebar-content {
+                        display: none;
+                    }
                 }
                 
                 .sidebar-toggle {
@@ -198,6 +200,18 @@ def layout(title, *content, sidebar=None):
                             lucide.createIcons();
                         }
                     };
+                    
+                    // Handle window resize
+                    let resizeTimer;
+                    window.addEventListener('resize', () => {
+                        clearTimeout(resizeTimer);
+                        resizeTimer = setTimeout(() => {
+                            if (window.innerWidth >= 768) {
+                                // Always expand on desktop
+                                sidebar.setAttribute('data-collapsed', 'false');
+                            }
+                        }, 150);
+                    });
                 }
                 
                 // Mark active link
@@ -246,7 +260,7 @@ def create_api_sidebar(modules, current_module=None):
                 items.append(
                     Span(name, style=f"padding-left: {indent}rem;")
                 )
-                items.extend(render_tree(value, indent + 1.5))
+                items.extend(render_tree(value, indent + 2))
         
         return items
     
