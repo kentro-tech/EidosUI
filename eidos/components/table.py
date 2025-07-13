@@ -51,7 +51,7 @@ class Table:
             A rendered table element
             
         Example:
-            Table.from_dicts([{"name": "John", "age": 25}], headers=["Name", "Age"])
+            Table.from_dicts([{"name": "John", "age": 25}], headers=["name", "age"])
         """
         if headers is None and data:
             headers = list(data[0].keys())

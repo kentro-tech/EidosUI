@@ -31,11 +31,10 @@ Thank you for your interest in contributing to EidosUI! This guide will help you
 
 ### Install Just (Recommended)
 Just is a command runner that simplifies development tasks:
+
 ```bash
 # macOS/Linux with Homebrew
 brew install just
-
-# Or download from https://github.com/casey/just/releases
 ```
 
 ### Quick Setup with Just
@@ -60,6 +59,27 @@ just docs     # Preview documentation
 
 # Before committing
 just clean    # Fix linting, format, and clean up generated files and caches
+```
+
+## Testing
+
+### Running Tests
+
+Run the test suite with:
+```bash
+just test
+```
+
+### Test Structure
+
+Tests are organized to mirror the source code structure:
+```
+tests/
+├── test_imports.py      # Import pattern tests
+├── test_styles.py       # Style constant tests
+├── test_tags.py         # Tag functionality tests
+└── components/
+    └── test_table.py    # Table component tests
 ```
 
 ## Questions?
