@@ -39,6 +39,7 @@ def layout(title, *content):
                 A("Kitchen Sink", href="/kitchen-sink"),
                 A("Concepts", href="/concepts"),
                 A("Reference", href="/api"),
+                A("Plugins", href="/plugins"),
                 Button(
                     "🌙",
                     class_="theme-toggle p-2 rounded-full",
@@ -126,8 +127,17 @@ def concepts():
     """Concepts page"""
     return layout(
         "Concepts",
-        load_markdown("concepts.md")
+        load_markdown("concepts/index.md")
     )
+
+@app.get("/concepts/{concept_name:path}")
+def concept_detail(concept_name: str):
+    """Concept detail page"""
+    return layout(
+        f"Concept: {concept_name}",
+        load_markdown(f"concepts/{concept_name}.md")
+    )
+
 @app.get("/api")
 def api_index():
     """API Reference index"""
@@ -148,4 +158,20 @@ def api_module(module_path: str):
     return layout(
         f"API: {module_name}",
         render_api_page(api_data)
+    )
+
+@app.get("/plugins")
+def plugins():
+    """Plugins page"""
+    return layout(
+        "Plugins",
+        load_markdown("plugins/index.md")
+    )
+
+@app.get("/plugins/{plugin_name:path}")
+def plugin_detail(plugin_name: str):
+    """Plugin detail page"""
+    return layout(
+        f"Plugin: {plugin_name}",
+        load_markdown(f"plugins/{plugin_name}.md")
     )
