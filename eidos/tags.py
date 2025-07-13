@@ -4,15 +4,63 @@ from . import styles
 from .utils import stringify
 
 def Button(*content: Any, class_: Optional[Union[str, list[str]]] = styles.buttons.primary, **kwargs: Any) -> air.Tag:
+    """
+    Args:
+        content: The content of the button.
+        class_: The class of the button.
+        **kwargs: Additional keyword arguments passed to the button tag.
+
+    Returns:
+        air.Tag: The button tag.
+
+    Example:
+        Button("Click me", class_=styles.buttons.primary)
+    """
     return air.Button(*content, class_=stringify(styles.buttons.base, class_), **kwargs)
 
 def H1(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """
+    Args:
+        content: The content of the h1 tag.
+        class_: The class of the h1 tag.
+        **kwargs: Additional keyword arguments passed to the h1 tag.
+
+    Returns:
+        air.Tag: The h1 tag.
+
+    Example:
+        H1("Hello, world!")
+    """
     return air.H1(*content, class_=stringify(styles.typography.h1, class_), **kwargs)
 
 def H2(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """
+    Args:
+        content: The content of the h2 tag.
+        class_: The class of the h2 tag.
+        **kwargs: Additional keyword arguments passed to the h2 tag.
+
+    Returns:
+        air.Tag: The h2 tag.
+
+    Example:
+        H2("Hello, world!")
+    """
     return air.H2(*content, class_=stringify(styles.typography.h2, class_), **kwargs)
 
 def H3(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """
+    Args:
+        content: The content of the h3 tag.
+        class_: The class of the h3 tag.
+        **kwargs: Additional keyword arguments passed to the h3 tag.
+
+    Returns:
+        air.Tag: The h3 tag.
+
+    Example:
+        H3("Hello, world!")
+    """
     return air.H3(*content, class_=stringify(styles.typography.h3, class_), **kwargs)
 
 def H4(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
@@ -42,6 +90,18 @@ def Del(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs:
     return air.Del(*content, class_=stringify(styles.semantic.del_, class_), **kwargs)
 
 def Abbr(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    """
+    Args:
+        content: The content of the abbr tag.
+        class_: The class of the abbr tag.
+        **kwargs: Additional keyword arguments passed to the abbr tag.
+
+    Returns:
+        air.Tag: The abbr tag.
+
+    Example:
+        Abbr("HTML", title="Hyper Text Markup Language")
+    """
     return air.Abbr(*content, class_=stringify(styles.semantic.abbr, class_), **kwargs)
 
 def Var(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
