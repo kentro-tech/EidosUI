@@ -5,12 +5,19 @@ Thank you for your interest in contributing to EidosUI! This guide will help you
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Development Setup](#development-setup)
+- [Build Commands](#build-commands)
 - [Import Guidelines](#import-guidelines)
 - [Code Style](#code-style)
 - [Testing](#testing)
 - [Submitting Changes](#submitting-changes)
 
 ## Getting Started
+
+### Prerequisites
+- Python 3.10 or higher
+- UV (recommended) or pip for dependency management
+- Just command runner (optional but recommended)
+- Git
 
 ### Fork and Clone
 1. Fork the repository on GitHub
@@ -22,37 +29,38 @@ Thank you for your interest in contributing to EidosUI! This guide will help you
 
 ## Development Setup
 
+### Install Just (Recommended)
+Just is a command runner that simplifies development tasks:
 ```bash
-# Install UV if you haven't already
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# macOS/Linux with Homebrew
+brew install just
 
-# Create virtual environment and install dependencies
-uv venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-uv pip install -e ".[dev]"
+# Or download from https://github.com/casey/just/releases
 ```
 
-## Testing
-
-### Import Testing
-Always test that your additions work with all import patterns:
-```python
-# Test 1: Star import
-from eidos import *
-assert MyComponent is not None
-
-# Test 2: Direct import
-from eidos import MyComponent
-assert MyComponent is not None
-
-# Test 3: Submodule import
-from eidos.components import MyComponent
-assert MyComponent is not None
+### Quick Setup with Just
+```bash
+# Set up development environment
+just dev
 ```
 
-(Testing guidelines will be added when test infrastructure is set up)
+## Build Commands
 
-## Submitting Changes
+We use `just` for common development tasks. Run `just` to see all available commands:
+
+### Common Development Workflow
+```bash
+# Before making changes
+just dev      # Set up environment (first time only)
+
+# While developing
+just check    # Run lint check, format check, and type check
+just test     # Run tests
+just docs     # Preview documentation
+
+# Before committing
+just clean    # Fix linting, format, and clean up generated files and caches
+```
 
 ## Questions?
 
