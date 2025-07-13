@@ -10,11 +10,24 @@ dev:
     @echo "  .venv\\Scripts\\activate     # Windows"
     uv pip install -e ".[dev]"
 
-# Run all quality checks (lint, format, typecheck)
-check: 
+# Run linting
+lint:
     ruff check eidos/ tests/ docs/
+
+# Check code formatting (without modifying)
+format-check:
     ruff format --check eidos/ tests/ docs/
+
+# Format code
+format:
+    ruff format eidos/ tests/ docs/
+
+# Run type checking
+typecheck:
     mypy eidos/
+
+# Run all quality checks (lint, format, typecheck)
+check: lint format-check typecheck
 
 # Fix linting, format, and clean up generated files and caches
 clean:
@@ -29,6 +42,10 @@ clean:
 test:
     python -m pytest tests/ -v
 
+# Run tests with coverage
+test-cov:
+    python -m pytest tests/ -v --cov=eidos --cov-report=xml --cov-report=html --cov-report=term-missing
+
 # Build distribution packages
 build:
     rm -rf dist/
@@ -37,19 +54,3 @@ build:
 # Build and serve documentation locally
 docs:
     cd docs && fastapi dev
-
-# Create a new release (version should be passed as argument)
-release version:
-    @echo "Creating release {{version}}..."
-    # Update version in pyproject.toml
-    sed -i.bak 's/version = ".*"/version = "{{version}}"/' pyproject.toml && rm pyproject.toml.bak
-    # Update version in __init__.py
-    sed -i.bak 's/__version__ = ".*"/__version__ = "{{version}}"/' eidos/__init__.py && rm eidos/__init__.py.bak
-    # Commit version bump
-    git add pyproject.toml eidos/__init__.py
-    git commit -m "Bump version to {{version}}"
-    # Create tag
-    git tag -a v{{version}} -m "Release v{{version}}"
-    @echo "Release v{{version}} created. Push with:"
-    @echo "  git push origin main"
-    @echo "  git push origin v{{version}}"
