@@ -44,7 +44,7 @@ def layout(title, *content, sidebar=None):
                     padding: 1rem;
                     margin-bottom: 2rem;
                 }
-                
+
                 @media (min-width: 768px) {
                     .docs-sidebar {
                         position: sticky;
@@ -55,25 +55,25 @@ def layout(title, *content, sidebar=None):
                         margin-bottom: 0;
                         min-width: 250px;
                     }
-                    
+
                     .docs-layout {
                         display: flex;
                         gap: 2rem;
                     }
-                    
+
                     .docs-content {
                         flex: 1;
                         max-width: 60rem;
                     }
                 }
-                
+
                 /* Collapsible on mobile only */
                 @media (max-width: 767px) {
                     .docs-sidebar[data-collapsed="true"] .sidebar-content {
                         display: none;
                     }
                 }
-                
+
                 .sidebar-toggle {
                     display: flex;
                     align-items: center;
@@ -85,17 +85,17 @@ def layout(title, *content, sidebar=None):
                     color: var(--color-text);
                     border-radius: 0.25rem;
                 }
-                
+
                 .sidebar-toggle:hover {
                     background: var(--color-background);
                 }
-                
+
                 @media (min-width: 768px) {
                     .sidebar-toggle {
                         display: none;
                     }
                 }
-                
+
                 /* Sidebar links */
                 .docs-sidebar a {
                     display: block;
@@ -107,18 +107,18 @@ def layout(title, *content, sidebar=None):
                     margin: 0.125rem 0;
                     transition: all 150ms;
                 }
-                
+
                 .docs-sidebar a:hover {
                     background: var(--color-background);
                     color: var(--color-text);
                 }
-                
+
                 .docs-sidebar a.active {
                     background: var(--color-primary-light);
                     color: var(--color-primary);
                     font-weight: 500;
                 }
-                
+
                 .docs-sidebar h4 {
                     font-size: 0.875rem;
                     font-weight: 600;
@@ -127,11 +127,11 @@ def layout(title, *content, sidebar=None):
                     color: var(--color-text);
                     margin: 1rem 0 0.5rem 0;
                 }
-                
+
                 .docs-sidebar > div {
                     margin-bottom: 0.5rem;
                 }
-                
+
                 .docs-sidebar span {
                     font-weight: 600;
                     display: block;
@@ -184,7 +184,7 @@ def layout(title, *content, sidebar=None):
                     const t = document.documentElement.getAttribute('data-theme');
                     setTheme(t === 'dark' ? 'light' : 'dark');
                 };
-                
+
                 // Mobile sidebar toggle
                 const sidebarToggle = document.querySelector('.sidebar-toggle');
                 const sidebar = document.querySelector('.docs-sidebar');
@@ -193,7 +193,7 @@ def layout(title, *content, sidebar=None):
                     if (window.innerWidth < 768) {
                         sidebar.setAttribute('data-collapsed', 'true');
                     }
-                    
+
                     sidebarToggle.onclick = () => {
                         const isCollapsed = sidebar.getAttribute('data-collapsed') === 'true';
                         sidebar.setAttribute('data-collapsed', !isCollapsed);
@@ -203,7 +203,7 @@ def layout(title, *content, sidebar=None):
                             lucide.createIcons();
                         }
                     };
-                    
+
                     // Handle window resize
                     let resizeTimer;
                     window.addEventListener('resize', () => {
@@ -216,7 +216,7 @@ def layout(title, *content, sidebar=None):
                         }, 150);
                     });
                 }
-                
+
                 // Mark active link
                 const path = window.location.pathname;
                 document.querySelectorAll('.docs-sidebar a').forEach(link => {
@@ -322,18 +322,14 @@ def concepts():
 @app.get("/concepts/{concept_name:path}")
 def concept_detail(concept_name: str):
     """Concept detail page"""
-    return layout(
-        f"Concept: {concept_name}", load_markdown(f"concepts/{concept_name}.md")
-    )
+    return layout(f"Concept: {concept_name}", load_markdown(f"concepts/{concept_name}.md"))
 
 
 @app.get("/api")
 def api_index():
     """API Reference index"""
     modules = get_available_modules()
-    return layout(
-        "API Reference", render_api_index(modules), sidebar=create_api_sidebar(modules)
-    )
+    return layout("API Reference", render_api_index(modules), sidebar=create_api_sidebar(modules))
 
 
 @app.get("/api/{module_path:path}")

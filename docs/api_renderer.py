@@ -1,6 +1,7 @@
 """Render API documentation using EidosUI components"""
 
 import re
+from textwrap import dedent
 from typing import Any
 
 from air.tags import H1, H3, A, Code, Div, Li, P, Span, Strong, Ul
@@ -56,9 +57,7 @@ def format_docstring(doc: str) -> list[Any]:
                         line = line.strip()
                         if ":" in line:
                             param_name, desc = line.split(":", 1)
-                            items.append(
-                                Li(Code(param_name.strip()), ": ", desc.strip())
-                            )
+                            items.append(Li(Code(param_name.strip()), ": ", desc.strip()))
                         elif line:
                             items.append(Li(line))
                     if items:
@@ -81,7 +80,14 @@ def format_docstring(doc: str) -> list[Any]:
             elements.append(
                 Div(
                     Code(paragraph, style="display: block; white-space: pre;"),
-                    style="background-color: var(--color-surface); padding: 1rem; border-radius: 0.25rem; margin: 0.5rem 0; overflow-x: auto; font-family: monospace; font-size: 0.875rem;",
+                    style=dedent("""background-color: var(--color-surface);
+                    padding: 1rem;
+                    border-radius: 0.25rem;
+                    margin: 0.5rem 0;
+                    overflow-x: auto;
+                    font-family: monospace;
+                    font-size: 0.875rem;
+                    """),
                 )
             )
 
@@ -98,13 +104,11 @@ def format_docstring(doc: str) -> list[Any]:
             # Inline code
             text = re.sub(
                 r"`(.*?)`",
-                r'<code style="background-color: var(--color-surface); padding: 0.125rem 0.25rem; border-radius: 0.25rem;">\1</code>',
+                r'<code style="background:var(--color-surface);padding:2px 4px;border-radius:4px;">\1</code>',
                 text,
             )
 
-            elements.append(
-                P(Span(text, _unsafe=True), style="margin: 0.5rem 0; line-height: 1.6;")
-            )
+            elements.append(P(Span(text, _unsafe=True), style="margin: 0.5rem 0; line-height: 1.6;"))
 
     return elements
 
@@ -165,9 +169,7 @@ def render_item(item: dict[str, Any], module_name: str) -> Any:
     # Parameters (simplified but readable)
     if item_type == "function" and item.get("params"):
         # Only show if params have annotations or defaults
-        meaningful_params = [
-            p for p in item["params"] if p.get("annotation") or p.get("default")
-        ]
+        meaningful_params = [p for p in item["params"] if p.get("annotation") or p.get("default")]
         if meaningful_params:
             param_list = []
             for param in meaningful_params:
@@ -184,9 +186,7 @@ def render_item(item: dict[str, Any], module_name: str) -> Any:
                     )
                 if param.get("default"):
                     parts.append(Span(" = ", style="color: var(--color-text);"))
-                    parts.append(
-                        Span(param["default"], style="color: var(--color-success);")
-                    )
+                    parts.append(Span(param["default"], style="color: var(--color-success);"))
                 param_list.append(Li(*parts, style="margin: 0.25rem 0;"))
 
             if param_list:
@@ -254,16 +254,19 @@ def render_item(item: dict[str, Any], module_name: str) -> Any:
 def render_api_page(api_data: dict[str, Any]) -> Any:
     """Render API documentation page"""
     if "error" in api_data:
-        return Div(
-            H1("Error", style="color: var(--color-error);"), P(api_data["error"])
-        )
+        return Div(H1("Error", style="color: var(--color-error);"), P(api_data["error"]))
 
     elements = [H1(api_data["module"], style="font-size: 2rem; margin-bottom: 1rem;")]
 
     if api_data.get("doc"):
         module_doc = Div(
             *format_docstring(api_data["doc"]),
-            style="font-size: 1.125rem; margin-bottom: 2rem; padding: 1rem; background-color: var(--color-surface); border-radius: 0.5rem;",
+            style=dedent("""font-size: 1.125rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: var(--color-surface);
+            border-radius: 0.5rem;
+            """),
         )
         elements.append(module_doc)
 

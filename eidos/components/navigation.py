@@ -14,7 +14,7 @@ class ScrollspyT:
 
 def NavBar(
     *c: Any,
-    lcontents: Tag = H3("Title"),
+    lcontents: Tag | None = None,
     right_cls: str = "items-center space-x-4",
     mobile_cls: str = "",
     sticky: bool = False,
@@ -31,6 +31,9 @@ def NavBar(
     - Auto-close on selection
     - Smooth animations
     """
+    if lcontents is None:
+        lcontents = Div()
+
     if menu_id is None:
         menu_id = f"menu-{uuid4().hex[:8]}"
 

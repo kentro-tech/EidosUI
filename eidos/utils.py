@@ -71,8 +71,6 @@ def get_eidos_static_files(markdown: bool = False) -> dict:
 
     # Only include markdown CSS if requested
     if markdown:
-        static_files["/eidos/plugins/markdown/css"] = str(
-            base_path / "plugins" / "markdown" / "css"
-        )
+        static_files["/eidos/plugins/markdown/css"] = str(base_path / "plugins" / "markdown" / "css")
 
     return static_files

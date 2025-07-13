@@ -79,7 +79,7 @@ dev-dependencies = [
 
 # Ruff configuration
 [tool.ruff]
-line-length = 88
+line-length = 120
 target-version = "py310"
 
 [tool.ruff.lint]

@@ -103,11 +103,7 @@ class AlertBlockProcessor(BlockProcessor):
         # Continue processing subsequent blocks that might be part of the alert
         while blocks and blocks[0].startswith(">"):
             continuation = blocks.pop(0)
-            continuation_text = (
-                continuation[1:].lstrip()
-                if continuation.startswith(">")
-                else continuation
-            )
+            continuation_text = continuation[1:].lstrip() if continuation.startswith(">") else continuation
 
             if continuation_text:
                 p = SubElement(content_div, "p")

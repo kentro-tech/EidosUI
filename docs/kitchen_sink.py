@@ -13,9 +13,7 @@ def Divider():
 
 
 def ComponentSection(title: str, id_=None, *content):
-    return Div(
-        Section(H2(title), *content, id=id_, class_="space-y-4 py-20"), Divider()
-    )
+    return Div(Section(H2(title), *content, id=id_, class_="space-y-4 py-20"), Divider())
 
 
 def components_page():
@@ -90,9 +88,7 @@ def components_page():
                 Summary("Click to expand more examples"),
                 air.Div(
                     H3("Code Examples"),
-                    Pre(
-                        "def hello_world():\n    print('Hello from EidosUI!')\n    return True"
-                    ),
+                    Pre("def hello_world():\n    print('Hello from EidosUI!')\n    return True"),
                     H3("Definition List"),
                     Dl(
                         Dt("EidosUI"),

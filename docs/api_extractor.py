@@ -41,12 +41,8 @@ def extract_module_api(module_name: str) -> dict[str, Any]:
             for param_name, param in sig.parameters.items():
                 param_info = {
                     "name": param_name,
-                    "annotation": str(param.annotation)
-                    if param.annotation != inspect.Parameter.empty
-                    else "",
-                    "default": str(param.default)
-                    if param.default != inspect.Parameter.empty
-                    else "",
+                    "annotation": str(param.annotation) if param.annotation != inspect.Parameter.empty else "",
+                    "default": str(param.default) if param.default != inspect.Parameter.empty else "",
                 }
                 item["params"].append(param_info)
 
@@ -57,9 +53,7 @@ def extract_module_api(module_name: str) -> dict[str, Any]:
         elif inspect.isclass(obj):
             item["type"] = "class"
             item["doc"] = inspect.getdoc(obj) or ""
-            item["bases"] = [
-                base.__name__ for base in obj.__bases__ if base.__name__ != "object"
-            ]
+            item["bases"] = [base.__name__ for base in obj.__bases__ if base.__name__ != "object"]
 
             # Get methods
             item["methods"] = []
@@ -68,13 +62,11 @@ def extract_module_api(module_name: str) -> dict[str, Any]:
                     method_info = {
                         "name": method_name,
                         "signature": str(inspect.signature(method)),
-                        "doc": (inspect.getdoc(method) or "").split("\n")[
-                            0
-                        ],  # First line only
+                        "doc": (inspect.getdoc(method) or "").split("\n")[0],  # First line only
                     }
                     item["methods"].append(method_info)
 
-        elif isinstance(obj, (str, int, float, bool, type(None))):
+        elif isinstance(obj, str | int | float | bool | type(None)):
             item["type"] = "constant"
             item["value"] = repr(obj)
             item["value_type"] = type(obj).__name__
@@ -97,7 +89,7 @@ def get_available_modules() -> list[str]:
 
         import eidos.components
 
-        for importer, modname, ispkg in pkgutil.iter_modules(eidos.components.__path__):
+        for _, modname, _ in pkgutil.iter_modules(eidos.components.__path__):
             base_modules.append(f"eidos.components.{modname}")
     except ImportError:
         pass
@@ -108,7 +100,7 @@ def get_available_modules() -> list[str]:
 
         import eidos.plugins
 
-        for importer, modname, ispkg in pkgutil.iter_modules(eidos.plugins.__path__):
+        for _, modname, _ in pkgutil.iter_modules(eidos.plugins.__path__):
             base_modules.append(f"eidos.plugins.{modname}")
     except ImportError:
         pass
