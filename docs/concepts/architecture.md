@@ -4,58 +4,60 @@ EidosUI follows a layered architecture. Each layer builds on the previous.
 
 ## Layers
 
-### 1. CSS Variables
 
-Base layer defining design tokens:
+### The Stylistic Base
+
+#### CSS Variables
+
+Themes are defined as a bunch of css variables in a css file (like `color-primary` and `color-primary-hover`)
 
 ```css
---color-primary: #3b82f6;
---font-size-lg: 1.125rem;
---space-md: 1rem;
+[data-theme="light"] {
+    /* Core Colors */
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    ...
+}
 ```
 
-Located in `/eidos/css/themes/`.
+#### CSS Classes
 
-### 2. CSS Classes  
-
-Classes using CSS variables:
+Those css variables are used in a style sheet to define classes (like `eidos-h1`)
 
 ```css
 .eidos-h1 {
     font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
     margin-bottom: var(--space-md);
 }
 ```
 
-Located in `/eidos/css/styles.css`.
+### The Python Exposure
 
-### 3. Style Enums
+#### Style Classes
 
-Python classes exposing CSS classes:
+CSS classes are exposed in python classes like so:
 
 ```python
 class Typography:
     h1: Final[str] = "eidos-h1"
+    h2: Final[str] = "eidos-h2"
+    ...
 ```
 
-Located in `/eidos/styles.py`.
+#### Tags
 
-### 4. Styled Tags
-
-Air tags with default styling:
+Which are the used to create `AirTag` components.
 
 ```python
-def H1(*content, class_=None, **kwargs):
-    return air.H1(
-        *content, 
-        class_=stringify(styles.typography.h1, class_), 
-        **kwargs
-    )
+def H1(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    return air.H1(*content, class_=stringify(styles.typography.h1, class_), **kwargs)
 ```
 
-Located in `/eidos/tags.py`.
+### The more complex features
 
-### 5. Components
+#### Components
 
 Complex UI built from styled tags:
 
@@ -68,8 +70,11 @@ class DataTable:
 
 Located in `/eidos/components/`.
 
-## Benefits
+### Plugins
 
-- **Customizable** - Change CSS variables, override classes
-- **Predictable** - Clear data flow from CSS to Python
-- **Flexible** - Use any layer directly
+Things that do not fit well into any of the above but are still useful are optional plugins to install (like the `markdown` plugin)
+
+
+#### Plugins
+
+Things that do not fit well into any of the above but are still useful are optional plugins to install (like the `markdown` plugin)

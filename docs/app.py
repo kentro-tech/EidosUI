@@ -37,6 +37,17 @@ def layout(title, *content, sidebar=None):
             MarkdownCSS(),
             Title(f"{title} - EidosUI Docs"),
             Meta(name="viewport", content="width=device-width, initial-scale=1"),
+            Script("""
+                // Immediately set theme to prevent flash
+                (function() {
+                    const THEME_KEY = 'eidos-theme-preference';
+                    const savedTheme = localStorage.getItem(THEME_KEY);
+                    const theme = (savedTheme === 'light' || savedTheme === 'dark') 
+                        ? savedTheme 
+                        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                    document.documentElement.setAttribute('data-theme', theme);
+                })();
+            """),
             Style("""
                 .docs-sidebar {
                     background: var(--color-surface);
