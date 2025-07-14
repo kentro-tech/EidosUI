@@ -54,3 +54,8 @@ build:
 # Build and serve documentation locally
 docs:
     cd docs && fastapi dev
+
+release:
+    just clean
+    python -m build
+    twine upload --skip-existing dist/*
