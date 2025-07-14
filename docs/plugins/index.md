@@ -4,23 +4,13 @@ Optional extensions for EidosUI.
 
 ## Available Plugins
 
-### [Markdown](markdown)
+### [Markdown](/plugins/markdown)
 
-Theme-aware markdown rendering.
+Complete guide to markdown in EidosUI - from basic usage to creating custom extensions.
 
 ```bash
 pip install "eidosui[markdown]"
 ```
-
-Features:
-- GitHub Flavored Markdown
-- GitHub-style alerts
-- Theme integration
-- Custom extensions
-
-### [Markdown Extension Guide](markdown-extension-guide)
-
-Create custom markdown extensions.
 
 ## Creating Plugins
 
