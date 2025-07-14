@@ -20,7 +20,7 @@ def components_page():
     """Returns the complete components showcase"""
     return Div(
         H1("EidosUI Kitchen Sink"),
-        P("This is a kitchen sink of all the components in EidosUI.  It's a good way to see what's available and how they look."),
+        P("This is a kitchen sink of all the components in EidosUI to see what's available."),
         ComponentSection(
             "Headings",
             "headings",
