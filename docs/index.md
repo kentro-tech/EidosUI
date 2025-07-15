@@ -98,7 +98,7 @@ This section is designed to answer those, and other related questions.
 
 ### Why I build MonsterUI
 
-I built MonsterUI because I tried `fasthtml` and loved it, but found UI challenging in python.  It originally started off as a personal project, and eventually I transferred it to Answer AI so that I could really make it great.  Its origins were as a wrapper for `frankenui`, originally called `fh-frankenui`.  But really, the goal of the library was to make any UI thing very simple and it quickly grew way beyond a wrapper.  While `frankenui` remained a big part of the library it grew to include many things that were not part of the `frankenui` project.
+I built MonsterUI because I tried `fasthtml` and loved it, but found UI challenging in python.  Its origins were as a wrapper for `frankenui`, originally called `fh-frankenui`.  But really, the goal of the library was to make any UI thing very simple and it quickly grew way beyond a wrapper.  While `frankenui` remained a big part of the library it grew to include many things that were not part of the `frankenui` project.
 
 - Lots of custom typography styling using tailwind
 - Custom component for navbar
