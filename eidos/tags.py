@@ -5,126 +5,6 @@ import air
 from . import styles
 from .utils import stringify
 
-# Define exports for this module
-__all__ = [
-    # Custom EidosUI components
-    "Button",
-    "H1",
-    "H2",
-    "H3",
-    "H4",
-    "H5",
-    "H6",
-    "Body",
-    # Semantic components with styling
-    "Strong",
-    "I",
-    "Small",
-    "Del",
-    "Abbr",
-    "Var",
-    "Mark",
-    "Time",
-    "Code",
-    "Pre",
-    "Kbd",
-    "Samp",
-    "Blockquote",
-    "Cite",
-    "Address",
-    "Hr",
-    "Details",
-    "Summary",
-    "Dl",
-    "Dt",
-    "Dd",
-    "Figure",
-    "Figcaption",
-    # Table components with styling
-    "Table",
-    "Thead",
-    "Tbody",
-    "Tfoot",
-    "Tr",
-    "Th",
-    "Td",
-    # Pass-through HTML tags from air.tags
-    "A",
-    "Area",
-    "Article",
-    "Aside",
-    "Audio",
-    "B",
-    "Base",
-    "Bdi",
-    "Bdo",
-    "Br",
-    "Canvas",
-    "Caption",
-    "Col",
-    "Colgroup",
-    "Data",
-    "Datalist",
-    "Dfn",
-    "Dialog",
-    "Div",
-    "Em",
-    "Embed",
-    "Fieldset",
-    "Footer",
-    "Form",
-    "Head",
-    "Header",
-    "Hgroup",
-    "Html",
-    "Iframe",
-    "Img",
-    "Input",
-    "Ins",
-    "Label",
-    "Legend",
-    "Li",
-    "Link",
-    "Main",
-    "Map",
-    "Menu",
-    "Meta",
-    "Meter",
-    "Nav",
-    "Noscript",
-    "Object",
-    "Ol",
-    "Optgroup",
-    "Option",
-    "Output",
-    "P",
-    "Param",
-    "Picture",
-    "Progress",
-    "Q",
-    "Rp",
-    "Rt",
-    "Ruby",
-    "S",
-    "Script",
-    "Search",
-    "Section",
-    "Select",
-    "Source",
-    "Span",
-    "Style",
-    "Sub",
-    "Sup",
-    "Template",
-    "Textarea",
-    "Title",
-    "Track",
-    "U",
-    "Ul",
-    "Video",
-    "Wbr",
-]
-
 
 def Button(
     *content: Any,
@@ -214,19 +94,19 @@ def Body(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) ->
 
 
 def Strong(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Strong(*content, class_=stringify(styles.semantic.strong, class_), **kwargs)
+    return air.Strong(*content, class_=stringify(styles.typography.strong, class_), **kwargs)
 
 
 def I(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.I(*content, class_=stringify(styles.semantic.i, class_), **kwargs)
+    return air.I(*content, class_=stringify(styles.typography.i, class_), **kwargs)
 
 
 def Small(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Small(*content, class_=stringify(styles.semantic.small, class_), **kwargs)
+    return air.Small(*content, class_=stringify(styles.typography.small, class_), **kwargs)
 
 
 def Del(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Del(*content, class_=stringify(styles.semantic.del_, class_), **kwargs)
+    return air.Del(*content, class_=stringify(styles.typography.del_, class_), **kwargs)
 
 
 def Abbr(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
@@ -242,79 +122,79 @@ def Abbr(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) ->
     Example:
         Abbr("HTML", title="Hyper Text Markup Language")
     """
-    return air.Abbr(*content, class_=stringify(styles.semantic.abbr, class_), **kwargs)
+    return air.Abbr(*content, class_=stringify(styles.typography.abbr, class_), **kwargs)
 
 
 def Var(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Var(*content, class_=stringify(styles.semantic.var, class_), **kwargs)
+    return air.Var(*content, class_=stringify(styles.typography.var, class_), **kwargs)
 
 
 def Mark(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Mark(*content, class_=stringify(styles.semantic.mark, class_), **kwargs)
+    return air.Mark(*content, class_=stringify(styles.typography.mark, class_), **kwargs)
 
 
 def Time(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Time(*content, class_=stringify(styles.semantic.time, class_), **kwargs)
+    return air.Time(*content, class_=stringify(styles.typography.time, class_), **kwargs)
 
 
 def Code(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Code(*content, class_=stringify(styles.semantic.code, class_), **kwargs)
+    return air.Code(*content, class_=stringify(styles.typography.code, class_), **kwargs)
 
 
 def Pre(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Pre(*content, class_=stringify(styles.semantic.pre, class_), **kwargs)
+    return air.Pre(*content, class_=stringify(styles.typography.pre, class_), **kwargs)
 
 
 def Kbd(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Kbd(*content, class_=stringify(styles.semantic.kbd, class_), **kwargs)
+    return air.Kbd(*content, class_=stringify(styles.typography.kbd, class_), **kwargs)
 
 
 def Samp(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Samp(*content, class_=stringify(styles.semantic.samp, class_), **kwargs)
+    return air.Samp(*content, class_=stringify(styles.typography.samp, class_), **kwargs)
 
 
 def Blockquote(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Blockquote(*content, class_=stringify(styles.semantic.blockquote, class_), **kwargs)
+    return air.Blockquote(*content, class_=stringify(styles.typography.blockquote, class_), **kwargs)
 
 
 def Cite(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Cite(*content, class_=stringify(styles.semantic.cite, class_), **kwargs)
+    return air.Cite(*content, class_=stringify(styles.typography.cite, class_), **kwargs)
 
 
 def Address(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Address(*content, class_=stringify(styles.semantic.address, class_), **kwargs)
+    return air.Address(*content, class_=stringify(styles.typography.address, class_), **kwargs)
 
 
 def Hr(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Hr(class_=stringify(styles.semantic.hr, class_), **kwargs)
+    return air.Hr(class_=stringify(styles.typography.hr, class_), **kwargs)
 
 
 def Details(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Details(*content, class_=stringify(styles.semantic.details, class_), **kwargs)
+    return air.Details(*content, class_=stringify(styles.typography.details, class_), **kwargs)
 
 
 def Summary(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Summary(*content, class_=stringify(styles.semantic.summary, class_), **kwargs)
+    return air.Summary(*content, class_=stringify(styles.typography.summary, class_), **kwargs)
 
 
 def Dl(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Dl(*content, class_=stringify(styles.semantic.dl, class_), **kwargs)
+    return air.Dl(*content, class_=stringify(styles.typography.dl, class_), **kwargs)
 
 
 def Dt(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Dt(*content, class_=stringify(styles.semantic.dt, class_), **kwargs)
+    return air.Dt(*content, class_=stringify(styles.typography.dt, class_), **kwargs)
 
 
 def Dd(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Dd(*content, class_=stringify(styles.semantic.dd, class_), **kwargs)
+    return air.Dd(*content, class_=stringify(styles.typography.dd, class_), **kwargs)
 
 
 def Figure(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Figure(*content, class_=stringify(styles.semantic.figure, class_), **kwargs)
+    return air.Figure(*content, class_=stringify(styles.typography.figure, class_), **kwargs)
 
 
 def Figcaption(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
-    return air.Figcaption(*content, class_=stringify(styles.semantic.figcaption, class_), **kwargs)
+    return air.Figcaption(*content, class_=stringify(styles.typography.figcaption, class_), **kwargs)
 
 
 # Table elements with styling
@@ -355,6 +235,19 @@ def Td(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> a
     return air.Td(*content, class_=stringify(styles.tables.td, class_), **kwargs)
 
 
+def Ul(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    return air.Ul(*content, class_=stringify(styles.lists.ul, class_), **kwargs)
+
+
+def Ol(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    return air.Ol(*content, class_=stringify(styles.lists.ol, class_), **kwargs)
+
+
+def Li(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    return air.Li(*content, class_=stringify(styles.lists.li, class_), **kwargs)
+
+
+
 # Pass-through tags from air.tags
 # Import all standard HTML tags that don't have custom styling
 from air.tags import (
@@ -392,7 +285,6 @@ from air.tags import (
     Ins,
     Label,
     Legend,
-    Li,
     Link,
     Main,
     Map,
@@ -402,7 +294,6 @@ from air.tags import (
     Nav,
     Noscript,
     Object,
-    Ol,
     Optgroup,
     Option,
     Output,
@@ -429,7 +320,6 @@ from air.tags import (
     Title,
     Track,
     U,
-    Ul,
     Video,
     Wbr,
 )

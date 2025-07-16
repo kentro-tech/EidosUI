@@ -476,3 +476,51 @@
         opacity: 1;
     }
 }
+
+/* List Styles */
+.eidos-ul {
+    list-style-type: disc;
+    margin: var(--space-md) 0;
+    padding-left: var(--space-xl);
+    color: var(--color-text);
+}
+
+.eidos-ol {
+    list-style-type: decimal;
+    margin: var(--space-md) 0;
+    padding-left: var(--space-xl);
+    color: var(--color-text);
+}
+
+.eidos-li {
+    margin-bottom: var(--space-xs);
+    line-height: var(--line-height-relaxed);
+}
+
+/* Nested lists */
+.eidos-ul .eidos-ul,
+.eidos-ul .eidos-ol,
+.eidos-ol .eidos-ul,
+.eidos-ol .eidos-ol {
+    margin: var(--space-xs) 0;
+}
+
+/* Remove bottom margin from last list item */
+.eidos-li:last-child {
+    margin-bottom: 0;
+}
+
+/* List item hover effect for interactive lists */
+.eidos-li-interactive {
+    padding: var(--space-xs) var(--space-sm);
+    margin-left: calc(var(--space-xl) * -1);
+    margin-right: calc(var(--space-sm) * -1);
+    padding-left: var(--space-xl);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-fast);
+    cursor: pointer;
+}
+
+.eidos-li-interactive:hover {
+    background-color: var(--color-surface);
+}

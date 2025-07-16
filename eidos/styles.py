@@ -40,9 +40,6 @@ class Typography:
     h6: Final[str] = "eidos-h6"
 
 
-class Semantic:
-    """Semantic HTML element CSS classes from styles.css."""
-
     # Text formatting
     strong: Final[str] = "eidos-strong"
     i: Final[str] = "eidos-i"
@@ -80,6 +77,15 @@ class Semantic:
     figcaption: Final[str] = "eidos-figcaption"
 
 
+class Lists:
+    """List-related CSS classes from styles.css."""
+
+    ul: Final[str] = "eidos-ul"
+    ol: Final[str] = "eidos-ol"
+    li: Final[str] = "eidos-li"
+    li_interactive: Final[str] = "eidos-li-interactive"
+
+
 class Tables:
     """Table-related CSS classes from styles.css."""
 
@@ -100,5 +106,5 @@ class Tables:
 # Create singleton instance for easy access
 buttons = Buttons()
 typography = Typography()
-semantic = Semantic()
 tables = Tables()
+lists = Lists()

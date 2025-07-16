@@ -15,7 +15,7 @@ from . import styles
 
 # Import components
 from .components import DataTable, EidosHeaders, NavBar
-from .styles import buttons, semantic, tables, typography
+from .styles import buttons, lists, tables, typography
 from .tags import (
     # Headings
     H1,
@@ -148,7 +148,7 @@ __all__ = [
     "styles",
     "buttons",
     "typography",
-    "semantic",
+    "lists",
     "tables",
     # Components
     "DataTable",
