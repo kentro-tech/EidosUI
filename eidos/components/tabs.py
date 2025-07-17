@@ -5,9 +5,11 @@ from ..utils import stringify
 
 
 def TabContainer(
+    *content,
     initial_tab_url: str,
-    cls: str = "",
+    class_: str = "",
     target_id: str = "tabs",
+    **kwargs,
 ) -> Tag:
     """HTMX-based tab container that loads tabs dynamically.
     
@@ -23,21 +25,24 @@ def TabContainer(
         TabContainer("/settings/general")
     """
     return Div(
+        *content,
         id=target_id,
         hx_get=initial_tab_url,
         hx_trigger="load delay:100ms",
         hx_target=f"#{target_id}",
         hx_swap="innerHTML",
-        class_=stringify(styles.tabs.container, cls),
+        class_=stringify(styles.tabs.container, class_),
+        **kwargs,
     )
 
 
 def TabList(
     *tabs: tuple[str, str],
     selected: int = 0,
-    tab_cls: str = "",
+    class_: str = "",
     hx_target: str = "#tabs",
     hx_swap: str = "innerHTML",
+    **kwargs,
 ) -> Tag:
     """HTMX-based tab list for server-rendered tabs.
     
@@ -75,7 +80,7 @@ def TabList(
             class_=stringify(
                 styles.tabs.tab,
                 styles.tabs.tab_active if is_selected else "",
-                tab_cls
+                class_
             ),
         )
         tab_buttons.append(tab_button)
@@ -84,12 +89,14 @@ def TabList(
         *tab_buttons,
         role="tablist",
         class_=styles.tabs.list,
+        **kwargs,
     )
 
 
 def TabPanel(
     content: Tag,
-    panel_cls: str = "",
+    class_: str = "",
+    **kwargs,
 ) -> Tag:
     """Tab panel content wrapper.
     
@@ -104,7 +111,8 @@ def TabPanel(
         content,
         id="tab-content",
         role="tabpanel",
-        class_=stringify(styles.tabs.panel, styles.tabs.panel_active, panel_cls),
+        class_=stringify(styles.tabs.panel, styles.tabs.panel_active, class_),
+        **kwargs,
     )
 
 
@@ -112,6 +120,7 @@ def Tabs(
     tab_list: Tag,
     tab_panel: Tag,
     cls: str = "",
+    **kwargs,
 ) -> Tag:
     """Complete tab component with list and panel.
     
@@ -137,4 +146,5 @@ def Tabs(
         tab_list,
         tab_panel,
         class_=stringify(styles.tabs.container, cls),
+        **kwargs,
     )

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "eidosui"
-version = "0.8.0"
+version = "0.9.0"
 description = "A modern, Tailwind CSS-based UI library for air development"
 readme = "README.md"
 license = "MIT"
