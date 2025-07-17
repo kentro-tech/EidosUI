@@ -10,6 +10,7 @@ from kitchen_sink import components_page
 
 from eidos.components.headers import EidosHeaders
 from eidos.components.navigation import NavBar
+from eidos.components.tabs import TabList, TabPanel
 from eidos.plugins.markdown import Markdown, MarkdownCSS
 from eidos.tags import *
 from eidos.utils import get_eidos_static_files
@@ -37,6 +38,8 @@ def layout(title, *content, sidebar=None):
             MarkdownCSS(),
             Title(f"{title} - EidosUI Docs"),
             Meta(name="viewport", content="width=device-width, initial-scale=1"),
+            Script(src="https://unpkg.com/htmx.org@1.9.10"),
+
             Script("""
                 // Immediately set theme to prevent flash
                 (function() {
@@ -368,3 +371,208 @@ def plugins():
 def plugin_detail(plugin_name: str):
     """Plugin detail page"""
     return layout(f"Plugin: {plugin_name}", load_markdown(f"plugins/{plugin_name}.md"))
+
+
+# Tab example routes - these need to be prefixed with /tab/ to match the pattern
+@app.get("/tab/typography")
+def tab_typography():
+    """Typography tab with semantic HTML examples"""
+    # Return BOTH the tab list and content together
+    return Div(
+        TabList(
+            ("Typography", "/tab/typography"),
+            ("Lists", "/tab/lists"),
+            ("Code", "/tab/code"),
+            selected=0,
+            hx_target="#demo-tabs",
+        ),
+        TabPanel(
+            Div(
+                H3("Typography Examples"),
+                P(
+                    "This tab demonstrates various ",
+                    Strong("semantic HTML elements"),
+                    " for text formatting."
+                ),
+
+                H4("Text Emphasis"),
+                P(
+                    "You can use ",
+                    Strong("strong"),
+                    " for importance, ",
+                    Em("emphasis"),
+                    " for stress, and ",
+                    Mark("mark"),
+                    " for highlighting."
+                ),
+
+                H4("Quotations"),
+                Blockquote(
+                    "The Web is the ultimate customer-empowering environment. "
+                    "He or she who clicks the mouse gets to decide everything.",
+                    Cite("— Jakob Nielsen")
+                ),
+
+                H4("Abbreviations and Time"),
+                P(
+                    "The ",
+                    Abbr("W3C", title="World Wide Web Consortium"),
+                    " was founded in ",
+                    Time("October 1994", datetime="1994-10"),
+                    "."
+                ),
+
+                H4("Deleted and Inserted Text"),
+                P(
+                    "Prices have been ",
+                    Del("increased"),
+                    " ",
+                    Ins("reduced"),
+                    " for the holiday season!"
+                ),
+
+                class_="space-y-4"
+            )
+        )
+    )
+
+
+@app.get("/tab/lists")
+def tab_lists():
+    """Lists tab with various list examples"""
+    return Div(
+        TabList(
+            ("Typography", "/tab/typography"),
+            ("Lists", "/tab/lists"),
+            ("Code", "/tab/code"),
+            selected=1,
+            hx_target="#demo-tabs",
+        ),
+        TabPanel(
+            Div(
+                H3("List Examples"),
+
+                H4("Unordered List"),
+                Ul(
+                    Li("First item with simple text"),
+                    Li(Strong("Second item"), " with strong emphasis"),
+                    Li("Third item with ", Code("inline code")),
+                    Li(
+                        "Fourth item with nested list:",
+                        Ul(
+                            Li("Nested item 1"),
+                            Li("Nested item 2"),
+                            Li("Nested item 3")
+                        )
+                    )
+                ),
+
+                H4("Ordered List"),
+                Ol(
+                    Li("Install EidosUI: ", Code("pip install eidos")),
+                    Li("Import components: ", Code("from eidos.components import *")),
+                    Li("Build your UI with semantic HTML"),
+                    Li("Deploy your application")
+                ),
+
+                H4("Definition List"),
+                Dl(
+                    Dt("HTML"),
+                    Dd("HyperText Markup Language - the standard markup language for documents designed to be displayed in a web browser"),
+
+                    Dt("CSS"),
+                    Dd("Cascading Style Sheets - a style sheet language used for describing the presentation of a document"),
+
+                    Dt("JavaScript"),
+                    Dd("A programming language that conforms to the ECMAScript specification"),
+                ),
+
+                class_="space-y-4"
+            )
+        )
+    )
+
+
+@app.get("/tab/code")
+def tab_code():
+    """Code tab with code-related semantic elements"""
+    return Div(
+        TabList(
+            ("Typography", "/tab/typography"),
+            ("Lists", "/tab/lists"),
+            ("Code", "/tab/code"),
+            selected=2,
+            hx_target="#demo-tabs",
+        ),
+        TabPanel(
+            Div(
+                H3("Code Examples"),
+
+                H4("Inline Code Elements"),
+                P(
+                    "Use ",
+                    Code("code"),
+                    " for inline code, ",
+                    Kbd("Ctrl+C"),
+                    " for keyboard input, ",
+                    Var("x"),
+                    " for variables, and ",
+                    Samp("Hello World"),
+                    " for sample output."
+                ),
+
+                H4("Code Block"),
+                Pre('''def handle_tab_route():
+    """Return tab list + content together"""
+    return Div(
+        TabList(
+            ("Tab 1", "/tab1"),
+            ("Tab 2", "/tab2"),
+            selected=0,
+            hx_target="#tabs"
+        ),
+        TabPanel(content)
+    )'''),
+
+                H4("Shell Commands"),
+                P("To install EidosUI, run:"),
+                Pre("$ pip install eidos\n$ python -m eidos.cli init"),
+
+                H4("Keyboard Shortcuts"),
+                P(
+                    "Common shortcuts: ",
+                    Kbd("Cmd+S"),
+                    " to save, ",
+                    Kbd("Cmd+Z"),
+                    " to undo, ",
+                    Kbd("Cmd+Shift+Z"),
+                    " to redo."
+                ),
+
+                Details(
+                    Summary("HTMX Tab Implementation"),
+                    Pre('''# Initial container on main page
+TabContainer("/tab/typography", target_id="demo-tabs")
+
+# Each tab route returns the complete structure
+@app.get("/tab/typography")
+def tab_typography():
+    return Div(
+        TabList(
+            ("Typography", "/tab/typography"),
+            ("Lists", "/tab/lists"),
+            ("Code", "/tab/code"),
+            selected=0,
+            hx_target="#demo-tabs"
+        ),
+        TabPanel(
+            # Tab content here
+        )
+    )'''),
+                    class_="mt-4"
+                ),
+
+                class_="space-y-4"
+            )
+        )
+    )

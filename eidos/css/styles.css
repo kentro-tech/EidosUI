@@ -524,3 +524,62 @@
 .eidos-li-interactive:hover {
     background-color: var(--color-surface);
 }
+
+/* Tabs Component */
+.eidos-tabs {
+    position: relative;
+}
+
+.eidos-tabs-list {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+.eidos-tab {
+    padding: var(--space-sm) var(--space-lg);
+    border-bottom: 2px solid transparent;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+    position: relative;
+    top: 1px;
+}
+
+.eidos-tab:hover {
+    color: var(--color-text);
+}
+
+.eidos-tab:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: -2px;
+}
+
+.eidos-tab-active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+.eidos-tab-panel {
+    padding: var(--space-lg) 0;
+    display: none;
+}
+
+.eidos-tab-panel-active {
+    display: block;
+}
+
+/* HTMX-enhanced transitions */
+.eidos-tabs.htmx-swapping .eidos-tab-panel {
+    opacity: 0;
+    transform: translateY(-4px);
+}
+
+.eidos-tabs.htmx-settling .eidos-tab-panel {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity var(--transition-normal), transform var(--transition-normal);
+}

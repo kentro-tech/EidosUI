@@ -103,8 +103,25 @@ class Tables:
     td: Final[str] = "eidos-td"
 
 
+class Tabs:
+    """Tab-related CSS classes from styles.css."""
+
+    # Container and structure
+    container: Final[str] = "eidos-tabs"
+    list: Final[str] = "eidos-tabs-list"
+
+    # Tab elements
+    tab: Final[str] = "eidos-tab"
+    tab_active: Final[str] = "eidos-tab-active"
+
+    # Panel elements
+    panel: Final[str] = "eidos-tab-panel"
+    panel_active: Final[str] = "eidos-tab-panel-active"
+
+
 # Create singleton instance for easy access
 buttons = Buttons()
 typography = Typography()
 tables = Tables()
 lists = Lists()
+tabs = Tabs()

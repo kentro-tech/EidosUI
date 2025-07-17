@@ -4,7 +4,7 @@ import air
 from air.tags import *
 
 import eidos.styles as styles
-from eidos.components import DataTable
+from eidos.components import DataTable, TabContainer
 from eidos.tags import *
 
 
@@ -108,7 +108,7 @@ def components_page():
                         air.Br(),
                         "Framework City, UI 12345",
                     ),
-                    class_=styles.semantic.details_content,
+                    class_=styles.typography.details_content,
                 ),
             ),
             Figure(
@@ -167,6 +167,38 @@ def components_page():
                 ],
                 headers=["Product", "Version", "Status", "Downloads"],
             ),
+        ),
+        ComponentSection(
+            "Tabs",
+            "tabs",
+            H3("HTMX-Based Tabs"),
+            P("Tabs in EidosUI use HTMX for server-side state management. Click the tabs below to see them in action:"),
+            Div(
+                TabContainer("/tab/typography", target_id="demo-tabs"),
+                id="demo-tabs-container",
+                class_="border rounded-lg p-4"
+            ),
+            P("Each tab demonstrates different semantic HTML elements, loaded dynamically via HTMX.", class_="text-sm text-gray-600 mt-4"),
+
+            H3("Implementation Example", class_="mt-8"),
+            Pre('''# Initialize tab container on your page
+TabContainer("/tab/typography", target_id="demo-tabs")
+
+# Server route for each tab
+@app.get("/tab/typography")
+def tab_typography():
+    return Div(
+        TabList(
+            ("Typography", "/tab/typography"),
+            ("Lists", "/tab/lists"),
+            ("Code", "/tab/code"),
+            selected=0,
+            hx_target="#demo-tabs"
+        ),
+        TabPanel(
+            # Tab content here
+        )
+    )'''),
         ),
         ComponentSection(
             "Lucide Icons",
