@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: EidosUI Documentation
+    url: https://github.com/kentro-tech/EidosUI#readme
+    about: Please check the documentation first
+  - name: Discussions
+    url: https://github.com/kentro-tech/EidosUI/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: EidosUI Examples
+    url: https://github.com/kentro-tech/EidosUI/tree/main/examples
+    about: Check out examples of EidosUI usage
