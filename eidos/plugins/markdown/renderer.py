@@ -1,5 +1,6 @@
 """Core markdown rendering with theme integration"""
 
+
 import markdown
 
 from .extensions.alerts import AlertExtension
@@ -7,12 +8,15 @@ from .extensions.alerts import AlertExtension
 
 class MarkdownRenderer:
     """Core markdown rendering with theme integration.
-    
+
     Warning:
         This renderer outputs raw HTML without sanitization to support advanced
         features like forms, embeds, and custom styling. Never use with untrusted
         user content without additional sanitization.
     """
+
+    extensions: list[str | markdown.Extension]
+    md: markdown.Markdown
 
     def __init__(self, extensions: list[str | markdown.Extension] | None = None):
         """Initialize the renderer with optional extensions.
@@ -42,13 +46,16 @@ class MarkdownRenderer:
         Returns:
             HTML string wrapped with eidos-md class for styling
         """
-        self.md.reset()  # TODO: this is a hack to clear the state of the markdown processor
+        # Reset markdown processor state to prevent contamination between renders
+        # This is required by Python-Markdown when reusing instances, especially
+        # with stateful extensions like footnotes or custom parsers
+        self.md.reset()
 
         html_content = self.md.convert(markdown_text)
 
         return f'<div class="eidos-md">{html_content}</div>'
 
-    def add_extension(self, extension: str) -> None:
+    def add_extension(self, extension: str | markdown.Extension) -> None:
         """Add a markdown extension.
 
         Args:

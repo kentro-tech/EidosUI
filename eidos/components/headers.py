@@ -1,9 +1,9 @@
 from typing import Literal
 
-from air import Link, Meta, Script
+from air import Link, Meta, Script, Tag
 
 
-def get_css_urls():
+def get_css_urls() -> list[str]:
     """Return list of CSS URLs for EidosUI."""
     return [
         "/eidos/css/styles.css",
@@ -18,7 +18,7 @@ def EidosHeaders(
     include_lucide: bool = True,
     include_eidos_js: bool = True,
     theme: Literal["light", "dark"] = "light",
-):
+) -> list[Tag]:
     """Complete EidosUI headers with EidosUI JavaScript support.
 
     Args:
@@ -37,7 +37,7 @@ def EidosHeaders(
         headers.append(Script(src="https://cdn.tailwindcss.com"))
 
     if include_lucide:
-        headers.append(Script(src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"))
+        headers.append(Script(src="https://unpkg.com/lucide@latest"))
 
     # EidosUI CSS
     for css_url in get_css_urls():

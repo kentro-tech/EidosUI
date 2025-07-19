@@ -1,3 +1,5 @@
+from typing import Any, Literal
+
 from air import Button, Div, Tag
 
 from .. import styles
@@ -5,22 +7,22 @@ from ..utils import stringify
 
 
 def TabContainer(
-    *content,
+    *content: Tag,
     initial_tab_url: str,
     class_: str = "",
     target_id: str = "tabs",
-    **kwargs,
+    **kwargs: Any,
 ) -> Tag:
     """HTMX-based tab container that loads tabs dynamically.
-    
+
     Args:
         initial_tab_url: URL to load the initial tab content
         cls: Additional classes for the container
         target_id: ID for the tab container (default: "tabs")
-        
+
     Returns:
         Tag: The tab container that will be populated via HTMX
-        
+
     Example:
         TabContainer("/settings/general")
     """
@@ -41,21 +43,23 @@ def TabList(
     selected: int = 0,
     class_: str = "",
     hx_target: str = "#tabs",
-    hx_swap: str = "innerHTML",
-    **kwargs,
+    hx_swap: Literal[
+        "innerHTML", "outerHTML", "beforebegin", "afterbegin", "beforeend", "afterend", "delete", "none"
+    ] = "innerHTML",
+    **kwargs: Any,
 ) -> Tag:
     """HTMX-based tab list for server-rendered tabs.
-    
+
     Args:
         *tabs: Variable number of (label, url) tuples
         selected: Index of the selected tab (0-based)
         tab_cls: Additional classes for tab buttons
         hx_target: HTMX target for tab content (default: "#tabs")
         hx_swap: HTMX swap method (default: "innerHTML")
-        
+
     Returns:
         Tag: The tab list component
-        
+
     Example:
         TabList(
             ("General", "/settings/general"),
@@ -96,14 +100,14 @@ def TabList(
 def TabPanel(
     content: Tag,
     class_: str = "",
-    **kwargs,
+    **kwargs: Any,
 ) -> Tag:
     """Tab panel content wrapper.
-    
+
     Args:
         content: The content to display in the tab panel
         panel_cls: Additional classes for the panel
-        
+
     Returns:
         Tag: The tab panel component
     """
@@ -120,18 +124,18 @@ def Tabs(
     tab_list: Tag,
     tab_panel: Tag,
     cls: str = "",
-    **kwargs,
+    **kwargs: Any,
 ) -> Tag:
     """Complete tab component with list and panel.
-    
+
     Args:
         tab_list: The TabList component
         tab_panel: The TabPanel component
         cls: Additional classes for the container
-        
+
     Returns:
         Tag: The complete tabs component
-        
+
     Example:
         # In your route handler:
         tab_list = TabList(

@@ -37,7 +37,7 @@ def stringify(*classes: str | list[str] | None) -> str:
     return " ".join(result)
 
 
-def get_eidos_static_files(markdown: bool = False) -> dict:
+def get_eidos_static_files(markdown: bool = False) -> dict[str, str]:
     """
     Get a dictionary mapping URL paths to static file directories.
 

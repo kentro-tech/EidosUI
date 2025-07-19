@@ -2,8 +2,10 @@
 
 import re
 import xml.etree.ElementTree as etree
-from xml.etree.ElementTree import SubElement
+from re import Pattern
+from xml.etree.ElementTree import Element, SubElement
 
+from markdown import Markdown
 from markdown.blockprocessors import BlockProcessor
 from markdown.extensions import Extension
 
@@ -12,10 +14,10 @@ class AlertBlockProcessor(BlockProcessor):
     """Process GitHub-style alert blocks"""
 
     # Pattern to match > [!TYPE] at the start of a blockquote
-    RE_ALERT = re.compile(r"^> \[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]", re.MULTILINE)
+    RE_ALERT: Pattern[str] = re.compile(r"^> \[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]", re.MULTILINE)
 
     # Alert type configurations
-    ALERT_TYPES = {
+    ALERT_TYPES: dict[str, dict[str, str]] = {
         "NOTE": {"class": "eidos-alert eidos-alert-info", "icon": "ℹ️", "title": "Note"},
         "TIP": {
             "class": "eidos-alert eidos-alert-success",
@@ -39,11 +41,11 @@ class AlertBlockProcessor(BlockProcessor):
         },
     }
 
-    def test(self, parent, block):
+    def test(self, parent: Element, block: str) -> bool:
         """Test if the block is a GitHub-style alert"""
         return bool(self.RE_ALERT.match(block))
 
-    def run(self, parent, blocks):
+    def run(self, parent: Element, blocks: list[str]) -> bool:
         """Process the alert block"""
         block = blocks.pop(0)
 
@@ -115,7 +117,7 @@ class AlertBlockProcessor(BlockProcessor):
 class AlertExtension(Extension):
     """Add GitHub-style alerts to markdown"""
 
-    def extendMarkdown(self, md):
+    def extendMarkdown(self, md: Markdown) -> None:
         """Add the alert processor to the markdown instance"""
         md.parser.blockprocessors.register(
             AlertBlockProcessor(md.parser),

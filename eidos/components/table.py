@@ -1,5 +1,7 @@
 from typing import Any
 
+from air import Tag
+
 from ..tags import Table as BaseTable
 from ..tags import Tbody, Td, Th, Thead, Tr
 
@@ -14,7 +16,7 @@ class DataTable:
         headers: list[str] | None = None,
         class_: str | list[str] | None = None,
         **kwargs: Any,
-    ) -> Any:
+    ) -> Tag:
         """Create table from list of lists.
 
         Args:
@@ -50,7 +52,7 @@ class DataTable:
         headers: list[str] | None = None,
         class_: str | list[str] | None = None,
         **kwargs: Any,
-    ) -> Any:
+    ) -> Tag:
         """Create table from list of dictionaries.
 
         Args:
