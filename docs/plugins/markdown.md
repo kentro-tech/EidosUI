@@ -2,6 +2,15 @@
 
 This guide covers everything you need to know about using markdown in EidosUI: basic usage, built-in extensions, and creating custom extensions.
 
+> **⚠️ Security Warning**
+> 
+> The EidosUI markdown plugin renders raw HTML without sanitization to support advanced features like forms, embeds, and custom styling. **Never render untrusted user content** without proper sanitization. If you need to display user-generated content, consider:
+> - Using a separate HTML sanitizer like `bleach` after rendering
+> - Restricting markdown features for untrusted content
+> - Rendering untrusted content in a sandboxed iframe
+> 
+> This design choice prioritizes flexibility for developers who control their content.
+
 ## Installation
 
 Install the markdown plugin with:

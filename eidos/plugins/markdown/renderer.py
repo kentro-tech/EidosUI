@@ -6,7 +6,13 @@ from .extensions.alerts import AlertExtension
 
 
 class MarkdownRenderer:
-    """Core markdown rendering with theme integration"""
+    """Core markdown rendering with theme integration.
+    
+    Warning:
+        This renderer outputs raw HTML without sanitization to support advanced
+        features like forms, embeds, and custom styling. Never use with untrusted
+        user content without additional sanitization.
+    """
 
     def __init__(self, extensions: list[str | markdown.Extension] | None = None):
         """Initialize the renderer with optional extensions.
