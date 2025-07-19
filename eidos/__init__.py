@@ -138,7 +138,7 @@ from .tags import (
 )
 
 # Version info
-__version__ = "0.4.0"
+__version__ = "0.9.0"
 
 # Define what's available with "from eidos import *"
 __all__ = [

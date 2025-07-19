@@ -55,7 +55,8 @@ build:
 docs:
     cd docs && fastapi dev
 
+# Release to PyPI
 release:
-    # just clean
+    just clean
     python -m build
     twine upload --skip-existing dist/*
