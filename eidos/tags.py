@@ -248,6 +248,153 @@ def Li(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> a
     return air.Li(*content, class_=stringify(styles.lists.li, class_), **kwargs)
 
 
+# Form elements with default styling
+def Fieldset(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled fieldset element."""
+    return air.Fieldset(*content, class_=stringify(styles.forms.fieldset, class_), **kwargs)
+
+
+def Label(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled label element."""
+    return air.Label(*content, class_=stringify(styles.forms.label, class_), **kwargs)
+
+
+def Input(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled input element."""
+    input_type = kwargs.get("type", "text")
+
+    # Apply appropriate class based on input type
+    if input_type == "checkbox":
+        default_class = styles.forms.checkbox
+    elif input_type == "radio":
+        default_class = styles.forms.radio
+    elif input_type == "file":
+        default_class = styles.forms.file
+    else:
+        default_class = styles.forms.input
+
+    return air.Input(class_=stringify(default_class, class_), **kwargs)
+
+
+def Textarea(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled textarea element."""
+    return air.Textarea(*content, class_=stringify(styles.forms.textarea, class_), **kwargs)
+
+
+def Select(*content: Any, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled select element."""
+    return air.Select(*content, class_=stringify(styles.forms.select, class_), **kwargs)
+
+
+def Option(*content: Any, **kwargs: Any) -> air.Tag:
+    """Option element."""
+    return air.Option(*content, **kwargs)
+
+
+def DatePicker(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled date input."""
+    return air.Input(type="date", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def TimePicker(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled time input."""
+    return air.Input(type="time", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def ColorPicker(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled color input."""
+    return air.Input(type="color", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def NumberInput(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled number input."""
+    return air.Input(type="number", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def EmailInput(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled email input."""
+    return air.Input(type="email", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def PasswordInput(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled password input."""
+    return air.Input(type="password", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def SearchInput(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled search input."""
+    return air.Input(type="search", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def UrlInput(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled URL input."""
+    return air.Input(type="url", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def TelInput(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled telephone input."""
+    return air.Input(type="tel", class_=stringify(styles.forms.input, class_), **kwargs)
+
+
+def Checkbox(
+    name: str | None = None, label: str | None = None, class_: str | list[str] | None = None, **kwargs: Any
+) -> air.Tag:
+    """Styled checkbox input with optional label."""
+    # Generate ID if not provided
+    input_id = kwargs.get("id", f"{name}-{kwargs.get('value', 'checkbox')}".replace(" ", "-") if name else None)
+
+    # Create checkbox
+    checkbox = air.Input(type="checkbox", name=name, id=input_id, class_=stringify(styles.forms.checkbox), **kwargs)
+
+    if label:
+        # Wrap in label
+        return Label(checkbox, label, for_=input_id, class_=stringify(styles.forms.label_inline, class_))
+    else:
+        # Apply additional classes if provided
+        if class_:
+            checkbox = air.Input(
+                type="checkbox", name=name, id=input_id, class_=stringify(styles.forms.checkbox, class_), **kwargs
+            )
+        return checkbox
+
+
+def Radio(
+    name: str | None = None, label: str | None = None, class_: str | list[str] | None = None, **kwargs: Any
+) -> air.Tag:
+    """Styled radio input with optional label."""
+    # Generate ID if not provided
+    input_id = kwargs.get("id", f"{name}-{kwargs.get('value', 'radio')}".replace(" ", "-") if name else None)
+
+    # Create radio
+    radio = air.Input(type="radio", name=name, id=input_id, class_=stringify(styles.forms.radio), **kwargs)
+
+    if label:
+        # Wrap in label
+        return Label(radio, label, for_=input_id, class_=stringify(styles.forms.label_inline, class_))
+    else:
+        # Apply additional classes if provided
+        if class_:
+            radio = air.Input(
+                type="radio", name=name, id=input_id, class_=stringify(styles.forms.radio, class_), **kwargs
+            )
+        return radio
+
+
+def FileInput(class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled file input."""
+    return air.Input(type="file", class_=stringify(styles.forms.file, class_), **kwargs)
+
+
+# Helper form elements
+def FormError(text: str, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled error message."""
+    return Small(text, class_=stringify(styles.forms.error, class_), **kwargs)
+
+
+def FormHelp(text: str, class_: str | list[str] | None = None, **kwargs: Any) -> air.Tag:
+    """Styled help text."""
+    return Small(text, class_=stringify(styles.forms.help, class_), **kwargs)
+
 
 # Pass-through tags from air.tags
 # Import all standard HTML tags that don't have custom styling

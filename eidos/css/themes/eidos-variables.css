@@ -72,6 +72,8 @@
     --color-accent-rgb: 168, 85, 247;
     --color-surface-rgb: 248, 250, 252;
     --color-background-rgb: 255, 255, 255;
+    --color-error-rgb: 220, 38, 38;
+    --color-success-rgb: 16, 185, 129;
     
     /* Spacing Scale */
     --space-xs: 0.25rem;   /* 4px */
@@ -187,4 +189,55 @@
     --breakpoint-lg: 1024px;
     --breakpoint-xl: 1280px;
     --breakpoint-2xl: 1536px;
+    
+    /* Form-specific Variables */
+    --form-input-height: 2.5rem;  /* 40px */
+    --form-input-padding-x: var(--space-md);
+    --form-input-padding-y: var(--space-sm);
+    --form-input-border-width: var(--border);
+    --form-input-border-color: var(--color-border);
+    --form-input-border-color-hover: var(--color-border-hover);
+    --form-input-border-color-focus: var(--color-primary);
+    --form-input-bg: var(--color-input);
+    --form-input-bg-disabled: var(--color-surface);
+    --form-input-text: var(--color-text);
+    --form-input-text-disabled: var(--color-text-muted);
+    --form-input-placeholder: var(--color-text-subtle);
+    --form-input-radius: var(--radius-md);
+    --form-input-shadow: var(--shadow-xs);
+    --form-input-shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
+    
+    --form-label-font-size: var(--font-size-sm);
+    --form-label-font-weight: var(--font-weight-medium);
+    --form-label-color: var(--color-text);
+    --form-label-margin-bottom: var(--space-xs);
+    
+    --form-help-font-size: var(--font-size-sm);
+    --form-help-color: var(--color-text-muted);
+    --form-help-margin-top: var(--space-xs);
+    
+    --form-error-color: var(--color-error);
+    --form-error-border-color: var(--color-error);
+    --form-error-bg: var(--color-error-light);
+    --form-error-font-size: var(--font-size-sm);
+    
+    --form-fieldset-border: var(--border) solid var(--color-border);
+    --form-fieldset-padding: var(--space-lg);
+    --form-fieldset-radius: var(--radius-lg);
+    --form-fieldset-bg: var(--color-surface);
+    
+    --form-checkbox-size: 1.25rem;  /* 20px */
+    --form-radio-size: 1.25rem;  /* 20px */
+    --form-checkbox-bg: var(--color-background);
+    --form-checkbox-bg-checked: var(--color-primary);
+    --form-checkbox-border: var(--color-border);
+    --form-checkbox-check-color: var(--color-primary-foreground);
+    
+    /* Date/Time Picker Variables */
+    --form-datetime-bg: var(--color-background);
+    --form-datetime-text: var(--color-text);
+    --form-datetime-border: var(--color-border);
+    --form-datetime-button-bg: var(--color-surface);
+    --form-datetime-button-hover: var(--color-border);
+    --form-datetime-icon-color: var(--color-text-muted);
   }

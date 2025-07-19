@@ -39,14 +39,13 @@ def layout(title, *content, sidebar=None):
             Title(f"{title} - EidosUI Docs"),
             Meta(name="viewport", content="width=device-width, initial-scale=1"),
             Script(src="https://unpkg.com/htmx.org@1.9.10"),
-
             Script("""
                 // Immediately set theme to prevent flash
                 (function() {
                     const THEME_KEY = 'eidos-theme-preference';
                     const savedTheme = localStorage.getItem(THEME_KEY);
-                    const theme = (savedTheme === 'light' || savedTheme === 'dark') 
-                        ? savedTheme 
+                    const theme = (savedTheme === 'light' || savedTheme === 'dark')
+                        ? savedTheme
                         : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
                     document.documentElement.setAttribute('data-theme', theme);
                 })();
@@ -389,12 +388,7 @@ def tab_typography():
         TabPanel(
             Div(
                 H3("Typography Examples"),
-                P(
-                    "This tab demonstrates various ",
-                    Strong("semantic HTML elements"),
-                    " for text formatting."
-                ),
-
+                P("This tab demonstrates various ", Strong("semantic HTML elements"), " for text formatting."),
                 H4("Text Emphasis"),
                 P(
                     "You can use ",
@@ -403,37 +397,27 @@ def tab_typography():
                     Em("emphasis"),
                     " for stress, and ",
                     Mark("mark"),
-                    " for highlighting."
+                    " for highlighting.",
                 ),
-
                 H4("Quotations"),
                 Blockquote(
                     "The Web is the ultimate customer-empowering environment. "
                     "He or she who clicks the mouse gets to decide everything.",
-                    Cite("— Jakob Nielsen")
+                    Cite("— Jakob Nielsen"),
                 ),
-
                 H4("Abbreviations and Time"),
                 P(
                     "The ",
                     Abbr("W3C", title="World Wide Web Consortium"),
                     " was founded in ",
                     Time("October 1994", datetime="1994-10"),
-                    "."
+                    ".",
                 ),
-
                 H4("Deleted and Inserted Text"),
-                P(
-                    "Prices have been ",
-                    Del("increased"),
-                    " ",
-                    Ins("reduced"),
-                    " for the holiday season!"
-                ),
-
-                class_="space-y-4"
+                P("Prices have been ", Del("increased"), " ", Ins("reduced"), " for the holiday season!"),
+                class_="space-y-4",
             )
-        )
+        ),
     )
 
 
@@ -451,7 +435,6 @@ def tab_lists():
         TabPanel(
             Div(
                 H3("List Examples"),
-
                 H4("Unordered List"),
                 Ul(
                     Li("First item with simple text"),
@@ -459,37 +442,28 @@ def tab_lists():
                     Li("Third item with ", Code("inline code")),
                     Li(
                         "Fourth item with nested list:",
-                        Ul(
-                            Li("Nested item 1"),
-                            Li("Nested item 2"),
-                            Li("Nested item 3")
-                        )
-                    )
+                        Ul(Li("Nested item 1"), Li("Nested item 2"), Li("Nested item 3")),
+                    ),
                 ),
-
                 H4("Ordered List"),
                 Ol(
                     Li("Install EidosUI: ", Code("pip install eidos")),
                     Li("Import components: ", Code("from eidos.components import *")),
                     Li("Build your UI with semantic HTML"),
-                    Li("Deploy your application")
+                    Li("Deploy your application"),
                 ),
-
                 H4("Definition List"),
                 Dl(
                     Dt("HTML"),
-                    Dd("HyperText Markup Language - the standard markup language for documents designed to be displayed in a web browser"),
-
+                    Dd("HyperText Markup Language - for documents designed to be displayed in a web browser"),
                     Dt("CSS"),
-                    Dd("Cascading Style Sheets - a style sheet language used for describing the presentation of a document"),
-
+                    Dd("Cascading Style Sheets - used for describing the presentation of a document"),
                     Dt("JavaScript"),
                     Dd("A programming language that conforms to the ECMAScript specification"),
                 ),
-
-                class_="space-y-4"
+                class_="space-y-4",
             )
-        )
+        ),
     )
 
 
@@ -507,7 +481,6 @@ def tab_code():
         TabPanel(
             Div(
                 H3("Code Examples"),
-
                 H4("Inline Code Elements"),
                 P(
                     "Use ",
@@ -518,9 +491,8 @@ def tab_code():
                     Var("x"),
                     " for variables, and ",
                     Samp("Hello World"),
-                    " for sample output."
+                    " for sample output.",
                 ),
-
                 H4("Code Block"),
                 Pre('''def handle_tab_route():
     """Return tab list + content together"""
@@ -533,11 +505,9 @@ def tab_code():
         ),
         TabPanel(content)
     )'''),
-
                 H4("Shell Commands"),
                 P("To install EidosUI, run:"),
                 Pre("$ pip install eidos\n$ python -m eidos.cli init"),
-
                 H4("Keyboard Shortcuts"),
                 P(
                     "Common shortcuts: ",
@@ -546,12 +516,11 @@ def tab_code():
                     Kbd("Cmd+Z"),
                     " to undo, ",
                     Kbd("Cmd+Shift+Z"),
-                    " to redo."
+                    " to redo.",
                 ),
-
                 Details(
                     Summary("HTMX Tab Implementation"),
-                    Pre('''# Initial container on main page
+                    Pre("""# Initial container on main page
 TabContainer("/tab/typography", target_id="demo-tabs")
 
 # Each tab route returns the complete structure
@@ -568,11 +537,10 @@ def tab_typography():
         TabPanel(
             # Tab content here
         )
-    )'''),
-                    class_="mt-4"
+    )"""),
+                    class_="mt-4",
                 ),
-
-                class_="space-y-4"
+                class_="space-y-4",
             )
-        )
+        ),
     )

@@ -81,11 +81,7 @@ def TabList(
             role="tab",
             aria_selected="true" if is_selected else "false",
             aria_controls="tab-content",
-            class_=stringify(
-                styles.tabs.tab,
-                styles.tabs.tab_active if is_selected else "",
-                class_
-            ),
+            class_=stringify(styles.tabs.tab, styles.tabs.tab_active if is_selected else "", class_),
         )
         tab_buttons.append(tab_button)
 

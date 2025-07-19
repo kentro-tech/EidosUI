@@ -39,7 +39,6 @@ class Typography:
     h5: Final[str] = "eidos-h5"
     h6: Final[str] = "eidos-h6"
 
-
     # Text formatting
     strong: Final[str] = "eidos-strong"
     i: Final[str] = "eidos-i"
@@ -119,9 +118,42 @@ class Tabs:
     panel_active: Final[str] = "eidos-tab-panel-active"
 
 
+class Forms:
+    """Form-related CSS classes from styles.css."""
+
+    # Container elements
+    fieldset: Final[str] = "eidos-fieldset"
+    form_group: Final[str] = "eidos-form-group"
+
+    # Labels
+    label: Final[str] = "eidos-label"
+    label_inline: Final[str] = "eidos-label-inline"
+
+    # Input elements
+    input: Final[str] = "eidos-input"
+    textarea: Final[str] = "eidos-textarea"
+    select: Final[str] = "eidos-select"
+    checkbox: Final[str] = "eidos-checkbox"
+    radio: Final[str] = "eidos-radio"
+    file: Final[str] = "eidos-file"
+
+    # Feedback elements
+    error: Final[str] = "eidos-error"
+    help: Final[str] = "eidos-help"
+
+    # Layout helpers
+    form_row: Final[str] = "eidos-form-row"
+    form_col: Final[str] = "eidos-form-col"
+
+    # Input groups
+    input_group: Final[str] = "eidos-input-group"
+    input_addon: Final[str] = "eidos-input-addon"
+
+
 # Create singleton instance for easy access
 buttons = Buttons()
 typography = Typography()
 tables = Tables()
 lists = Lists()
 tabs = Tabs()
+forms = Forms()

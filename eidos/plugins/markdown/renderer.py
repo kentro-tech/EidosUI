@@ -1,6 +1,5 @@
 """Core markdown rendering with theme integration"""
 
-
 import markdown
 
 from .extensions.alerts import AlertExtension

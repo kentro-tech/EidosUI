@@ -583,3 +583,321 @@
     transform: translateY(0);
     transition: opacity var(--transition-normal), transform var(--transition-normal);
 }
+
+/* ===========================
+   Form Styles
+   =========================== */
+
+/* Fieldset */
+.eidos-fieldset {
+    border: var(--form-fieldset-border);
+    border-radius: var(--form-fieldset-radius);
+    padding: var(--form-fieldset-padding);
+    background-color: var(--form-fieldset-bg);
+    margin-bottom: var(--space-lg);
+}
+
+.eidos-fieldset legend {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    padding: 0 var(--space-sm);
+}
+
+/* Form Group */
+.eidos-form-group {
+    margin-bottom: var(--space-lg);
+}
+
+/* Labels */
+.eidos-label {
+    display: inline-block;
+    font-size: var(--form-label-font-size);
+    font-weight: var(--form-label-font-weight);
+    color: var(--form-label-color);
+    margin-bottom: var(--form-label-margin-bottom);
+}
+
+.eidos-label-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+    margin-bottom: 0;
+    color: var(--form-label-color);
+    font-size: var(--font-size-base);
+}
+
+/* Base Input Styles */
+.eidos-input,
+.eidos-textarea,
+.eidos-select {
+    display: block;
+    width: 100%;
+    padding: var(--form-input-padding-y) var(--form-input-padding-x);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--form-input-text);
+    background-color: var(--form-input-bg);
+    border: var(--form-input-border-width) solid var(--form-input-border-color);
+    border-radius: var(--form-input-radius);
+    box-shadow: var(--form-input-shadow);
+    transition: all var(--transition-fast);
+    outline: none;
+}
+
+.eidos-input {
+    height: var(--form-input-height);
+}
+
+.eidos-textarea {
+    min-height: calc(var(--form-input-height) * 2);
+    resize: vertical;
+}
+
+.eidos-select {
+    height: var(--form-input-height);
+    cursor: pointer;
+    padding-right: calc(var(--form-input-padding-x) * 2.5);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right var(--form-input-padding-x) center;
+    background-size: 16px 12px;
+    appearance: none;
+}
+
+/* Input States */
+.eidos-input:hover,
+.eidos-textarea:hover,
+.eidos-select:hover {
+    border-color: var(--form-input-border-color-hover);
+}
+
+.eidos-input:focus,
+.eidos-textarea:focus,
+.eidos-select:focus {
+    border-color: var(--form-input-border-color-focus);
+    box-shadow: var(--form-input-shadow-focus);
+}
+
+.eidos-input:disabled,
+.eidos-textarea:disabled,
+.eidos-select:disabled {
+    background-color: var(--form-input-bg-disabled);
+    color: var(--form-input-text-disabled);
+    cursor: not-allowed;
+    opacity: var(--opacity-60);
+}
+
+.eidos-input::placeholder,
+.eidos-textarea::placeholder {
+    color: var(--form-input-placeholder);
+    opacity: 1;
+}
+
+/* Checkbox and Radio */
+.eidos-checkbox,
+.eidos-radio {
+    width: var(--form-checkbox-size);
+    height: var(--form-checkbox-size);
+    margin-right: var(--space-sm);
+    cursor: pointer;
+    flex-shrink: 0;
+    accent-color: var(--color-primary);
+    background-color: var(--form-checkbox-bg);
+    border: var(--form-input-border-width) solid var(--form-checkbox-border);
+}
+
+.eidos-checkbox:checked,
+.eidos-radio:checked {
+    background-color: var(--form-checkbox-bg-checked);
+    border-color: var(--form-checkbox-bg-checked);
+}
+
+.eidos-radio {
+    border-radius: var(--radius-full);
+}
+
+/* Error States */
+.eidos-input[aria-invalid="true"],
+.eidos-textarea[aria-invalid="true"],
+.eidos-select[aria-invalid="true"] {
+    border-color: var(--form-error-border-color);
+}
+
+.eidos-input[aria-invalid="true"]:focus,
+.eidos-textarea[aria-invalid="true"]:focus,
+.eidos-select[aria-invalid="true"]:focus {
+    border-color: var(--form-error-border-color);
+    box-shadow: 0 0 0 3px rgba(var(--color-error-rgb), 0.1);
+}
+
+/* Error Messages */
+.eidos-error {
+    display: block;
+    font-size: var(--form-error-font-size);
+    color: var(--form-error-color);
+    margin-top: var(--form-help-margin-top);
+}
+
+/* Help Text */
+.eidos-help {
+    display: block;
+    font-size: var(--form-help-font-size);
+    color: var(--form-help-color);
+    margin-top: var(--form-help-margin-top);
+}
+
+/* File Input */
+.eidos-file {
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+}
+
+.eidos-file::file-selector-button {
+    padding: var(--space-xs) var(--space-sm);
+    margin-right: var(--space-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    background-color: var(--color-primary-light);
+    border: var(--border) solid var(--color-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.eidos-file::file-selector-button:hover {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+}
+
+/* Form Layout Helpers */
+.eidos-form-row {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.eidos-form-col {
+    flex: 1;
+}
+
+/* Input Groups */
+.eidos-input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.eidos-input-group .eidos-input {
+    border-radius: 0;
+}
+
+.eidos-input-group .eidos-input:first-child {
+    border-top-left-radius: var(--form-input-radius);
+    border-bottom-left-radius: var(--form-input-radius);
+}
+
+.eidos-input-group .eidos-input:last-child {
+    border-top-right-radius: var(--form-input-radius);
+    border-bottom-right-radius: var(--form-input-radius);
+}
+
+.eidos-input-addon {
+    display: flex;
+    align-items: center;
+    padding: var(--form-input-padding-y) var(--form-input-padding-x);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-muted);
+    background-color: var(--color-surface);
+    border: var(--form-input-border-width) solid var(--form-input-border-color);
+}
+
+.eidos-input-addon:first-child {
+    border-right: 0;
+    border-radius: var(--form-input-radius) 0 0 var(--form-input-radius);
+}
+
+.eidos-input-addon:last-child {
+    border-left: 0;
+    border-radius: 0 var(--form-input-radius) var(--form-input-radius) 0;
+}
+
+
+/* Color Input */
+.eidos-input[type="color"] {
+    padding: var(--space-xs);
+    cursor: pointer;
+}
+
+.eidos-input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.eidos-input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: var(--radius-sm);
+}
+
+/* Date and Time Input Styling */
+.eidos-input[type="date"],
+.eidos-input[type="time"],
+.eidos-input[type="datetime-local"],
+.eidos-input[type="month"],
+.eidos-input[type="week"] {
+    color-scheme: light dark;
+    background-color: var(--form-datetime-bg);
+    color: var(--form-datetime-text);
+}
+
+/* Style the calendar/time picker icon */
+.eidos-input[type="date"]::-webkit-calendar-picker-indicator,
+.eidos-input[type="time"]::-webkit-calendar-picker-indicator,
+.eidos-input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+.eidos-input[type="month"]::-webkit-calendar-picker-indicator,
+.eidos-input[type="week"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.8;
+    filter: var(--color-scheme-filter, none);
+    transition: opacity var(--transition-fast);
+}
+
+.eidos-input[type="date"]:hover::-webkit-calendar-picker-indicator,
+.eidos-input[type="time"]:hover::-webkit-calendar-picker-indicator,
+.eidos-input[type="datetime-local"]:hover::-webkit-calendar-picker-indicator,
+.eidos-input[type="month"]:hover::-webkit-calendar-picker-indicator,
+.eidos-input[type="week"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 1;
+}
+
+/* Dark theme filter */
+[data-theme="dark"] .eidos-input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] .eidos-input[type="time"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] .eidos-input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] .eidos-input[type="month"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] .eidos-input[type="week"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+/* Better Select Dropdown Styling */
+.eidos-select option {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    padding: var(--space-sm);
+}
+
+.eidos-select option:hover,
+.eidos-select option:focus {
+    background-color: var(--color-surface);
+}
+
+.eidos-select option:checked {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+}
+
+.eidos-select option:disabled {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
