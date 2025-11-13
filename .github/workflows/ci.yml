@@ -47,7 +47,3 @@ jobs:
       - name: Run tests
         run: |
           uv run just test
-      
-      - name: Build package
-        run: |
-          uv run just build
