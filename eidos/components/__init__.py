@@ -7,6 +7,7 @@ from .headers import EidosHeaders
 from .navigation import NavBar
 from .table import DataTable
 from .tabs import TabContainer, TabList, TabPanel, Tabs
+from .theme import ThemeSwitch
 
 __all__ = [
     "DataTable",
@@ -16,4 +17,5 @@ __all__ = [
     "TabList",
     "TabPanel",
     "Tabs",
+    "ThemeSwitch",
 ]

@@ -74,9 +74,19 @@ NavBar(
 
 ### Themes
 
+Add a theme switcher to your app:
+
 ```python
-Html(data_theme="dark")  # or "light"
+from eidos import NavBar, ThemeSwitch
+
+NavBar(
+    A("Home", href="/"),
+    ThemeSwitch(),  # Light/dark mode toggle
+    lcontents=H3("My App")
+)
 ```
+
+Theme switching is automatically handled by `EidosHeaders()`. See [Theming](concepts/theming) for more details.
 
 ### Custom Styling
 

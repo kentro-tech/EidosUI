@@ -14,7 +14,12 @@ Or use explicit imports:
 from . import styles
 
 # Import components
-from .components import DataTable, EidosHeaders, NavBar
+from .components import (
+    DataTable,
+    EidosHeaders,
+    NavBar,
+    ThemeSwitch,
+)
 from .styles import buttons, lists, tables, typography
 from .tags import (
     # Headings
@@ -169,6 +174,7 @@ __all__ = [
     "DataTable",
     "NavBar",
     "EidosHeaders",
+    "ThemeSwitch",
     # HTML Tags
     "H1",
     "H2",

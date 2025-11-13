@@ -71,13 +71,50 @@ Head(
 
 ## Switching Themes
 
-Use `data-theme` attribute:
+EidosUI includes a built-in theme switcher that handles light/dark mode automatically.
+
+### Using the Theme Switch
+
+Simply include `ThemeSwitch()` in your navigation:
 
 ```python
-Html(data_theme="dark")  # or "light"
+from eidos import EidosHeaders, NavBar, ThemeSwitch
+
+Head(*EidosHeaders())  # Theme switching included by default
+
+Body(
+    NavBar(
+        A("Home", href="/"),
+        ThemeSwitch(),  # Adds theme toggle button
+        lcontents=H3("My App")
+    )
+)
 ```
 
-Or with JavaScript:
+The theme switcher:
+- Respects system preferences by default
+- Persists user choice in localStorage  
+- Updates instantly without page reload
+- Works with multiple buttons on the same page
+
+### Customizing the Theme Switch
+
+```python
+# Text variant
+ThemeSwitch(variant="text")
+
+# Custom icons
+ThemeSwitch(light_icon="☀️", dark_icon="🌙")
+
+# Custom styling
+ThemeSwitch(class_="p-3 rounded-lg")
+```
+
+### Manual Theme Control
+
+You can also set theme programmatically:
 
 ```javascript
+// Set theme manually
 document.documentElement.setAttribute('data-theme', 'dark')
+localStorage.setItem('eidos-theme-preference', 'dark')

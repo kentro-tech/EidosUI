@@ -17,7 +17,7 @@ def EidosHeaders(
     include_tailwind: bool = True,
     include_lucide: bool = True,
     include_eidos_js: bool = True,
-    theme: Literal["light", "dark"] = "light",
+    include_theme_switcher: bool = True,
 ) -> list[Tag]:
     """Complete EidosUI headers with EidosUI JavaScript support.
 
@@ -25,12 +25,24 @@ def EidosHeaders(
         include_tailwind: Include Tailwind CSS CDN
         include_lucide: Include Lucide Icons CDN
         include_eidos_js: Include EidosUI JavaScript (navigation, future features)
-        theme: Initial theme
+        include_theme_switcher: Include theme switching functionality
     """
     headers = [
         Meta(charset="UTF-8"),
         Meta(name="viewport", content="width=device-width, initial-scale=1.0"),
     ]
+
+    # Theme init (before other scripts to prevent FOUC)
+    if include_theme_switcher:
+        headers.append(Script("""
+(function() {
+    const saved = localStorage.getItem('eidos-theme-preference');
+    const theme = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+})();
+"""))
 
     # Core libraries
     if include_tailwind:
@@ -46,25 +58,21 @@ def EidosHeaders(
     # EidosUI JavaScript
     if include_eidos_js:
         headers.append(Script(src="/eidos/js/eidos.js", defer=True))
+    
+    # Theme switcher
+    if include_theme_switcher:
+        headers.append(Script(src="/eidos/js/theme.js", defer=True))
 
-    # Initialization script
-    init_script = f"""
-        // Set theme
-        document.documentElement.setAttribute('data-theme', '{theme}');
-    """
-
+    # Lucide initialization
     if include_lucide:
-        init_script += """
-        // Initialize Lucide icons
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                if (window.lucide) lucide.createIcons();
-            });
-        } else {
-            if (window.lucide) lucide.createIcons();
-        }
-    """
-
-    headers.append(Script(init_script))
+        headers.append(Script("""
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) lucide.createIcons();
+    });
+} else {
+    if (window.lucide) lucide.createIcons();
+}
+"""))
 
     return headers

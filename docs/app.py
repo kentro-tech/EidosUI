@@ -11,6 +11,7 @@ from kitchen_sink import components_page
 from eidos.components.headers import EidosHeaders
 from eidos.components.navigation import NavBar
 from eidos.components.tabs import TabList, TabPanel
+from eidos.components.theme import ThemeSwitch
 from eidos.plugins.markdown import Markdown, MarkdownCSS
 from eidos.tags import *
 from eidos.utils import get_eidos_static_files
@@ -39,17 +40,6 @@ def layout(title, *content, sidebar=None):
             Title(f"{title} - EidosUI Docs"),
             Meta(name="viewport", content="width=device-width, initial-scale=1"),
             Script(src="https://unpkg.com/htmx.org@1.9.10"),
-            Script("""
-                // Immediately set theme to prevent flash
-                (function() {
-                    const THEME_KEY = 'eidos-theme-preference';
-                    const savedTheme = localStorage.getItem(THEME_KEY);
-                    const theme = (savedTheme === 'light' || savedTheme === 'dark')
-                        ? savedTheme
-                        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                    document.documentElement.setAttribute('data-theme', theme);
-                })();
-            """),
             Style("""
                 .docs-sidebar {
                     background: var(--color-surface);
@@ -163,7 +153,7 @@ def layout(title, *content, sidebar=None):
                 A("Concepts", href="/concepts"),
                 A("Reference", href="/api"),
                 A("Plugins", href="/plugins", class_="hidden sm:block"),
-                Button("☀️", class_="theme-toggle p-2 rounded-full", id="theme-toggle"),
+                ThemeSwitch(),
                 lcontents=H3("EidosUI", class_="text-xl font-bold"),
                 sticky=True,
             ),
@@ -178,26 +168,6 @@ def layout(title, *content, sidebar=None):
                 class_="container mx-auto px-4 sm:px-6 py-4 sm:py-8",
             ),
             Script("""
-                // Theme management
-                const THEME_KEY = 'eidos-theme-preference';
-                function getTheme() {
-                    const t = localStorage.getItem(THEME_KEY);
-                    if (t === 'light' || t === 'dark') return t;
-                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                }
-                function setTheme(theme) {
-                    document.documentElement.setAttribute('data-theme', theme);
-                    localStorage.setItem(THEME_KEY, theme);
-                    const btn = document.getElementById('theme-toggle');
-                    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
-                }
-                setTheme(getTheme());
-                const btn = document.getElementById('theme-toggle');
-                if (btn) btn.onclick = () => {
-                    const t = document.documentElement.getAttribute('data-theme');
-                    setTheme(t === 'dark' ? 'light' : 'dark');
-                };
-
                 // Mobile sidebar toggle
                 const sidebarToggle = document.querySelector('.sidebar-toggle');
                 const sidebar = document.querySelector('.docs-sidebar');

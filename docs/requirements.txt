@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+air
+eidosui[markdown]
+python-multipart
+aiofiles
