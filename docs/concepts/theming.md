@@ -118,3 +118,4 @@ You can also set theme programmatically:
 // Set theme manually
 document.documentElement.setAttribute('data-theme', 'dark')
 localStorage.setItem('eidos-theme-preference', 'dark')
+```
