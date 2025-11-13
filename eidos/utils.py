@@ -28,7 +28,7 @@ def stringify(*classes: str | list[str] | None) -> str:
     for class_ in classes:
         if class_ is None:
             continue
-        elif isinstance(class_, (list, tuple)):
+        elif isinstance(class_, (list | tuple)):
             result.extend(c for c in class_ if c)
         elif isinstance(class_, str) and class_.strip():
             result.append(class_.strip())
