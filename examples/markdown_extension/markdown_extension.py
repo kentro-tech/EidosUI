@@ -14,7 +14,6 @@ import xml.etree.ElementTree as etree
 from eidos import *
 from eidos.plugins.markdown import MarkdownRenderer, MarkdownCSS
 from eidos.utils import get_eidos_static_files
-from fastapi.staticfiles import StaticFiles
 
 
 ###
@@ -99,6 +98,10 @@ class EmojiExtension(Extension):
 
 app = air.Air()
 
+# Mount static files (include markdown CSS)
+for mount_path, directory in get_eidos_static_files(markdown=True).items():
+    app.mount(mount_path, air.StaticFiles(directory=directory), name=mount_path.strip("/"))
+
 # Define a function to create a renderer with our custom extensions
 def create_renderer():
     return MarkdownRenderer(
@@ -136,7 +139,7 @@ def home():
                 
                 # Render the markdown with our extensions
                 Div(
-                    air.RawHTML(create_renderer().render(SAMPLE_MARKDOWN)),
+                    air.Raw(create_renderer().render(SAMPLE_MARKDOWN)),
                     class_="eidos-md mt-8"
                 ),
                 class_="container mx-auto p-8 max-w-4xl"
