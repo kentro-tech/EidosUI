@@ -1,0 +1,13 @@
+[project]
+name = "eidosui-docs"
+version = "0.1.0"
+description = "EidosUI Documentation - A runnable documentation app built with EidosUI"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "air",
+    "eidosui[markdown]",
+    "python-multipart",
+    "aiofiles",
+]
