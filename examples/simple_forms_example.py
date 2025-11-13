@@ -1,21 +1,18 @@
 """Simple EidosUI form example using styled tags."""
 
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-
+import air
 from eidos import *
 from eidos.utils import get_eidos_static_files
 
-# Create FastAPI app
-app = FastAPI()
+# Create Air app
+app = air.Air()
 
 # Mount static files
 for mount_path, directory in get_eidos_static_files().items():
-    app.mount(mount_path, StaticFiles(directory=directory), name=mount_path.strip("/"))
+    app.mount(mount_path, air.StaticFiles(directory=directory), name=mount_path.strip("/"))
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.page
 def index():
     """Simple form example using EidosUI styled tags."""
     return Html(
@@ -29,9 +26,9 @@ def index():
                 P("Using styled form tags directly without complex components:"),
                 
                 # Simple form
-                air.Form(
+                Form(
                     Fieldset(
-                        air.Legend("User Information"),
+                        Legend("User Information"),
                         
                         # Text input with label
                         Label("Name:", for_="name"),
@@ -92,39 +89,15 @@ def index():
                         
                         # Checkboxes
                         H3("Interests", class_="mt-6 mb-3"),
-                        Label(
-                            Checkbox(id="tech", name="interests", value="tech"),
-                            " Technology",
-                            class_="eidos-label-inline"
-                        ),
-                        Label(
-                            Checkbox(id="design", name="interests", value="design", checked=True),
-                            " Design",
-                            class_="eidos-label-inline"
-                        ),
-                        Label(
-                            Checkbox(id="business", name="interests", value="business"),
-                            " Business",
-                            class_="eidos-label-inline"
-                        ),
+                        Checkbox(name="interests", label="Technology", value="tech"),
+                        Checkbox(name="interests", label="Design", value="design", checked=True),
+                        Checkbox(name="interests", label="Business", value="business"),
                         
                         # Radio buttons
                         H3("Subscription", class_="mt-6 mb-3"),
-                        Label(
-                            Radio(id="free", name="subscription", value="free", checked=True),
-                            " Free",
-                            class_="eidos-label-inline"
-                        ),
-                        Label(
-                            Radio(id="basic", name="subscription", value="basic"),
-                            " Basic ($9/mo)",
-                            class_="eidos-label-inline"
-                        ),
-                        Label(
-                            Radio(id="pro", name="subscription", value="pro"),
-                            " Pro ($29/mo)",
-                            class_="eidos-label-inline"
-                        ),
+                        Radio(name="subscription", label="Free", value="free", checked=True),
+                        Radio(name="subscription", label="Basic ($9/mo)", value="basic"),
+                        Radio(name="subscription", label="Pro ($29/mo)", value="pro"),
                         
                         # File upload
                         Label("Upload Resume:", for_="resume", class_="mt-6"),
@@ -134,7 +107,7 @@ def index():
                     
                     # Form with errors example
                     Fieldset(
-                        air.Legend("Example with Errors", class_="mt-8"),
+                        Legend("Example with Errors", class_="mt-8"),
                         
                         Label("Username:", for_="username"),
                         Input(id="username", name="username", value="ab", aria_invalid="true"),
@@ -159,7 +132,7 @@ def index():
     ).render()
 
 
-@app.post("/submit", response_class=HTMLResponse)
+@app.post("/submit")
 def submit_form():
     """Handle form submission."""
     return Html(
@@ -171,7 +144,7 @@ def submit_form():
             Div(
                 H1("Form Submitted Successfully!"),
                 P("Thank you for your submission."),
-                A("Go back", href="/", class_="text-blue-600 underline"),
+                A("Go back", href="/"),
                 class_="max-w-2xl mx-auto p-8 text-center"
             )
         )
