@@ -1,26 +1,21 @@
 """Example demonstrating EidosUI form components and Air form integration."""
 
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, EmailStr, Field, validator
 
 import air
-
 from eidos import *
 from eidos.utils import get_eidos_static_files
 
-
-# Create FastAPI app
-app = FastAPI()
+# Create Air app
+app = air.Air()
 
 # Mount static files
 for mount_path, directory in get_eidos_static_files().items():
-    app.mount(mount_path, StaticFiles(directory=directory), name=mount_path.strip("/"))
+    app.mount(mount_path, air.StaticFiles(directory=directory), name=mount_path.strip("/"))
 
 
 # Example 1: Basic form components
-@app.get("/basic-form", response_class=HTMLResponse)
+@app.page
 def basic_form():
     """Demonstrate basic form components."""
     return Html(
@@ -135,7 +130,7 @@ def basic_form():
                 ),
                 
                 # Submit button
-                Button("Submit Form", type="submit", class_="mt-6"),
+                Button("Submit Form", type="submit",class_=(styles.buttons.primary,"mt-4")),
                 
                 class_="max-w-2xl mx-auto p-8"
             )
@@ -144,7 +139,7 @@ def basic_form():
 
 
 # Example 2: Form with validation errors
-@app.get("/form-errors", response_class=HTMLResponse)
+@app.page
 def form_with_errors():
     """Demonstrate form with validation errors."""
     return Html(
@@ -214,7 +209,7 @@ class ContactModel(BaseModel):
     """Contact form model using Pydantic."""
     name: str = Field(..., min_length=2, max_length=100)
     email: EmailStr
-    phone: str = Field(default="", regex=r"^(\+\d{1,3}[- ]?)?\d{10}$|^$")
+    phone: str = Field(default="", pattern=r"^(\+\d{1,3}[- ]?)?\d{10}$|^$")
     subject: str = Field(..., min_length=5, max_length=200)
     message: str = Field(..., min_length=10, max_length=1000)
     newsletter: bool = Field(default=False)
@@ -237,7 +232,7 @@ class ContactForm(air.AirForm):
     model = ContactModel
 
 
-@app.get("/air-form", response_class=HTMLResponse)
+@app.page
 def air_form_example():
     """Demonstrate Air form integration with EidosUI styling."""
     # Create form instance
@@ -264,7 +259,7 @@ def air_form_example():
                 eidos_form.render(),
                 
                 # Submit button
-                Button("Send Message", type="submit", class_="mt-4"),
+                Button("Send Message", type="submit", class_=(styles.buttons.primary,"mt-4")),
                 
                 class_="max-w-2xl mx-auto p-8"
             )
@@ -272,7 +267,7 @@ def air_form_example():
     ).render()
 
 
-@app.post("/air-form", response_class=HTMLResponse)
+@app.post("/air-form")
 async def handle_air_form(request: dict):
     """Handle Air form submission."""
     # Create form instance
@@ -309,7 +304,7 @@ async def handle_air_form(request: dict):
                             class_="mb-4 text-red-600"
                         ),
                         eidos_form.render(),
-                        Button("Send Message", type="submit", class_="mt-4")
+                        Button("Send Message", type="submit", class_=(styles.buttons.primary,"mt-4"))
                     )
                 ),
                 
@@ -320,7 +315,7 @@ async def handle_air_form(request: dict):
 
 
 # Example 4: Complex form layouts
-@app.get("/form-layouts", response_class=HTMLResponse)
+@app.page
 def form_layouts():
     """Demonstrate complex form layouts."""
     return Html(
@@ -402,7 +397,7 @@ def form_layouts():
                     )
                 ),
                 
-                Button("Save Information", type="submit", class_="mt-6"),
+                Button("Save Information", type="submit", class_=(styles.buttons.primary,"mt-4")),
                 
                 class_="max-w-4xl mx-auto p-8"
             )
@@ -410,7 +405,7 @@ def form_layouts():
     ).render()
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.page
 def index():
     """Forms example index page."""
     return Html(
@@ -426,22 +421,22 @@ def index():
                 Div(
                     A(
                         "Basic Form Components",
-                        href="/basic-form",
+                        href=basic_form.url(),
                         class_="block p-4 mb-4 bg-blue-50 hover:bg-blue-100 rounded-lg"
                     ),
                     A(
                         "Form with Validation Errors",
-                        href="/form-errors",
+                        href=form_with_errors.url(),
                         class_="block p-4 mb-4 bg-red-50 hover:bg-red-100 rounded-lg"
                     ),
                     A(
                         "Air Form Integration",
-                        href="/air-form",
+                        href=air_form_example.url(),
                         class_="block p-4 mb-4 bg-green-50 hover:bg-green-100 rounded-lg"
                     ),
                     A(
                         "Complex Form Layouts",
-                        href="/form-layouts",
+                        href=form_layouts.url(),
                         class_="block p-4 mb-4 bg-purple-50 hover:bg-purple-100 rounded-lg"
                     ),
                 ),
