@@ -1,5 +1,3 @@
-from typing import Literal
-
 from air import Link, Meta, Script, Tag
 
 
@@ -34,7 +32,8 @@ def EidosHeaders(
 
     # Theme init (before other scripts to prevent FOUC)
     if include_theme_switcher:
-        headers.append(Script("""
+        headers.append(
+            Script("""
 (function() {
     const saved = localStorage.getItem('eidos-theme-preference');
     const theme = (saved === 'light' || saved === 'dark')
@@ -42,7 +41,8 @@ def EidosHeaders(
         : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', theme);
 })();
-"""))
+""")
+        )
 
     # Core libraries
     if include_tailwind:
@@ -58,14 +58,15 @@ def EidosHeaders(
     # EidosUI JavaScript
     if include_eidos_js:
         headers.append(Script(src="/eidos/js/eidos.js", defer=True))
-    
+
     # Theme switcher
     if include_theme_switcher:
         headers.append(Script(src="/eidos/js/theme.js", defer=True))
 
     # Lucide initialization
     if include_lucide:
-        headers.append(Script("""
+        headers.append(
+            Script("""
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) lucide.createIcons();
@@ -73,6 +74,7 @@ if (document.readyState === 'loading') {
 } else {
     if (window.lucide) lucide.createIcons();
 }
-"""))
+""")
+        )
 
     return headers
