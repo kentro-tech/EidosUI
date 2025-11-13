@@ -1,6 +1,6 @@
 fastapi
-uvicorn[standard]
+hypercorn
 air
-eidosui[markdown]
+eidosui[markdown]>=0.12.1
 python-multipart
 aiofiles

@@ -2,14 +2,6 @@
 default:
     @just --list
 
-# Set up development environment (creates venv and installs)
-dev:
-    uv venv
-    @echo "Virtual environment created. Activate with:"
-    @echo "  source .venv/bin/activate  # Linux/macOS"
-    @echo "  .venv\\Scripts\\activate     # Windows"
-    uv pip install -e ".[dev]"
-
 # Run linting
 lint:
     ruff check eidos/ tests/ docs/
@@ -46,17 +38,14 @@ test:
 test-cov:
     python -m pytest tests/ -v --cov=eidos --cov-report=xml --cov-report=html --cov-report=term-missing
 
-# Build distribution packages
-build:
-    rm -rf dist/
-    python -m build
-
 # Build and serve documentation locally
 docs:
-    cd docs && fastapi dev
+    uv pip install -e ".[markdown]" && cd docs && uv run fastapi dev app.py
 
-# Release to PyPI
+# Release to PyPI and deploy docs
 release:
     just clean
-    python -m build
-    twine upload --skip-existing dist/*
+    rm -rf dist/
+    uv build
+    uv publish
+    railway up -c

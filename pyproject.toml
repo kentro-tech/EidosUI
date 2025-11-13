@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "eidosui"
-version = "0.12.0"
+version = "0.12.1"
 description = "A modern, Tailwind CSS-based UI library for air development"
 readme = "README.md"
 license = "MIT"
@@ -15,11 +15,6 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
@@ -27,7 +22,7 @@ keywords = ["ui", "web", "tailwind", "css", "components", "fastapi", "air"]
 requires-python = ">=3.13"
 
 dependencies = [
-    "air>=0.41",
+    "air>=0.35",
     "fastapi[standard]",
     "uvicorn",
 ]

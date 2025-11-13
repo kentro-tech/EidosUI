@@ -1,0 +1,5 @@
+[phases.install]
+cmds = ['cd docs && python -m venv /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt']
+
+[start]
+cmd = 'cd docs && /opt/venv/bin/hypercorn app:app --bind "[::]:$PORT"'
