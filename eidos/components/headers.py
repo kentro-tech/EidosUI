@@ -16,6 +16,7 @@ def EidosHeaders(
     include_lucide: bool = True,
     include_eidos_js: bool = True,
     include_theme_switcher: bool = True,
+    include_chat: bool = False,
 ) -> list[Tag]:
     """Complete EidosUI headers with EidosUI JavaScript support.
 
@@ -24,6 +25,7 @@ def EidosHeaders(
         include_lucide: Include Lucide Icons CDN
         include_eidos_js: Include EidosUI JavaScript (navigation, future features)
         include_theme_switcher: Include theme switching functionality
+        include_chat: Include chat component JavaScript
     """
     headers = [
         Meta(charset="UTF-8"),
@@ -58,6 +60,10 @@ def EidosHeaders(
     # EidosUI JavaScript
     if include_eidos_js:
         headers.append(Script(src="/eidos/js/eidos.js", defer=True))
+
+    # Chat component JavaScript
+    if include_chat:
+        headers.append(Script(src="/eidos/js/chat.js", defer=True))
 
     # Theme switcher
     if include_theme_switcher:

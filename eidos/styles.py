@@ -150,6 +150,39 @@ class Forms:
     input_addon: Final[str] = "eidos-input-addon"
 
 
+class Chat:
+    """Chat-related CSS classes from styles.css."""
+
+    # Container
+    chat: Final[str] = "eidos-chat"
+    container: Final[str] = "eidos-chat-container"
+    messages: Final[str] = "eidos-chat-messages"
+
+    # Message
+    message: Final[str] = "eidos-chat-message"
+    message_user: Final[str] = "eidos-chat-message-user"
+    message_assistant: Final[str] = "eidos-chat-message-assistant"
+    message_system: Final[str] = "eidos-chat-message-system"
+    message_content: Final[str] = "eidos-chat-message-content"
+    message_role: Final[str] = "eidos-chat-message-role"
+    message_text: Final[str] = "eidos-chat-message-text"
+
+    # Input
+    input: Final[str] = "eidos-chat-input"
+    input_main: Final[str] = "eidos-chat-input-main"
+    input_textarea: Final[str] = "eidos-chat-input-textarea"
+    input_submit: Final[str] = "eidos-chat-input-submit"
+    input_footer: Final[str] = "eidos-chat-input-footer"
+    input_tools: Final[str] = "eidos-chat-input-tools"
+    input_model: Final[str] = "eidos-chat-input-model"
+
+    # Attachments
+    attachments: Final[str] = "eidos-chat-attachments"
+    attachment: Final[str] = "eidos-chat-attachment"
+    attachment_name: Final[str] = "eidos-chat-attachment-name"
+    attachment_remove: Final[str] = "eidos-chat-attachment-remove"
+
+
 # Create singleton instance for easy access
 buttons = Buttons()
 typography = Typography()
@@ -157,3 +190,4 @@ tables = Tables()
 lists = Lists()
 tabs = Tabs()
 forms = Forms()
+chat = Chat()
