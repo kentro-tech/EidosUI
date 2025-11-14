@@ -7,7 +7,7 @@ Designed for HTMX-first interactions.
 from typing import Any, Literal
 
 import air
-from air import Button, Div, Form, Input, Label, Span, Tag, Textarea
+from air import Button, Div, Form, Input, Label, Span, Tag, Template, Textarea
 
 from .. import styles
 from ..tags import Select, Option
@@ -81,10 +81,33 @@ def ChatInput(
                 accept=accept_files,
                 multiple=True,
                 class_="hidden",
-                **{"data-max-files": str(max_files)},
+                **{
+                    "data-max-files": str(max_files),
+                    "@change": f"if ($el.files.length > {max_files}) {{ alert('Maximum {max_files} files'); $el.value = ''; return; }} files = Array.from($el.files)",
+                },
             ),
             # Attachments preview
-            Div(id=f"{textarea_id}-attachments", class_="eidos-chat-attachments"),
+            Div(
+                Template(
+                    Div(
+                        Span(class_="eidos-chat-attachment-name", **{"x-text": "file.name"}),
+                        Button(
+                            "✕",
+                            type="button",
+                            class_="eidos-chat-attachment-remove",
+                            **{
+                                "@click": f"files = files.filter(f => f !== file); if (!files.length) $el.closest('form').querySelector('#{textarea_id}-files').value = ''",
+                                "aria-label": "Remove file",
+                            },
+                        ),
+                        class_="eidos-chat-attachment",
+                    ),
+                    **{"x-for": "file in files", ":key": "file.name"},
+                ),
+                id=f"{textarea_id}-attachments",
+                class_="eidos-chat-attachments",
+                **{":class": "{ 'has-files': files.length > 0 }"},
+            ),
             # Main input
             Div(
                 Textarea(
@@ -93,7 +116,11 @@ def ChatInput(
                     placeholder=placeholder,
                     rows=1,
                     class_="eidos-chat-input-textarea",
-                    **{"aria-label": "Chat message input"},
+                    **{
+                        "aria-label": "Chat message input",
+                        "@input": "$el.style.height = '44px'; $el.style.height = Math.min($el.scrollHeight, 200) + 'px'",
+                        "@keydown.enter.prevent": "if (!$event.shiftKey) $el.closest('form').requestSubmit()",
+                    },
                 ),
                 Button(
                     air.I(data_lucide="send", class_="w-5 h-5"),
@@ -110,8 +137,10 @@ def ChatInput(
                         air.I(data_lucide="paperclip", class_="w-4 h-4"),
                         type="button",
                         class_=stringify(styles.buttons.ghost, "eidos-chat-input-tool"),
-                        onclick=f"document.getElementById('{textarea_id}-files').click()",
-                        **{"aria-label": "Attach files"},
+                        **{
+                            "@click": f"$el.closest('form').querySelector('#{textarea_id}-files').click()",
+                            "aria-label": "Attach files",
+                        },
                     ),
                     class_="eidos-chat-input-tools",
                 ),
@@ -138,7 +167,8 @@ def ChatInput(
                 "hx-post": action if method == "post" else "",
                 "hx-target": hx_target,
                 "hx-swap": hx_swap,
-                "data-chat-input": textarea_id,
+                "@htmx:after-request": f"$el.reset(); $el.querySelector('#{textarea_id}').style.height = '44px'; files = []",
+                "x-data": "{ files: [] }",
             },
         ),
         class_=stringify("eidos-chat-input", class_),
