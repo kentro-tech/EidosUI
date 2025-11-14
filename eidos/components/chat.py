@@ -57,7 +57,31 @@ def ChatInput(
             ]
         )
     """
-    default_model = models[0][0] if models else None
+    # Model selector setup
+    model_selector = ""
+    if models:
+        default_model = models[0][0]
+        model_selector = Div(
+            Label("Model:", for_=f"{textarea_id}-model", class_="eidos-chat-model-label"),
+            Select(
+                *[Option(name, value=model_id, selected=(model_id == default_model)) for model_id, name in models],
+                id=f"{textarea_id}-model",
+                name="model",
+                class_="eidos-chat-model-select",
+            ),
+            class_="eidos-chat-input-model",
+        )
+
+    # File attachment button
+    attach_button = Button(
+        air.I(data_lucide="paperclip", class_="w-4 h-4"),
+        type="button",
+        class_=stringify(styles.buttons.ghost, "eidos-chat-input-tool"),
+        **{
+            "@click": f"$el.closest('form').querySelector('#{textarea_id}-files').click()",
+            "aria-label": "Attach files",
+        },
+    )
 
     return Div(
         Form(
@@ -120,35 +144,8 @@ def ChatInput(
             ),
             # Footer with tools
             Div(
-                Div(
-                    Button(
-                        air.I(data_lucide="paperclip", class_="w-4 h-4"),
-                        type="button",
-                        class_=stringify(styles.buttons.ghost, "eidos-chat-input-tool"),
-                        **{
-                            "@click": f"$el.closest('form').querySelector('#{textarea_id}-files').click()",
-                            "aria-label": "Attach files",
-                        },
-                    ),
-                    class_="eidos-chat-input-tools",
-                ),
-                Div(
-                    Label("Model:", for_=f"{textarea_id}-model", class_="eidos-chat-model-label")
-                    if models
-                    else Span(),
-                    Select(
-                        *[
-                            Option(name, value=model_id, selected=(model_id == default_model))
-                            for model_id, name in models
-                        ],
-                        id=f"{textarea_id}-model",
-                        name="model",
-                        class_="eidos-chat-model-select",
-                    )
-                    if models
-                    else Span(),
-                    class_="eidos-chat-input-model",
-                ) if models else Span(),
+                Div(attach_button, class_="eidos-chat-input-tools"),
+                model_selector,
                 class_="eidos-chat-input-footer",
             ),
             **{
