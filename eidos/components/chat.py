@@ -26,13 +26,11 @@ def ChatInput(
     ] = "beforeend",
     accept_files: str = "image/*,.pdf,.txt,.doc,.docx",
     max_files: int = 5,
-    show_model_selector: bool = True,
     models: list[tuple[str, str]] | None = None,
-    default_model: str | None = None,
     class_: str = "",
     **kwargs: Any,
 ) -> Tag:
-    """Chat input component with textarea, file upload, and model selector.
+    """Chat input component with textarea, file upload, and optional model selector.
 
     Args:
         action: Form action URL for HTMX post
@@ -43,9 +41,7 @@ def ChatInput(
         hx_swap: HTMX swap strategy
         accept_files: File types to accept for upload
         max_files: Maximum number of files allowed
-        show_model_selector: Whether to show model dropdown
-        models: List of (model_id, model_name) tuples
-        default_model: Default selected model ID
+        models: List of (model_id, model_name) tuples. If None, no model selector shown. First model is selected by default
         class_: Additional CSS classes
 
     Returns:
@@ -58,18 +54,10 @@ def ChatInput(
             models=[
                 ("gpt-4", "GPT-4"),
                 ("claude-3", "Claude 3")
-            ],
-            default_model="gpt-4"
+            ]
         )
     """
-    if models is None:
-        models = [
-            ("gpt-4o", "GPT-4o"),
-            ("claude-opus-4", "Claude 4 Opus"),
-        ]
-
-    if default_model is None and models:
-        default_model = models[0][0]
+    default_model = models[0][0] if models else None
 
     return Div(
         Form(
@@ -146,7 +134,7 @@ def ChatInput(
                 ),
                 Div(
                     Label("Model:", for_=f"{textarea_id}-model", class_="eidos-chat-model-label")
-                    if show_model_selector
+                    if models
                     else Span(),
                     Select(
                         *[
@@ -157,10 +145,10 @@ def ChatInput(
                         name="model",
                         class_="eidos-chat-model-select",
                     )
-                    if show_model_selector
+                    if models
                     else Span(),
                     class_="eidos-chat-input-model",
-                ),
+                ) if models else Span(),
                 class_="eidos-chat-input-footer",
             ),
             **{
@@ -259,7 +247,6 @@ def Chat(
     container_id: str = "chat-messages",
     input_id: str = "chat-input",
     models: list[tuple[str, str]] | None = None,
-    default_model: str | None = None,
     class_: str = "",
     **kwargs: Any,
 ) -> Tag:
@@ -270,8 +257,7 @@ def Chat(
         action: Form action URL for sending messages
         container_id: ID for messages container
         input_id: ID for input textarea
-        models: List of (model_id, model_name) tuples
-        default_model: Default selected model ID
+        models: List of (model_id, model_name) tuples. First model is selected by default
         class_: Additional CSS classes
 
     Returns:
@@ -292,7 +278,6 @@ def Chat(
             hx_target=f"#{container_id} .eidos-chat-messages",
             hx_swap="beforeend",
             models=models,
-            default_model=default_model,
         ),
         class_=stringify("eidos-chat", class_),
         **kwargs,
