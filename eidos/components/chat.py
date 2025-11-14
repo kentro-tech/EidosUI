@@ -1,7 +1,24 @@
 """Chat input component for EidosUI.
 
 Provides a chat interface with textarea, file attachments, and model selection.
-Designed for HTMX-first interactions.
+Designed for HTMX-first interactions with Alpine.js reactivity.
+
+Alpine.js Tutorial:
+-------------------
+This component demonstrates HTMX + Alpine.js integration patterns:
+
+1. HTMX handles server communication (form submission)
+2. Alpine.js handles client-side reactivity (file management, UI updates)
+3. They work together seamlessly through event listeners
+
+Key Alpine.js concepts used:
+- x-data: Creates reactive component scope with data
+- @event: Listens to DOM events (shorthand for x-on:event)
+- x-for: Loops over array items (requires <template> tag)
+- x-text: Reactively updates element text content
+- :attribute: Binds attribute to reactive expression (shorthand for x-bind:attribute)
+- $el: References the current element
+- $event: References the current event object
 """
 
 from typing import Any, Literal
@@ -71,6 +88,10 @@ def ChatInput(
         )
 
     # File attachment button
+    # Alpine Tutorial: @click event handler
+    # The @click directive listens for click events and runs JavaScript when clicked.
+    # Here we use $el (Alpine's reference to current element) to find the hidden file input and trigger it.
+    # This is a common pattern for custom file upload buttons.
     attach_button = Button(
         air.I(data_lucide="paperclip", class_="w-4 h-4"),
         type="button",
@@ -84,6 +105,10 @@ def ChatInput(
     return Div(
         Form(
             # Hidden file input
+            # Alpine Tutorial: @change event handler
+            # The @change directive listens for the change event (fires when file selection changes).
+            # We validate file count, then update the reactive 'files' array which triggers UI updates.
+            # This is Alpine's core reactivity pattern: update data, UI auto-updates.
             Input(
                 type="file",
                 id=f"{textarea_id}-files",
@@ -97,10 +122,20 @@ def ChatInput(
                 },
             ),
             # Attachments preview
+            # Alpine Tutorial: x-for loop + reactive rendering
+            # x-for must be on a <template> tag and creates a copy of the template for each item.
+            # Each iteration has access to the loop variable (file) in its scope.
+            # When 'files' array changes, Alpine automatically adds/removes DOM elements.
             Div(
                 Template(
                     Div(
+                        # Alpine Tutorial: x-text for reactive text binding
+                        # x-text updates the element's text content when the expression changes.
+                        # Here, 'file' comes from the x-for loop scope above.
                         Span(class_="eidos-chat-attachment-name", **{"x-text": "file.name"}),
+                        # Alpine Tutorial: Removing items from reactive arrays
+                        # We filter the files array to remove this item. Alpine detects the change
+                        # and automatically removes the corresponding DOM element.
                         Button(
                             "✕",
                             type="button",
@@ -112,14 +147,27 @@ def ChatInput(
                         ),
                         class_="eidos-chat-attachment",
                     ),
+                    # Alpine Tutorial: :key for efficient rendering
+                    # The :key helps Alpine track which items changed for efficient DOM updates.
                     **{"x-for": "file in files", ":key": "file.name"},
                 ),
                 id=f"{textarea_id}-attachments",
                 class_="eidos-chat-attachments",
+                # Alpine Tutorial: :class for dynamic classes
+                # :class binds classes reactively. Here we add 'has-files' class when files.length > 0.
+                # This is more declarative than manually toggling classes with JavaScript.
                 **{":class": "{ 'has-files': files.length > 0 }"},
             ),
             # Main input
             Div(
+                # Alpine Tutorial: @input for auto-resize textarea
+                # @input fires on every keystroke. We use $el to reference this textarea
+                # and adjust its height based on content. This creates an auto-growing textarea.
+                #
+                # Alpine Tutorial: Event modifiers with @keydown
+                # .enter targets the Enter key, .prevent calls preventDefault()
+                # We check $event.shiftKey to allow Shift+Enter for new lines.
+                # This pattern gives us rich keyboard handling without complex event listeners.
                 Textarea(
                     id=textarea_id,
                     name="message",
@@ -146,11 +194,23 @@ def ChatInput(
                 model_selector,
                 class_="eidos-chat-input-footer",
             ),
+            # Alpine Tutorial: Integration with HTMX
+            # HTMX handles the form submission and server communication.
+            # Alpine handles client-side state and UI updates.
             **{
+                # HTMX directives for server communication
                 "hx-post": action,
                 "hx-target": hx_target,
                 "hx-swap": hx_swap,
+                # Alpine Tutorial: Listening to HTMX events
+                # @htmx:after-request listens for HTMX's custom event after successful form submission.
+                # We reset the form, textarea height, and our Alpine reactive data (files array).
+                # This is how Alpine and HTMX work together: HTMX handles server, Alpine handles client state.
                 "@htmx:after-request": f"$el.reset(); $el.querySelector('#{textarea_id}').style.height = '44px'; files = []",
+                # Alpine Tutorial: x-data creates component scope
+                # This defines the reactive data for this component. Any descendant can access 'files'.
+                # Updating 'files' anywhere will trigger reactivity (x-for loops, :class bindings, etc).
+                # This is Alpine's core: declarative reactive data.
                 "x-data": "{ files: [] }",
             },
         ),
