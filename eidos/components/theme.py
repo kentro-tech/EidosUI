@@ -48,20 +48,24 @@ def ThemeSwitch(
         ```
     """
     button_class = stringify(
-        "eidos-theme-switch p-2 rounded-full cursor-pointer transition-colors",
+        "p-2 rounded-full cursor-pointer transition-colors",
         "hover:bg-gray-200 dark:hover:bg-gray-700",
         class_,
     )
 
-    initial_content = light_icon if variant == "icon" else "Theme"
+    if variant == "icon":
+        x_text_expr = f"$store.theme.getIcon('{light_icon}', '{dark_icon}')"
+    else:
+        x_text_expr = "$store.theme.getText()"
 
     return Button(
-        initial_content,
+        f"{dark_icon}" if variant == "icon" else "Dark Mode",
         class_=button_class,
         type="button",
-        aria_label="Toggle theme",
-        data_light_icon=light_icon,
-        data_dark_icon=dark_icon,
-        data_variant=variant,
-        **props,
+        x_text=x_text_expr,
+        **{
+            "@click": "$store.theme.toggle()",
+            ":aria-label": "$store.theme.getLabel()",
+            **props,
+        },
     )

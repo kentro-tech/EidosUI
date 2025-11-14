@@ -14,6 +14,7 @@ def get_css_urls() -> list[str]:
 def EidosHeaders(
     include_tailwind: bool = True,
     include_lucide: bool = True,
+    include_alpine: bool = True,
     include_eidos_js: bool = True,
     include_theme_switcher: bool = True,
 ) -> list[Tag]:
@@ -22,6 +23,7 @@ def EidosHeaders(
     Args:
         include_tailwind: Include Tailwind CSS CDN
         include_lucide: Include Lucide Icons CDN
+        include_alpine: Include Alpine.js CDN
         include_eidos_js: Include EidosUI JavaScript (navigation, future features)
         include_theme_switcher: Include theme switching functionality
     """
@@ -55,13 +57,17 @@ def EidosHeaders(
     for css_url in get_css_urls():
         headers.append(Link(rel="stylesheet", href=css_url))
 
-    # EidosUI JavaScript
+    # Theme switcher (before Alpine)
+    if include_theme_switcher:
+        headers.append(Script(src="/eidos/js/theme.js", defer=True))
+
+    # EidosUI JavaScript (before Alpine)
     if include_eidos_js:
         headers.append(Script(src="/eidos/js/eidos.js", defer=True))
 
-    # Theme switcher
-    if include_theme_switcher:
-        headers.append(Script(src="/eidos/js/theme.js", defer=True))
+    # Alpine.js (must load after theme.js and eidos.js)
+    if include_alpine:
+        headers.append(Script(src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js", defer=True))
 
     # Lucide initialization
     if include_lucide:
