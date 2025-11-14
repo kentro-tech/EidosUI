@@ -17,7 +17,6 @@ from ..utils import stringify
 def ChatInput(
     *,
     action: str = "/api/chat",
-    method: Literal["post", "get"] = "post",
     placeholder: str = "What would you like to know?",
     textarea_id: str = "chat-input",
     hx_target: str = "#chat-messages",
@@ -34,7 +33,6 @@ def ChatInput(
 
     Args:
         action: Form action URL for HTMX post
-        method: HTTP method (post or get)
         placeholder: Placeholder text for textarea
         textarea_id: ID for the textarea element
         hx_target: HTMX target for chat messages
@@ -149,7 +147,7 @@ def ChatInput(
                 class_="eidos-chat-input-footer",
             ),
             **{
-                "hx-post": action if method == "post" else "",
+                "hx-post": action,
                 "hx-target": hx_target,
                 "hx-swap": hx_swap,
                 "@htmx:after-request": f"$el.reset(); $el.querySelector('#{textarea_id}').style.height = '44px'; files = []",
@@ -198,7 +196,7 @@ def ChatMessage(
             f"eidos-chat-message-{role}",
             class_,
         ),
-        **{"data-role": role},
+        data_role: role,
         **kwargs,
     )
 
