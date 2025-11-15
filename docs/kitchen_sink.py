@@ -4,7 +4,27 @@ import air
 
 import eidos.styles as styles
 from eidos.components import DataTable, TabContainer
+from eidos.components.feedback import Feedback
 from eidos.tags import *
+
+
+# Example feedback save function for demo
+async def save_feedback_demo(user_id: int, text: str, route: str | None):
+    """Demo save function - replace with actual DB logic in production."""
+    print(f"💬 Feedback from user {user_id} on route '{route}': {text}")
+    return None  # Success
+
+
+# Initialize feedback component
+feedback = Feedback(on_save=save_feedback_demo)
+
+
+# Route handler for feedback submission
+async def handle_feedback(request: air.Request):
+    """Handle feedback form submission."""
+    # Mock user - replace with actual user from session/auth
+    mock_user_id = 1
+    return await feedback._submit_handler(request, mock_user_id)
 
 
 def Divider():
@@ -462,4 +482,16 @@ def tab_typography():
                 class_="flex space-x-4",
             ),
         ),
+        ComponentSection(
+            "Feedback",
+            "feedback",
+            P("Interactive feedback widget with Alpine.js modal and HTMX form submission."),
+            H3("Basic Usage"),
+            Div(
+                feedback.widget(),
+                P("Click the feedback button to see the modal in action.", class_="text-sm text-gray-600 mt-2"),
+                class_="mb-4",
+            ),
+        ),
     )
+            

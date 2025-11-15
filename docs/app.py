@@ -6,7 +6,7 @@ import air
 from air.tags import *
 from api_extractor import extract_module_api, get_available_modules
 from api_renderer import render_api_index, render_api_page
-from kitchen_sink import components_page
+from kitchen_sink import components_page, feedback, handle_feedback
 
 from eidos.components.headers import EidosHeaders
 from eidos.components.navigation import NavBar
@@ -514,3 +514,9 @@ def tab_typography():
             )
         ),
     )
+
+
+@app.post("/feedback")
+async def feedback_route(request: air.Request):
+    """Handle feedback form submission"""
+    return await handle_feedback(request)

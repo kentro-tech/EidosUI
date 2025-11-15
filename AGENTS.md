@@ -8,6 +8,7 @@
 - **Iteration**: Work in small steps.  Lean startup style where tiny steps slowly progress toward the goal, letting me be involved and manually test after each small steps.
 - **Learning**: My number 1 goal is to learn, so interact with me in a way that encourages learning.  While that may mean going slower in the short term, that lets me maximize my impact and speed in the long term.
 - **Config**: There are very few things on this earth that I hate more than config.  Use it only when neccessary or when there is a massive massive benefit to doing so.
+- **Kitchen Sink**: Make sure every new component is added to `docs/kitchen_sink.py`.  This is just a demonstration of the component, not much explanation of how to implement it.
 
 ## Architecture
 
