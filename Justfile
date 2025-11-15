@@ -40,7 +40,7 @@ test-cov:
 
 # Build and serve documentation locally
 docs:
-    uv pip install -e ".[markdown]" && cd docs && uv run fastapi dev app.py
+    uv pip install -U -e ".[markdown]" --config-settings editable_mode=strict && cd docs && uv run fastapi dev app.py
 
 # Release to PyPI and deploy docs
 release:

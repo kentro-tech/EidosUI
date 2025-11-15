@@ -2,6 +2,7 @@ from typing import Any, Final
 from uuid import uuid4
 
 from air import A, Div, I, Tag
+from airpine import Alpine
 
 from ..tags import *
 from ..utils import stringify
@@ -41,13 +42,12 @@ def NavBar(
 
     # Mobile toggle button with hamburger/close icon
     mobile_icon = A(
-        I(data_lucide="menu", class_="w-6 h-6", x_show="!open"),
-        I(data_lucide="x", class_="w-6 h-6", x_show="open", x_cloak=True),
+        I(**Alpine.x.show("!open"), data_lucide="menu", class_="w-6 h-6"),
+        I(**Alpine.x.show("open") | Alpine.x.cloak(), data_lucide="x", class_="w-6 h-6"),
         class_="md:hidden cursor-pointer p-2 eidos-navbar-toggle rounded-lg transition-colors",
         role="button",
         aria_label="Toggle navigation",
-        x_on_click="open = !open",
-        **{":aria-expanded": "open"},
+        **(Alpine.at.click("open = !open") | Alpine.x.bind.aria_expanded("open")),
     )
 
     # Desktop navigation
@@ -68,13 +68,10 @@ def NavBar(
         ),
         id=menu_id,
         data_scrollspy="true" if scrollspy else None,
-        x_show="open",
-        x_cloak=True,
-        x_on_click_away="open = false",
+        **(Alpine.x.show("open") | Alpine.x.cloak() | Alpine.at.click.away("open = false")),
     )
 
     return Div(
-        # Main navbar container with relative positioning for mobile dropdown
         Div(
             Div(
                 lcontents,
@@ -84,7 +81,7 @@ def NavBar(
             ),
             mobile_nav,
             class_=stringify("eidos-navbar relative", cls, scrollspy_cls),
-            x_data="{ open: false }",
+            **Alpine.x.data({"open": False}),
         ),
         class_=sticky_cls,
     )

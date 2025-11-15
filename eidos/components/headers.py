@@ -1,4 +1,5 @@
 from air import Link, Meta, Script, Tag
+from airpine import RawJS
 
 
 def get_css_urls() -> list[str]:
@@ -34,17 +35,16 @@ def EidosHeaders(
 
     # Theme init (before other scripts to prevent FOUC)
     if include_theme_switcher:
-        headers.append(
-            Script("""
+        theme_init = RawJS("""
 (function() {
     const saved = localStorage.getItem('eidos-theme-preference');
     const theme = (saved === 'light' || saved === 'dark')
         ? saved
         : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', theme);
-})();
+})()
 """)
-        )
+        headers.append(Script(str(theme_init)))
 
     # Core libraries
     if include_tailwind:
@@ -67,12 +67,16 @@ def EidosHeaders(
 
     # Alpine.js (must load after theme.js and eidos.js)
     if include_alpine:
-        headers.append(Script(src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js", defer=True))
+        headers.append(
+            Script(
+                src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js",
+                defer=True,
+            )
+        )
 
     # Lucide initialization
     if include_lucide:
-        headers.append(
-            Script("""
+        lucide_init = RawJS("""
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) lucide.createIcons();
@@ -81,6 +85,6 @@ if (document.readyState === 'loading') {
     if (window.lucide) lucide.createIcons();
 }
 """)
-        )
+        headers.append(Script(str(lucide_init)))
 
     return headers

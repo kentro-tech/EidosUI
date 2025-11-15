@@ -3,6 +3,7 @@
 from typing import Literal
 
 from air import Button
+from airpine import Alpine
 
 from ..utils import stringify
 
@@ -62,10 +63,10 @@ def ThemeSwitch(
         f"{dark_icon}" if variant == "icon" else "Dark Mode",
         class_=button_class,
         type="button",
-        x_text=x_text_expr,
-        **{
-            "@click": "$store.theme.toggle()",
-            ":aria-label": "$store.theme.getLabel()",
-            **props,
-        },
+        **(
+            Alpine.x.text(x_text_expr)
+            | Alpine.at.click("$store.theme.toggle()")
+            | Alpine.x.bind.aria_label("$store.theme.getLabel()")
+            | props
+        ),
     )
