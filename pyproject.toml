@@ -23,6 +23,7 @@ requires-python = ">=3.13"
 
 dependencies = [
     "air>=0.35",
+    "airpine>=0.2.1",
     "fastapi[standard]",
     "uvicorn",
 ]

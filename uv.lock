@@ -19,6 +19,24 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/b0/eb/6a3a74e7fd21414f30e1faaec2b54d0e0770eef7bdb9d4d74549e79fa313/air-0.41.0-py3-none-any.whl", hash = "sha256:a910609bacd263157381adec3e000cc662a60c309f50d3afe14c156a1fc30b1c", size = 65795, upload-time = "2025-11-11T14:19:25.848Z" },
 ]
 
+[package.optional-dependencies]
+standard = [
+    { name = "fastapi", extra = ["standard"] },
+]
+
+[[package]]
+name = "airpine"
+version = "0.2.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "air", extra = ["standard"] },
+    { name = "fastapi", extra = ["standard"] },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/cd/59/c3b6866ba84cf38bebcfaedb806b3551f07f0dd9ce85f0fab587a18be393/airpine-0.2.1.tar.gz", hash = "sha256:dce13674abd974a4ed9b8c215c9c6197ddce63ce027be360a2cb4e41c4d89e01", size = 100115, upload-time = "2025-11-15T00:36:52.216Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/17/ae/5b0f02f179da6cff24065acef0081b230334133c1cdb349a4563f70346ef/airpine-0.2.1-py3-none-any.whl", hash = "sha256:ee2a6f63f7392a842a2c6cb6726a1b8b2d71ea0838b668a881c6bee96c512d41", size = 13251, upload-time = "2025-11-15T00:36:51.07Z" },
+]
+
 [[package]]
 name = "annotated-doc"
 version = "0.0.4"
@@ -238,6 +256,7 @@ version = "0.12.1"
 source = { editable = "." }
 dependencies = [
     { name = "air" },
+    { name = "airpine" },
     { name = "fastapi", extra = ["standard"] },
     { name = "uvicorn" },
 ]
@@ -269,6 +288,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "air", specifier = ">=0.35" },
+    { name = "airpine", specifier = ">=0.2.1" },
     { name = "black", marker = "extra == 'dev'" },
     { name = "fastapi", extras = ["standard"] },
     { name = "isort", marker = "extra == 'dev'" },
