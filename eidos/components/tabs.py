@@ -1,4 +1,4 @@
-from typing import Any, Literal
+from typing import Any
 
 from air import Button, Div, Tag
 from airpine import Alpine
@@ -42,7 +42,7 @@ def AlpineTabs(
             **(
                 Alpine.at.click(f"activeTab = {i}")
                 | Alpine.x.bind.aria_selected(f"activeTab === {i}")
-                | Alpine.x.bind.class_(f"{{'{ styles.tabs.tab_active}': activeTab === {i}}}")
+                | Alpine.x.bind.class_(f"{{'{styles.tabs.tab_active}': activeTab === {i}}}")
             ),
         )
         tab_buttons.append(tab_button)
@@ -66,7 +66,6 @@ def AlpineTabs(
         **Alpine.x.data({"activeTab": selected}),
         **kwargs,
     )
-
 
 
 def HTMXTabs(
@@ -140,4 +139,3 @@ def HTMXTabs(
         class_=stringify(styles.tabs.container, class_),
         **kwargs,
     )
-

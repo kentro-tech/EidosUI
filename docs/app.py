@@ -10,7 +10,6 @@ from kitchen_sink import components_page, handle_feedback
 
 from eidos.components.headers import EidosHeaders
 from eidos.components.navigation import NavBar
-
 from eidos.components.theme import ThemeSwitch
 from eidos.plugins.markdown import Markdown, MarkdownCSS
 from eidos.tags import *

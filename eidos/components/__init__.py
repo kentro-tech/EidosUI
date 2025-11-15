@@ -3,6 +3,7 @@
 Higher-level components built on top of the base tags.
 """
 
+from .feedback import Feedback
 from .headers import EidosHeaders
 from .navigation import NavBar
 from .table import DataTable
@@ -16,4 +17,5 @@ __all__ = [
     "AlpineTabs",
     "HTMXTabs",
     "ThemeSwitch",
+    "Feedback",
 ]

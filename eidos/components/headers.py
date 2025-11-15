@@ -1,3 +1,5 @@
+from typing import Literal, Optional
+
 from air import Link, Meta, Script, Tag
 from airpine import RawJS
 
@@ -18,6 +20,7 @@ def EidosHeaders(
     include_alpine: bool = True,
     include_eidos_js: bool = True,
     include_theme_switcher: bool = True,
+    force_theme: Optional[Literal["light", "dark"]] = None,
 ) -> list[Tag]:
     """Complete EidosUI headers with EidosUI JavaScript support.
 
@@ -27,6 +30,7 @@ def EidosHeaders(
         include_alpine: Include Alpine.js CDN
         include_eidos_js: Include EidosUI JavaScript (navigation, future features)
         include_theme_switcher: Include theme switching functionality
+        force_theme: Force a specific theme ("light" or "dark"), ignoring user preference
     """
     headers = [
         Meta(charset="UTF-8"),
@@ -34,7 +38,14 @@ def EidosHeaders(
     ]
 
     # Theme init (before other scripts to prevent FOUC)
-    if include_theme_switcher:
+    if force_theme:
+        theme_init = RawJS(f"""
+(function() {{
+    document.documentElement.setAttribute('data-theme', '{force_theme}');
+}})()
+""")
+        headers.append(Script(str(theme_init)))
+    elif include_theme_switcher:
         theme_init = RawJS("""
 (function() {
     const saved = localStorage.getItem('eidos-theme-preference');

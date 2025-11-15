@@ -83,8 +83,8 @@ class Feedback:
         # Alpine.js data initialization at container level
         alpine_data = Alpine.x.data(
             {
-                "feedbackModal": False, # Modal visibility state
-                "feedbackRoute": "", # Current page route for context
+                "feedbackModal": False,  # Modal visibility state
+                "feedbackRoute": "",  # Current page route for context
             }
         )
 
