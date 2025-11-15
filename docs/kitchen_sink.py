@@ -3,9 +3,9 @@
 import air
 
 import eidos.styles as styles
-from eidos.components import DataTable, TabContainer
+from eidos.components import DataTable
 from eidos.components.feedback import Feedback
-from eidos.components.tabs import AlpineTabs
+from eidos.components.tabs import AlpineTabs, HTMXTabs
 from eidos.tags import *
 
 
@@ -201,10 +201,11 @@ def components_page():
             ),
             H3("HTMX-Based Tabs (Server-Side)", class_="mt-8"),
             P("Server-fetched tabs with HTMX for dynamic/heavy content:"),
-            Div(
-                TabContainer(initial_tab_url="/tab/typography", target_id="demo-tabs"),
-                id="demo-tabs-container",
-                class_="border rounded-lg p-4",
+            HTMXTabs(
+                ("Typography", "/tab/typography"),
+                ("Lists", "/tab/lists"),
+                ("Code", "/tab/code"),
+                selected=0,
             ),
         ),
         ComponentSection(

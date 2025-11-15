@@ -7,150 +7,6 @@ from .. import styles
 from ..utils import stringify
 
 
-def TabContainer(
-    *content: Tag,
-    initial_tab_url: str,
-    class_: str = "",
-    target_id: str = "tabs",
-    **kwargs: Any,
-) -> Tag:
-    """HTMX-based tab container that loads tabs dynamically.
-
-    Args:
-        initial_tab_url: URL to load the initial tab content
-        cls: Additional classes for the container
-        target_id: ID for the tab container (default: "tabs")
-
-    Returns:
-        Tag: The tab container that will be populated via HTMX
-
-    Example:
-        TabContainer("/settings/general")
-    """
-    return Div(
-        *content,
-        id=target_id,
-        hx_get=initial_tab_url,
-        hx_trigger="load delay:100ms",
-        hx_target=f"#{target_id}",
-        hx_swap="innerHTML",
-        class_=stringify(styles.tabs.container, class_),
-        **kwargs,
-    )
-
-
-def TabList(
-    *tabs: tuple[str, str],
-    selected: int = 0,
-    class_: str = "",
-    hx_target: str = "#tabs",
-    hx_swap: Literal[
-        "innerHTML", "outerHTML", "beforebegin", "afterbegin", "beforeend", "afterend", "delete", "none"
-    ] = "innerHTML",
-    **kwargs: Any,
-) -> Tag:
-    """HTMX-based tab list for server-rendered tabs.
-
-    Args:
-        *tabs: Variable number of (label, url) tuples
-        selected: Index of the selected tab (0-based)
-        tab_cls: Additional classes for tab buttons
-        hx_target: HTMX target for tab content (default: "#tabs")
-        hx_swap: HTMX swap method (default: "innerHTML")
-
-    Returns:
-        Tag: The tab list component
-
-    Example:
-        TabList(
-            ("General", "/settings/general"),
-            ("Security", "/settings/security"),
-            ("Advanced", "/settings/advanced"),
-            selected=0
-        )
-    """
-    tab_buttons = []
-
-    for i, (label, url) in enumerate(tabs):
-        is_selected = i == selected
-
-        tab_button = Button(
-            label,
-            hx_get=url,
-            hx_target=hx_target,
-            hx_swap=hx_swap,
-            role="tab",
-            aria_selected="true" if is_selected else "false",
-            aria_controls="tab-content",
-            class_=stringify(styles.tabs.tab, styles.tabs.tab_active if is_selected else "", class_),
-        )
-        tab_buttons.append(tab_button)
-
-    return Div(
-        *tab_buttons,
-        role="tablist",
-        class_=styles.tabs.list,
-        **kwargs,
-    )
-
-
-def TabPanel(
-    content: Tag,
-    class_: str = "",
-    **kwargs: Any,
-) -> Tag:
-    """Tab panel content wrapper.
-
-    Args:
-        content: The content to display in the tab panel
-        panel_cls: Additional classes for the panel
-
-    Returns:
-        Tag: The tab panel component
-    """
-    return Div(
-        content,
-        id="tab-content",
-        role="tabpanel",
-        class_=stringify(styles.tabs.panel, styles.tabs.panel_active, class_),
-        **kwargs,
-    )
-
-
-def Tabs(
-    tab_list: Tag,
-    tab_panel: Tag,
-    cls: str = "",
-    **kwargs: Any,
-) -> Tag:
-    """Complete tab component with list and panel.
-
-    Args:
-        tab_list: The TabList component
-        tab_panel: The TabPanel component
-        cls: Additional classes for the container
-
-    Returns:
-        Tag: The complete tabs component
-
-    Example:
-        # In your route handler:
-        tab_list = TabList(
-            ("General", "/settings/general"),
-            ("Security", "/settings/security"),
-            selected=0
-        )
-        tab_panel = TabPanel(general_settings_content)
-        return Tabs(tab_list, tab_panel)
-    """
-    return Div(
-        tab_list,
-        tab_panel,
-        class_=stringify(styles.tabs.container, cls),
-        **kwargs,
-    )
-
-
 def AlpineTabs(
     *tabs: tuple[str, Tag],
     selected: int = 0,
@@ -210,3 +66,78 @@ def AlpineTabs(
         **Alpine.x.data({"activeTab": selected}),
         **kwargs,
     )
+
+
+
+def HTMXTabs(
+    *tabs: tuple[str, str, Tag | None] | tuple[str, str],
+    selected: int = 0,
+    class_: str = "",
+    panel_id: str = "tab-content",
+    **kwargs: Any,
+) -> Tag:
+    """HTMX-based tabs with server-side content switching.
+
+    Args:
+        *tabs: Variable number of (label, url) or (label, url, content) tuples
+        selected: Index of the initially selected tab (0-based)
+        class_: Additional classes for the container
+        panel_id: ID for the tab content panel (default: "tab-content")
+
+    Returns:
+        Tag: Complete tabs component with HTMX interactivity
+
+    Example:
+        HTMXTabs(
+            ("General", "/settings/general", Div(P("General settings"))),
+            ("Security", "/settings/security"),
+            ("Advanced", "/settings/advanced"),
+            selected=0
+        )
+    """
+    tab_buttons = []
+    initial_content = None
+
+    for i, tab in enumerate(tabs):
+        label, url = tab[0], tab[1]
+        content = tab[2] if len(tab) > 2 else None
+        is_selected = i == selected
+
+        if is_selected and content:
+            initial_content = content
+
+        tab_button = Button(
+            label,
+            hx_get=url,
+            hx_target=f"#{panel_id}",
+            hx_swap="innerHTML",
+            role="tab",
+            aria_selected="true" if is_selected else "false",
+            aria_controls=panel_id,
+            class_=stringify(styles.tabs.tab, styles.tabs.tab_active if is_selected else "", class_),
+        )
+        tab_buttons.append(tab_button)
+
+    tab_list = Div(
+        *tab_buttons,
+        role="tablist",
+        class_=styles.tabs.list,
+    )
+
+    tab_panel = Div(
+        initial_content if initial_content else "",
+        id=panel_id,
+        role="tabpanel",
+        class_=stringify(styles.tabs.panel, styles.tabs.panel_active),
+        hx_get=tabs[selected][1] if not initial_content else None,
+        hx_trigger="load delay:100ms" if not initial_content else None,
+        hx_swap="innerHTML" if not initial_content else None,
+    )
+
+    return Div(
+        tab_list,
+        tab_panel,
+        class_=stringify(styles.tabs.container, class_),
+        **kwargs,
+    )
+
