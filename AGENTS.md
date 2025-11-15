@@ -9,7 +9,80 @@
 - **Learning**: My number 1 goal is to learn, so interact with me in a way that encourages learning.  While that may mean going slower in the short term, that lets me maximize my impact and speed in the long term.
 - **Config**: There are very few things on this earth that I hate more than config.  Use it only when neccessary or when there is a massive massive benefit to doing so.
 
-## Web Dev
+## Architecture
+
+EidosUI follows a layered architecture. Each layer builds on the previous.
+
+### Layers
+
+### The Stylistic Base
+
+#### CSS Variables
+
+Themes are defined as a bunch of css variables in a css file (like `color-primary` and `color-primary-hover`) in `eidos/css/themes/`
+
+```css
+[data-theme="light"] {
+    /* Core Colors */
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    ...
+}
+```
+
+#### CSS Classes
+
+Those css variables are used in a style sheet to define classes (like `eidos-h1`) in `eidos/css/styles.css`
+
+```css
+.eidos-h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-md);
+}
+```
+
+### The Python Exposure
+
+#### Style Classes
+
+CSS classes are exposed in python classes like so in `eidos/styles.py`
+
+```python
+class Typography:
+    h1: Final[str] = "eidos-h1"
+    h2: Final[str] = "eidos-h2"
+    ...
+```
+
+#### Tags
+
+Which are the used to create `AirTag` components in `eidos/tags.py`
+
+```python
+def H1(*content: Any, class_: Optional[Union[str, list[str]]] = None, **kwargs: Any) -> air.Tag:
+    return air.H1(*content, class_=stringify(styles.typography.h1, class_), **kwargs)
+```
+
+### The more complex features
+
+#### Components
+
+Complex UI built from styled tags go in `eidos/components/`
+
+```python
+class DataTable:
+    @classmethod
+    def from_lists(cls, data, headers=None):
+        # Build table from tags
+```
+
+### Plugins
+
+Things that do not fit well into any of the above but are still useful are optional plugins to install (like the `markdown` plugin in `eidos/plugins`
+
+## Tech Stack
 
 Stack:
 - Air: Web Development library
@@ -110,3 +183,5 @@ Use `RawJS` for functions in x-data:
 })
 # → x-data="{ count: 0, increment: function() { this.count++; }, reset: () => { this.count = 0; } }"
 ```
+
+
