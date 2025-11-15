@@ -5,6 +5,7 @@ import air
 import eidos.styles as styles
 from eidos.components import DataTable, TabContainer
 from eidos.components.feedback import Feedback
+from eidos.components.tabs import AlpineTabs
 from eidos.tags import *
 
 
@@ -190,36 +191,21 @@ def components_page():
         ComponentSection(
             "Tabs",
             "tabs",
-            H3("HTMX-Based Tabs"),
-            P("Tabs in EidosUI use HTMX for server-side state management. Click the tabs below to see them in action:"),
+            H3("Alpine.js Tabs (Client-Side)"),
+            P("Client-side tabs with Alpine.js - all content loads at once, switches instantly:"),
+            AlpineTabs(
+                ("Typography", Div(H4("Typography Tab"), P("Content about typography with instant switching."))),
+                ("Buttons", Div(H4("Buttons Tab"), P("Button components and styles here."))),
+                ("Forms", Div(H4("Forms Tab"), P("Form inputs and validation examples."))),
+                selected=0,
+            ),
+            H3("HTMX-Based Tabs (Server-Side)", class_="mt-8"),
+            P("Server-fetched tabs with HTMX for dynamic/heavy content:"),
             Div(
                 TabContainer(initial_tab_url="/tab/typography", target_id="demo-tabs"),
                 id="demo-tabs-container",
                 class_="border rounded-lg p-4",
             ),
-            P(
-                "Each tab demonstrates different semantic HTML elements, loaded dynamically via HTMX.",
-                class_=styles.typography.details_content,
-            ),
-            H3("Implementation Example", class_="mt-8"),
-            Pre("""# Initialize tab container on your page
-TabContainer(initial_tab_url="/tab/typography", target_id="demo-tabs")
-
-# Server route for each tab
-@app.get("/tab/typography")
-def tab_typography():
-    return Div(
-        TabList(
-            ("Typography", "/tab/typography"),
-            ("Lists", "/tab/lists"),
-            ("Code", "/tab/code"),
-            selected=0,
-            hx_target="#demo-tabs"
-        ),
-        TabPanel(
-            # Tab content here
-        )
-    )"""),
         ),
         ComponentSection(
             "Forms",
@@ -494,4 +480,3 @@ def tab_typography():
             ),
         ),
     )
-            

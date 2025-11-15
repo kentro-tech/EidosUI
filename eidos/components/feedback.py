@@ -10,8 +10,9 @@ import air
 from airpine import Alpine
 
 from .. import styles
+from ..tags import H3, Button, Div, Form, Input, Strong, Textarea
 from ..utils import stringify
-from ..tags import Button, Div, Form, H3, Input, Strong, Textarea
+
 
 class Feedback:
     """Flexible feedback collection system using Eidos styling and Airpine."""

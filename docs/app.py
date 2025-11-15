@@ -6,7 +6,7 @@ import air
 from air.tags import *
 from api_extractor import extract_module_api, get_available_modules
 from api_renderer import render_api_index, render_api_page
-from kitchen_sink import components_page, feedback, handle_feedback
+from kitchen_sink import components_page, handle_feedback
 
 from eidos.components.headers import EidosHeaders
 from eidos.components.navigation import NavBar
